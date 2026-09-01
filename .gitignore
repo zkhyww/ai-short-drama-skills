@@ -1,0 +1,32 @@
+# Packaged and temporary artifacts
+*.skill
+*.zip
+*.tmp
+*.bak
+*.old
+*.orig
+*.rej
+*~
+
+# Python/tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
