@@ -22,7 +22,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.submission = read("drama-crew/references/submission-format.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.15.0", self.skill)
+        self.assertIn("version: 6.15.1", self.skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -114,8 +114,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.15.0 | 18 |", readme)
-        self.assertIn("`drama-crew` v6.15.0", changelog)
+        self.assertIn("| `drama-crew` | 6.15.1 | 18 |", readme)
+        self.assertIn("`drama-crew` v6.15.1", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
 
@@ -158,38 +158,98 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("产物档位", self.skill)
         self.assertIn("产物必要性判定表", self.skill)
 
-    def test_cognitive_permission_split_from_knowledge_ledger(self) -> None:
-        self.assertIn("认知与表达权限", self.dialogue)
-        self.assertIn("认知错位", self.dialogue)
-        self.assertIn("表达权限", self.dialogue)
-        self.assertIn("知情范围", self.dialogue)
-        for required in ("认知与表达权限", "越权", "退回上游", "9.1"):
+    def test_cognitive_depth_and_expression_strategy_are_independent(self) -> None:
+        for required in (
+            "认知深度",
+            "察觉现象 / 猜测原因 / 理解机制",
+            "表达策略",
+            "直说 / 试探 / 回避 / 半句 / 行动",
+            "经历、训练与前文证据",
+            "已经理解也可能选择回避",
+            "仅凭直觉也可能直接说出判断",
+            "知情范围",
+            "退回上游",
+            "9.1",
+        ):
             with self.subTest(required=required):
                 self.assertIn(required, self.dialogue)
+        for stereotyped_rule in (
+            "身份/职业/年龄/教育决定",
+            "底层角色信口行业黑话",
+            "感觉到」的可以直接说",
+            "隐约意识到」的要用行为或半句泄露",
+        ):
+            with self.subTest(stereotyped_rule=stereotyped_rule):
+                self.assertNotIn(stereotyped_rule, self.dialogue)
 
     def test_ai_trace_uses_cause_first_minimal_fix_and_no_forced_edit(self) -> None:
         self.assertIn("处置三原则", self.writing)
         self.assertIn("成因定位先于改写", self.writing)
         self.assertIn("最小修复", self.writing)
         self.assertIn("自然文本不硬改", self.writing)
+        self.assertIn("下方条目只作排查信号", self.writing)
+        self.assertIn("具体位置与证据", self.writing)
+        self.assertNotIn("下方命中任一即返修具体句子", self.writing)
         self.assertIn("本段不改", self.scorecard)
         self.assertIn("不为评分强改", self.scorecard)
 
-    def test_observer_blind_spot_excludes_action_beat_section(self) -> None:
-        self.assertIn("观察者盲区", self.writing)
-        self.assertIn("无功能环境", self.scorecard)
-        self.assertIn("观察者盲区", self.scorecard)
+    def test_subjective_attention_does_not_delete_production_anchors(self) -> None:
+        for required in (
+            "主观注意力",
+            "空间建立",
+            "视觉连续性",
+            "世界信息",
+            "关键道具",
+            "§18 场景设定段",
+            "客观镜头",
+            "群像调度",
+            "§12 动作节拍段",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.writing)
+        self.assertIn("装饰性环境", self.scorecard)
         self.assertIn("认知与视角越界", self.scorecard)
-        self.assertIn("§12 豁免声明", self.writing)
-        self.assertIn("禁止用「观察者盲区/关键帧」思维砍动作节拍段", self.writing)
-        self.assertIn("不适用于动作节拍段", self.roles)
+        self.assertIn("场景设定段、客观镜头、群像调度与动作节拍段", self.roles)
+        self.assertNotIn("环境细节只有能改变人物行动、情绪或信息时才写", self.writing)
+        self.assertNotIn("人物关系或选择会变吗？不会就删", self.writing)
         self.assertNotIn("2-3 个关键帧", self.writing)
         self.assertNotIn("2-3个关键帧", self.writing)
 
-    def test_conflict_resolution_starts_from_earliest_source(self) -> None:
-        self.assertIn("最早出现问题的源点", self.ledger)
+    def test_conflict_resolution_follows_authority_before_first_deviation(self) -> None:
+        for required in (
+            "先确定权威事实",
+            "首次偏离权威事实",
+            "账本记录错误就修账本",
+            "用户已确认正文不得自动修改",
+            "无明确权威时才上报用户裁决",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.ledger)
         self.assertIn("顺链核对", self.ledger)
-        self.assertIn("最早出现问题的源点集/场", self.roles)
+        self.assertIn("首次偏离权威事实的可编辑位置", self.roles)
+        self.assertNotIn("修源点后", self.ledger)
+
+    def test_ai_trace_scan_count_and_role_ownership_are_consistent(self) -> None:
+        self.assertIn("AI 痕迹扫描（5 类", self.scorecard)
+        self.assertIn("A–E 共 28 项", self.roles)
+        self.assertIn("认知与视角越界", self.roles)
+        for obsolete in ("AI 痕迹四维扫描", "AI痕迹四维扫描"):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, self.scorecard)
+                self.assertNotIn(obsolete, self.roles)
+                self.assertNotIn(obsolete, self.writing)
+
+    def test_v6151_does_not_claim_clean_room_or_reuse_source_examples(self) -> None:
+        changelog = read("CHANGELOG.md")
+        self.assertNotIn("豆包 human-signal 机制级融合（清洁室改写", changelog)
+        self.assertNotIn("v6.15.0 sol 豆包 human-signal 机制级融合（清洁室改写", self.skill)
+        for source_like_phrase in (
+            "雷声响起来的时候，他刚好把那句",
+            "禁止为证明工作量而重写",
+            "只看手、只听声音、只盯",
+        ):
+            with self.subTest(source_like_phrase=source_like_phrase):
+                self.assertNotIn(source_like_phrase, self.writing)
 
 
 if __name__ == "__main__":
