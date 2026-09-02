@@ -1,6 +1,6 @@
-# 外部平台工序（v1.13.1 增 · 视频生成能力供给方双层接入规范）
+# 生成能力供给与外部平台工序（v1.13.5）
 
-> 用途：`execution` 模式工具预检（SKILL.md 第 0 步）确认生成能力供给方。**双层供给**——第 0 层**本机 CLI（即梦 jimeng，默认引擎）**：用户积分所在，预检通过直接本机执行；第 1 层**外部平台（flova，首个登记）**：本机能力不够或用户点名时路由。flova 线上 Skill 内容受 Flova 使用规范保护（只记名称/作者/公开摘要/链接，不搬运内容进本仓库），本文件只登记「能力面 + 调用时机 + 交接格式」，运行时按匹配规则调用。
+> 用途：`execution` 模式工具预检（SKILL.md 第 0 步）确认生成能力供给方。**双层供给**——第 0 层是本机官方 `dreamina` CLI（默认引擎，OAuth 登录）；第 1 层是外部平台 flova，本机能力不够或用户点名时才路由。旧第三方即梦命令行工具及其浏览器签名状态不参与生产主链。flova 线上 Skill 内容受 Flova 使用规范保护（只记名称/作者/公开摘要/链接，不搬运内容进本仓库），本文件只登记能力面、调用时机与交接格式。
 
 ## 1. flova 平台能力面（2026-09-03 实测，skill_feed 共 171 个公共 Skill + 6 个官方 Skill）
 
@@ -25,8 +25,8 @@
 
 ```
 execution 预检（SKILL.md 第 0 步）
-  ├─ 第 0 层：本机 jimeng CLI（默认引擎）——jimeng auth status + jimeng credits + jimeng models list
-  │    └─ 已登录且有积分 → 本机执行（用法以 jimeng <子命令> -h 实查为准；耗积分动作前警告用户）
+  ├─ 第 0 层：本机官方 dreamina CLI（默认引擎）——dreamina version + dreamina user_credit + 目标子命令 --help
+  │    └─ OAuth 登录有效且有积分 → 先用 scripts/dreamina_route.py 校验并预览命令；耗积分告知后再执行预览中的 dreamina 命令
   └─ 第 0 层不可用（未登录/无积分/能力缺口），或用户点名外部平台
       → 第 1 层：检测 flova 连接器（connector:flova，service.flova.tv/api/mcp/）
           ├─ 已连接 → Read 本文件 → 按下方匹配规则选 Skill → 用户确认 → 指定 Skill 模式调用
@@ -45,7 +45,7 @@ execution 预检（SKILL.md 第 0 步）
 
 - **A. 运行时调用（要它原生效果时）**：flova 连接器指定 Skill 模式（`skill_list` 查个人库 → NFKC 精确匹配 → 用户确认 → run）。积分消耗在 flova 侧；适合全流程成片类/重型编排类 Skill。
 - **B. 清洁室消化（要它的方法论时）**：把 Skill 公开描述的方法论提炼成规则正文进 references（已执行样本：情绪导演 V2.1→prompt-assembly §6.5 物理措辞纪律、jutian-hit-dissector M1-M7/F1-F7→topic-research §5 对标解剖）。零积分、可沉淀、团队共享——**方法论类优先走这条**。
-- **C. 自建等效工作流（编排简单时）**：Skill 的流程若只是「分镜提示词→图→视频→拼接」类简单链路，直接用第 0 层 jimeng CLI 按我们的工序自建执行——积分花在即梦，产出归我们 QC。**能自建的不外发**。
+- **C. 自建等效工作流（编排简单时）**：Skill 的流程若只是「分镜提示词→图→视频→拼接」类简单链路，直接用第 0 层官方 `dreamina` CLI 与本地时间线脚本按我们的工序执行——积分花在即梦，产出归我们 QC。**能自建的不外发**。
 
 判定顺序：B > C > A——能消化成规则的不跑云端，能本机自建的不外发，只有确需它原生编排能力时才运行时调用。
 
@@ -58,16 +58,16 @@ execution 预检（SKILL.md 第 0 步）
 | 剧本分析拆解 | 解析剧本→分集分场→拆元素清单 | crew 望舒+纪遥（61 集粗纲/人物小传/元素档案） | 无 |
 | 角色/场景设定图 | GPT Image 2 出角色卡+场景卡，多宫格锁定 | 丹青三件套+场景资产板（asset-library §2/§2.5/§4） | 无（§2.5 极繁纪律补齐质感密度） |
 | 分镜设计 | 多宫格分镜参考图→一镜到底工作流 | 景川六问判读+维度装配+七段式提示词 | 无 |
-| 视频生成 | Seedance 2.5 480p 逐镜生成 | 景川 execution→jimeng video create（seedance-2.0 双档） | 无 |
-| 时间线合成 | 平台内自动拼接成片 | **ffmpeg 7.1.1 已在本机**（v1.13.3 实测）——concat 无损拼接+音频混流脚本化自动合成，缺口闭合 | 无 |
-| 音频链路 | 原生音频或 TTS 配音 | **Seedance 原生音视频联合生成为主**（对白/环境音/动效一次出，v1.13.4 官方口径核实）——闻笙音色卡把角色音色/语气写进视频提示词对白格式；jimeng audio create（TTS）降为后备（原生音频翻车/需精细口型时） | 无 |
+| 视频生成 | Seedance 2.5 逐镜生成 | 景川 `execution` 按输入类型路由官方 `dreamina text2video` / `dreamina image2video` / `dreamina frames2video` / `dreamina multimodal2video` | 无 |
+| 时间线合成 | 平台内自动拼接成片 | `scripts/assemble_timeline.py` 调 ffmpeg：先统一编码、帧率、分辨率与时基，再拼接；ffprobe 验证视频流、音轨、尺寸与时长 | 无 |
+| 音频链路 | 原生音频或 TTS 配音 | **Seedance 原生音视频联合生成为主**（对白/环境音/动效一次出）——闻笙把音色/语气写进视频提示词；只有原生音频翻车或需精确母音色时才走外部 WAV/TTS 后备 | 无 |
 | 关键阶段确认 | 里程碑暂停等用户点头 | 沈砚停点制（资产确认/首批分镜确认/交付严恪） | 无 |
 
-**「一键成片·自建版」串联顺序**（用户给一份剧本后全程无需挑工具；v1.13.4 音频段改版——Seedance 原生音频替代独立配音）：剧本→crew 创作定稿→丹青资产三件套（§2.5 极繁提示词）→景川分镜提示词（含音声设计段+对白）→jimeng image create（--reference-image 传定妆照锁人）→jimeng video create（seedance，--ratio 9:16，**对白按官方格式写进视频提示词**：「角色名+动作表情描述+冒号+引号台词」，音色/语气按闻笙声音指纹描述，原生生成对白+环境音+动效）→ffmpeg concat 拼接+音频混流出 05_成片/（全自动成片，无需剪映、无需独立配音步骤）。仅当原生音频翻车（音画漂移/口型乱/串音）或用户要精配时，才回退 jimeng audio create TTS 后备链路（dim-audio 情绪→TTS 参数映射+lip-sync 对口型流程）。
+**「一键成片·自建版」串联顺序**：剧本→crew 创作定稿→丹青资产三件套（§2.5）→景川分镜提示词（含音声设计段+对白）→`scripts/dreamina_route.py image` 预检后执行 `dreamina text2image`；已有定妆照/参考图时改走 `dreamina image2image`→`scripts/dreamina_route.py video` 按素材路由：纯文本=`text2video`，单首帧=`image2video`，首尾帧=`frames2video`，图/视频/音频混合参考=`multimodal2video`→`scripts/assemble_timeline.py` 先标准化各镜，再拼接并用 ffprobe 验证，成片写入 `05_成片/`。Seedance 默认原生生成对白、环境音与动效，**无需独立配音步骤**；只有原生音频翻车（音色漂移/口型乱/串音）或用户要求精确母音色时，才使用外部 WAV/TTS 后备：可把母音色 WAV 作为 `multimodal2video --audio` 参考，仍不稳定时再走独立 TTS＋lip-sync，并由合成脚本以 `--external-audio` 替换或混合音轨。官方 `dreamina` CLI 不提供独立 TTS 子命令，不得虚构 `dreamina audio`。
 
-**音声设计提示词要点（v1.13.4 官方口径核实，来源：火山方舟 Seedance 2.0 提示词指南+即梦官方 59 套提示词规范）**：①对白标准格式「角色名+动作表情描述+冒号+引号内台词」（如【林晚】放下手机，眼眶微红，轻声说："原来是这样"）——格式越标准口型还原度越高，支持方言与多语种标注；②单镜台词容量：10 秒镜 ≤20 字，超限嘴型对不上（与 dim-audio 台词容量表同源）；③音色控制：Seedance 从角色描述推断声线（性别/年龄/地域线索），提示词里写明音色语气（"低沉沙哑的男声""清脆的女声带喘息"）可锁定音色——闻笙声音指纹卡的 diction/speech_rhythm 直接翻译进对白行；④音效写具体不写泛（"脚步声踩在湿石板上"而非"合适的背景音"），混音层级对白 0dB > 关键音效 > 环境 > BGM 与 dim-audio 相对电平基准一致；⑤多角色同镜时逐角色分行写对白，禁止两人台词挤一行。原生音频翻车模式：音色跨镜漂移（各镜独立生成无音色记忆——长对话戏靠每镜重复音色描述锚定）、口型乱动、串音——命中即重拍该镜或回退 TTS 后备。
+**音声设计提示词要点（v1.13.4 保留）**：①对白标准格式「角色名+动作表情描述+冒号+引号台词」（台词放在引号内，如【林晚】放下手机，眼眶微红，轻声说："原来是这样"），多角色逐角色分行；②单镜台词容量按实际语速、气口和口型测试控制，10 秒约 20 字只作风险参考，不是接口硬上限；③把闻笙声音指纹中的音高、语速、质感、语气和抑扬顿挫翻译进每镜对白行，**每镜重复音色描述锚定**，不能把同一文本提示当成已锁母音色；④音效写具体可听事件，不写“合适的背景音”；⑤对白、环境音、动效与可选 BGM 的层级按 dim-audio 执行。原生音频翻车时先单镜重生，再按上段外部 WAV/TTS 后备处理。
 
-**实测约束（2026-09-03，v1.13.3 更新）**：jimeng image create 支持 `--reference-image <path>`（角色一致性垫图入口）；**video create 参数面仅 prompt/model/ratio/duration——无图生视频/首帧参数**，视频侧角色一致性靠资产卡锚点提示词 +「视频提示词复用故事板」法（flova #149 同款：成片提示词直接复用分镜表镜头描述）；「首帧承接」（提取上一镜末帧作下一镜首帧，flova #84 技法）待 CLI 支持图生视频后启用。xmst：auth capture 已重跑（sessionid 已更新），xmst 仍缺——需在调试 Chrome（9222 端口）窗口完成即梦登录让 localStorage 写入 xmst 后再 capture（修复入口已交 codex）；capture 调试注意本机 `HTTPS_PROXY` 会劫持 127.0.0.1 请求，需 `NO_PROXY=127.0.0.1,localhost` 绕行。
+**官方 CLI 实测约束（2026-09-03）**：`image2video` 接单首帧并从输入图推断画幅；`frames2video` 接首尾帧；`multiframe2video` 用于多帧连续故事；`multimodal2video` 接图、视频、音频混合参考。纯文本与多模态模式可显式传 9:16；首帧/首尾帧模式不传 `--ratio`，输入图必须先做成目标画幅。静态模型卡与实时 `--help` 冲突时，以本次官方 CLI 和后端校验为准。
 
 ## 3. 交接格式（我们产出 → flova 输入）
 
@@ -79,19 +79,20 @@ flova Skill 接受自然语言指令 + 上传素材。交接包按目标 Skill �
 
 **交接纪律**：①一次交接只带本批需要的素材，不整包倾倒；②flova 产出的成片/素材落盘回我们的 `06_临时/`（试看）或 `05_成片/`（定稿），由严恪 QC 双层结论验收后归档；③外部平台产生的积分消耗在开跑前向用户说明量级；④flova 项目链接原样交付给用户，不转述不省略。
 
-## 4. jimeng CLI 能力速查（第 0 层默认引擎 · v1.13.1 实测登记）
+## 4. 官方 Dreamina CLI 能力速查（第 0 层默认引擎）
 
-| 项 | 实测（2026-09-03） |
+| 项 | 本机实测（2026-09-03） |
 |---|---|
-| 登录态 | `jimeng auth status`（sessionid 凭据已存） |
-| 积分 | `jimeng credits`：VIP 48686 + 礼赠 88 = 48774（积分在即梦侧，flova 无积分） |
-| 图像模型 | jimeng-3.0 / jimeng-4.0 / jimeng-5.0 系列 |
-| 视频模型 | seedance-2.0-fast / seedance-2.0-vip 双档 |
-| 音频 | TTS 配音能力在位（`jimeng -h` 确认子命令） |
-| 核心链路 | 文生图 → 图生视频 → 音频 → 合成，参数一律以 `jimeng <子命令> -h` 实查为准，不凭记忆写参数 |
-| 已知缺口 | `jimeng doctor` 报 node_sign/algorithm_sign 缺 xmst——只读调用（auth/credits/models/history）实测不受影响；签名接口异常时重装：`curl -s https://jimeng.jianying.com/cli \| bash` |
+| 身份认证 | 官方 OAuth Device Flow；`dreamina login` 登录，`dreamina user_credit` 同时验证登录态并读取当前积分，不把余额写死进规范 |
+| 图像 | `dreamina text2image`；有 1–10 张本地参考图时用 `dreamina image2image`。当前公开图像模型为 3.0–5.0Pro，参数以子命令帮助为准 |
+| 视频 | `dreamina text2video` / `image2video` / `frames2video` / `multiframe2video` / `multimodal2video`；Seedance 2.0 系列常规 4–15 秒，Seedance 2.5 为 4–30 秒 |
+| 画幅与分辨率 | 文生/多模态支持 9:16 等公开画幅；图生视频画幅跟随输入图。Seedance 2.5 当前支持 480p/720p/1080p；其他组合按目标子命令实时帮助核对 |
+| 混合参考 | 2.0 系列：最多 9 图、3 视频、3 音频、合计 12；2.5：最多 30 图、10 视频、10 音频、合计 50，且允许纯音频参考 |
+| 音频 | Seedance 原生音视频联合生成；官方 CLI 无独立 TTS 命令。外部母音色/WAV 可作多模态参考，独立 TTS＋lip-sync 仅为后备 |
+| 命令预检 | `python drama-studio/scripts/dreamina_route.py image ...` 或 `video ...` 输出 JSON 命令预览，不提交任务；参数通过后才执行其中的官方命令 |
+| 常见阻塞 | 某模型首次使用若返回 `AigcComplianceConfirmationRequired`，先在即梦 Web 端用该模型完成首次生成，再回 CLI；这与登录签名无关 |
 
-**纪律**：①耗积分动作（生成/合成类）执行前必须向用户警告量级；②模型名/参数不写死在产物里，以当次 `models list` 输出为准；③jimeng 能力覆盖不到的（风格包编排/多 Skill 工作流）才升级第 1 层。
+**纪律**：①命令预览、`--help`、积分查询和本地 ffmpeg 合成本身不提交生成任务；执行生成命令前必须向用户说明预计积分量级；②provider/adapter/version 与参数以当次官方 CLI 实时 schema 为准并写入调用记录；③官方 Dreamina 能力覆盖不到的风格包编排或多 Skill 工作流才升级第 1 层。
 
 ## 5. 新平台登记
 

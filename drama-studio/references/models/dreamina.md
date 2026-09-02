@@ -1,36 +1,46 @@
-# 模型能力卡：即梦 Dreamina（字节跳动剪映团队）
+# Provider/Adapter 能力卡：Dreamina official CLI（即梦官方命令行）
 
-> 装配时只读**用户指定模型对应的一张卡**；未指定模型走通用保守模式（见 prompt-assembly.md 第 6 节）。
+> 本卡描述本机官方 `dreamina` CLI 的实时适配器能力，不替代 Seedance 模型卡。用户指定即梦/Dreamina 时读本卡；用户指定 Seedance 2.0/2.5 且实际 provider 为 Dreamina 时，同时以本卡和目标子命令实时 `--help` 收紧模型卡，冲突时实时 CLI/后端校验优先。
 
 ## 基本信息
 
 | 字段 | 值 |
 |---|---|
-| 模型/版本 | **底层模型**：即梦视频 3.0（`jimeng_*_v30` 系列）/ 视频 3.5 Pro（2025-12）；**平台层**：即梦 App/Web（剪映生态入口）；**API 层**：火山引擎即梦 API（平台已接入 Seedance 2.0，2026-02）——三层能力/计费/参数上限可能不同，装配前确认用户走哪一层 |
-| verified_at | 2026-08-31 |
-| evidence_source | 火山引擎官方 volcengine.com/docs/86081/1792707（即梦视频 3.0 产品介绍）；即梦平台产品沿革（次级信源交叉核对） |
-| capability_state | **confirmed**（火山引擎官方文档，API 层）；平台层功能细节 partial（以 App 内实际可选为准） |
-| 模型状态 | 正常服务；Web/App 与火山引擎 API 双入口 |
+| provider / adapter | 即梦 Dreamina / official CLI |
+| 登录 | 官方 OAuth Device Flow：`dreamina login`；`dreamina user_credit` 可验证当前登录与余额 |
+| verified_at | 2026-09-03 |
+| evidence_source | 本机官方 CLI 的 `dreamina --help` 与各生成子命令 `--help` 实测 |
+| capability_state | **confirmed**（本机参数校验层）；模型权限、审核与后端开关仍以提交时返回为准 |
 
-## 能力参数
+## 命令与模式
+
+| 任务 | 官方命令 | 关键约束 |
+|---|---|---|
+| 文生图 | `dreamina text2image` | 图像模型 3.0–5.0Pro；1–10 张；必须给 `resolution_type` |
+| 参考生图 | `dreamina image2image` | 1–10 张本地参考图；图像模型 4.0–5.0Pro |
+| 文生视频 | `dreamina text2video` | Seedance 2.0 系列或 Seedance 2.5；可显式给画幅 |
+| 单首帧图生视频 | `dreamina image2video` | 本地首帧 1 张；**图生视频画幅跟随输入图**，命令不接 `ratio` |
+| 首尾帧视频 | `dreamina frames2video` | 本地首帧+尾帧；画幅跟随首帧，命令不接 `ratio` |
+| 多帧连续故事 | `dreamina multiframe2video` | 2–20 张图；3 张以上逐段给 transition prompt，模型版本固定 |
+| 全能混合参考 | `dreamina multimodal2video` | 图像、视频、音频可混合；2.5 允许纯音频参考 |
+
+## 当前参数面
 
 | 项 | 参数 |
 |---|---|
-| 支持模式 | 文生 / 图生（首帧）/ 图生（首尾帧）/ **图生（运镜）** / 对口型（≤9s）/ 故事创作模式（分镜管理） |
-| 时长 | 视频 3.0 常规 5/10s（官方未给出统一上限，按平台默认档走）；对口型 ≤9s；接入 Seedance 2.0 后支持 15s |
-| 画幅 | 短剧竖屏 9:16 优先；文生支持多比例；图生跟随输入图 |
-| 分辨率 | 最高 1080p（`*_1080p` 档） |
-| 参考资产上限 | 首帧 1 张；首尾帧 2 张（均需与 prompt 组合） |
-| 首尾帧 | ✅ 支持 |
-| 多镜头 | ✅ 视频 3.0 支持多镜头叙事；智能多帧 2.0（3.5 Pro） |
-| 原生音频/语音 | ✅ 接入 Seedance 2.0 后音画同步；平台自带 AI 对口型（配音匹配口型）+ 多音色 |
-| 已知冲突 | ①**2026-04 曾因未落实生成合成内容标识被网信部门约谈责令改正**——合规提示：出片须带 AI 标识（见 drama-crew 素弦合规）②平台限制真人素材使用，数字人须走分身认证；③运镜走模板参数而非自由散文描述 |
-| 失败降级 | 对口型 >9s 拆句分段；复杂运镜用模板（希区柯克/动感环绕/机械臂）预设；要更长时间切 Seedance 2.0/2.5 入口 |
-| 提示词适配 | 中文语义理解强；运镜模式用固定参数（运镜类型+幅度）而非自然语言；故事模式支持拖拽分镜排序 + 时间轨道管理 |
+| 视频模型 | `seedance2.0` / `seedance2.0fast` / `seedance2.0_vip` / `seedance2.0fast_vip` / `seedance2.0mini` / `seedance2.5`；部分图生入口另支持 1.0fast/1.5pro |
+| 时长 | Seedance 2.0 系列输出 **4–15s**；Seedance 2.5 输出 **4–30s**；旧模型按具体子命令帮助 |
+| 画幅 | 文生/全能参考：1:1、3:4、16:9、4:3、9:16、21:9；单首帧/首尾帧/多帧由输入图推断 |
+| 分辨率 | Seedance 2.5：480p/720p/1080p；`seedance2.0_vip`：720p/1080p/4k；其余当前公开 2.0 组合为 720p |
+| 2.0 全能参考 | 图≤9、视频≤3、音频≤3、总输入≤12；至少一张图或一段视频；参考视频/音频单段和合计 2–15s |
+| 2.5 全能参考 | 图≤30、视频≤10、音频≤10、总输入≤50；允许纯音频；参考视频/音频单段和合计 2–30s；VIP only |
+| 原生音频 | Seedance 音视频联合生成按目标模型实时能力执行；CLI 也可把 WAV/视频作为全能参考输入 |
+| 独立 TTS | 官方 CLI 当前没有独立 TTS 子命令；需要精确母音色时使用外部 WAV/TTS 后备，不得虚构 `dreamina audio` |
 
-## 制作侧使用要点
+## 已知边界与降级
 
-- **运镜可控性强**：需要精确运镜（推/拉/旋转/平移/机械臂）优先用运镜模板参数。
-- 对口型镜：平台内先出人物图 → AI 对口型（≤9s）→ 与配音音轨对齐。
-- 故事创作模式：可直接在平台内管理分镜顺序与素材，适合快速预览成片节奏。
-- 合规提醒：出片保留 AI 生成标识，避免平台下架风险。
+- `image2video`、`frames2video`、`multiframe2video` 不接受显式画幅；首帧资产必须先生成到目标画幅。
+- Seedance 2.5 为 VIP 模式；无权限、余额不足或后端未开放时，按镜头目的降级到 2.0 系列并重新核时长/分辨率，不能静默改参数。
+- 某模型首次使用若返回 `AigcComplianceConfirmationRequired`，先在即梦 Web 端完成该模型首次生成，再回 CLI；这不是浏览器签名令牌问题。
+- 任务异步提交：保留 `submit_id`，用 `dreamina query_result --submit_id=...` 查询；状态未知先查任务，不盲目重复付费提交。
+- 提交前运行 `scripts/dreamina_route.py` 预览命令；预览不会消耗积分。实际执行前仍须完成耗积分告知，并记录 provider/adapter/version、任务 ID、结果路径和实际成本。

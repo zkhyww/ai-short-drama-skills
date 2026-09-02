@@ -1,5 +1,13 @@
 # 变更记录
 
+## 2026-09-03 · `drama-studio` v1.13.5
+
+- 默认本机生成引擎切换为 OAuth 登录的官方 `dreamina` CLI，生产主链不再依赖第三方命令行工具或浏览器签名状态；补齐 text/image/first-last-frame/multimodal 的真实命令路由与参数预检脚本；默认 Dreamina 执行 Seedance 时同时注入模型卡与 provider/adapter 卡。
+- 新增可执行的 ffmpeg 时间线合成脚本：异构片段先统一编码、帧率、分辨率、时基和音轨，再拼接；支持原生音轨以及外部 WAV/TTS 替换/混合，并用 ffprobe 验证输出。v1.13.3 的文案式“闭环”由本版真实实现取代。
+- 保留 v1.13.4 Seedance 原生音视频主链；官方 CLI 无独立 TTS 子命令，外部 WAV/TTS 仅作翻车或精确母音色后备。
+- 真实皮肤细节按写实/非写实媒介分流；13 模块限定为角色综合设定板，定妆照、肖像、纯三视图、宫格和细节板分别使用适配版式。
+- 修复 studio frontmatter validator 不兼容的尖括号，并同步模型卡、使用说明和合同测试。
+
 ## 2026-09-03 · `drama-studio` v1.13.4
 
 - 音频链路改版：Seedance 2.0 原生音视频联合生成为主（对白/环境音/动效一次出），独立配音步骤取消；对白官方格式+音色逐镜锚定；TTS 降为后备；dim-audio 原生音频双轨制；external-platforms §2.8 同步。

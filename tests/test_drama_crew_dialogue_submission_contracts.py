@@ -33,7 +33,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
         self.assertIn("version: 6.17.9", self.skill)
-        self.assertIn("version: 1.13.4", self.studio_skill)
+        self.assertIn("version: 1.13.5", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -337,13 +337,50 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         # 5. crew 升格表有外部平台去向
         self.assertIn("外部平台能力面/匹配报告", self.learnings)
 
-    def test_jimeng_default_engine_and_flova_three_usages_are_registered(self) -> None:
-        # v1.13.1：双层供给方（jimeng 默认）+ flova 三种合法用法
+    def test_official_dreamina_default_engine_and_flova_three_usages_are_registered(self) -> None:
+        # v1.13.5：官方 dreamina 默认 + flova 三种合法用法
         ext = read("drama-studio/references/external-platforms.md")
-        for required in ("jimeng", "默认引擎", "jimeng auth status", "jimeng credits", "seedance-2.0", "flova Skill 能力的三种合法用法", "运行时调用", "清洁室消化", "自建等效工作流", "云端编排", "判定顺序：B > C > A"):
+        for required in ("dreamina", "官方 CLI", "默认引擎", "dreamina user_credit", "dreamina text2image", "dreamina image2image", "dreamina text2video", "dreamina image2video", "dreamina frames2video", "dreamina multimodal2video", "flova Skill 能力的三种合法用法", "运行时调用", "清洁室消化", "自建等效工作流", "云端编排", "判定顺序：B > C > A"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
-        self.assertIn("默认本机引擎为即梦 jimeng CLI", self.studio_skill)
+        self.assertIn("默认本机引擎为官方 dreamina CLI", self.studio_skill)
+        self.assertNotIn("xmst", ext.lower())
+
+    def test_studio_frontmatter_is_validator_safe_and_scripts_are_discoverable(self) -> None:
+        frontmatter = self.studio_skill.split("---", 2)[1]
+        description = next(line for line in frontmatter.splitlines() if line.startswith("description:"))
+        self.assertNotRegex(description, r"[<>]")
+        for required in ("scripts/dreamina_route.py", "scripts/assemble_timeline.py"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_skill)
+
+    def test_dreamina_model_card_matches_official_cli_modes(self) -> None:
+        card = read("drama-studio/references/models/dreamina.md")
+        for required in (
+            "official CLI",
+            "OAuth",
+            "text2image",
+            "image2image",
+            "text2video",
+            "image2video",
+            "frames2video",
+            "multiframe2video",
+            "multimodal2video",
+            "Seedance 2.5",
+            "4–30s",
+            "9:16",
+            "图生视频画幅跟随输入图",
+            "实时 `--help`",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, card)
+
+    def test_default_dreamina_seedance_execution_loads_model_and_provider_cards(self) -> None:
+        self.assertIn(
+            "同时 Read `references/models/seedance.md` 与 `references/models/dreamina.md`",
+            self.studio_skill,
+        )
+        self.assertIn("模型卡与 provider/adapter 能力卡", self.studio_roles)
 
     def test_costume_elaboration_and_selfbuilt_workflow_mapping_are_wired(self) -> None:
         # v1.13.2：服化道极繁纪律 + 自建等效工作流映射
@@ -352,21 +389,22 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, assets)
         ext = read("drama-studio/references/external-platforms.md")
-        for required in ("自建等效工作流映射", "一键成片", "reference-image", "时间线合成", "剪映"):
+        for required in ("自建等效工作流映射", "一键成片", "dreamina image2image", "时间线合成", "scripts/assemble_timeline.py"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
         self.assertIn("服化道极繁纪律逐层扩写", self.studio_roles)
 
     def test_setting_sheet_13_modules_realism_anchor_and_owner_push(self) -> None:
-        # v1.13.3 / v6.17.9：13 模块清单 + 真实感锚定 + ffmpeg 闭环 + 作者分流
+        # v1.13.5 / v6.17.9：设定板分流 + 条件化真实感 + 可执行 ffmpeg + 作者分流
         assets = read("drama-studio/references/asset-library.md")
-        for required in ("设定图 13 模块清单", "构图行规范", "画面结构行", "面部细项扩展", "姿态与动作行", "配饰与武器行", "负面提示词基线",
+        for required in ("角色综合设定板 13 模块清单", "构图行规范", "画面结构行", "面部细项扩展", "姿态与动作行", "配饰与武器行", "负面提示词基线",
+                         "定妆照", "肖像特写", "纯三视图", "细节板", "写实摄影/写实 3D", "2D/水墨/水彩/像素", "不强制毛孔",
                          "真实感锚定", "反模板脸", "深棕色眼睛", "网红脸", "鼻翼阴影", "总吸收项 ≤2", "混血感超标即废图重生成",
                          "金发，蓝眼，欧美脸"):
             with self.subTest(required=required):
                 self.assertIn(required, assets)
         ext = read("drama-studio/references/external-platforms.md")
-        for required in ("ffmpeg 7.1.1 已在本机", "缺口闭合", "无图生视频/首帧参数", "提示词复用故事板", "NO_PROXY=127.0.0.1,localhost"):
+        for required in ("scripts/assemble_timeline.py", "先统一编码、帧率、分辨率与时基", "ffprobe", "外部 WAV/TTS"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
         # 作者分流：所有者直推 main，其他设备/账号 PR
@@ -377,16 +415,19 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("§2.6 真实感锚定", self.studio_roles)
 
     def test_native_audio_replaces_dubbing_step(self) -> None:
-        # v1.13.4：Seedance 原生音频为主，独立配音取消，TTS 后备
+        # v1.13.5：Seedance 原生音频为主，外部 WAV/TTS 后备
         ext = read("drama-studio/references/external-platforms.md")
         for required in ("Seedance 原生音视频联合生成为主", "无需独立配音步骤", "角色名+动作表情描述+冒号+引号台词",
-                         "每镜重复音色描述锚定", "回退 jimeng audio create TTS 后备链路", "音声设计提示词要点"):
+                         "每镜重复音色描述锚定", "外部 WAV/TTS 后备", "音声设计提示词要点"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
+        self.assertNotIn("jimeng audio create", ext)
         audio = read("drama-studio/references/dimensions/dim-audio.md")
         for required in ("原生音频双轨制", "对白格式（官方规范", "音色锚定", "翻车回退"):
             with self.subTest(required=required):
                 self.assertIn(required, audio)
+        self.assertIn("外部 WAV/TTS", audio)
+        self.assertNotIn("jimeng audio create", audio)
 
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
@@ -401,7 +442,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
         self.assertIn("| `drama-crew` | 6.17.9 | 18 |", readme)
-        self.assertIn("| `drama-studio` | 1.13.4 | 28 |", readme)
+        self.assertIn("| `drama-studio` | 1.13.5 | 30 |", readme)
         self.assertIn("`drama-crew` v6.17.9", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
