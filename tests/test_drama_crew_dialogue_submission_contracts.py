@@ -33,7 +33,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
         self.assertIn("version: 6.17.8", self.skill)
-        self.assertIn("version: 1.13.0", self.studio_skill)
+        self.assertIn("version: 1.13.1", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -337,6 +337,14 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         # 5. crew 升格表有外部平台去向
         self.assertIn("外部平台能力面/匹配报告", self.learnings)
 
+    def test_jimeng_default_engine_and_flova_three_usages_are_registered(self) -> None:
+        # v1.13.1：双层供给方（jimeng 默认）+ flova 三种合法用法
+        ext = read("drama-studio/references/external-platforms.md")
+        for required in ("jimeng", "默认引擎", "jimeng auth status", "jimeng credits", "seedance-2.0", "flova Skill 能力的三种合法用法", "运行时调用", "清洁室消化", "自建等效工作流", "云端编排", "判定顺序：B > C > A"):
+            with self.subTest(required=required):
+                self.assertIn(required, ext)
+        self.assertIn("默认本机引擎为即梦 jimeng CLI", self.studio_skill)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -350,7 +358,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
         self.assertIn("| `drama-crew` | 6.17.8 | 18 |", readme)
-        self.assertIn("| `drama-studio` | 1.13.0 | 28 |", readme)
+        self.assertIn("| `drama-studio` | 1.13.1 | 28 |", readme)
         self.assertIn("`drama-crew` v6.17.8", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)

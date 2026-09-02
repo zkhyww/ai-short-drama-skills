@@ -1,5 +1,11 @@
 # 变更记录
 
+## 2026-09-03 · `drama-studio` v1.13.1
+
+- external-platforms 改双层供给方：jimeng CLI 为第 0 层默认引擎（实测登记），flova 降为第 1 层外部平台；
+- 新增 flova Skill 三种合法用法（运行时调用/方法论清洁室消化/自建等效工作流，判定顺序 B>C>A）——Skill 云端编排不可下载；
+- 新增 jimeng CLI 能力速查（模型/积分/核心链路/xmst 签名缺口与重装命令）。
+
 ## 2026-09-03 · `drama-studio` v1.13.0 + `drama-crew` v6.17.8
 
 - studio 新增 external-platforms.md 外部平台工序：flova 能力面实测（171 Skill 分八类）、替代/增强/无关三类判定、三步匹配规则、交接格式与纪律；
