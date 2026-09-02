@@ -75,6 +75,7 @@
 | 题材细分赛道资料 | `references/topic-research.md` |
 | 战斗动作/情绪语汇/场景质感词库 | `references/genre-and-fight-rules.md`（战戏类）或对应题材规范行（v6.17.5 增） |
 | 地域语言/方言俚语/年代语/行话语料 | `references/dialogue-craft.md` 语言资产库（v6.17.6 增） |
+| 外部平台能力面/匹配报告（flova 等实测清单） | studio `references/external-platforms.md`（制作端登记，剧本端不重复登记；v6.17.8 增） |
 | 账本/状态管控 | `references/canon-ledger.md` |
 
 ## 6. 体量维护

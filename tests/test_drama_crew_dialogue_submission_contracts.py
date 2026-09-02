@@ -23,6 +23,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.studio_skill = read("drama-studio/SKILL.md")
         cls.studio_roles = read("drama-studio/references/role-cards.md")
         cls.studio_assets = read("drama-studio/references/asset-library.md")
+        cls.studio_ext = read("drama-studio/references/external-platforms.md")
         cls.submission = read("drama-crew/references/submission-format.md")
         cls.fight = read("drama-crew/references/genre-and-fight-rules.md")
         cls.learnings = read("drama-crew/references/learnings.md")
@@ -31,8 +32,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.studio_assets = read("drama-studio/references/asset-library.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.17.7", self.skill)
-        self.assertIn("version: 1.12.0", self.studio_skill)
+        self.assertIn("version: 6.17.8", self.skill)
+        self.assertIn("version: 1.13.0", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -316,6 +317,26 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_assets)
 
+    def test_external_platform_routing_is_wired(self) -> None:
+        # v6.17.8 / studio v1.13.0：flova 实测驱动的外部平台工序端到端
+        # 1. 能力面实测数据 + 三类关系判定
+        for required in ("flova", "171", "替代", "增强", "无关", "导演美学风格包"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_ext)
+        # 2. 三步匹配规则 + 用户确认（不静默耗积分）
+        for required in ("需求归类", "skill_list", "skill_feed", "NFKC", "用户确认", "积分"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_ext)
+        # 3. 交接格式三基准 + 纪律
+        for required in ("剧本类", "分镜类", "素材类", "交接纪律"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_ext)
+        # 4. SKILL 预检句接线 + 加载表注册
+        self.assertIn("external-platforms.md 路由", self.studio_skill)
+        self.assertIn("references/external-platforms.md", self.studio_skill)
+        # 5. crew 升格表有外部平台去向
+        self.assertIn("外部平台能力面/匹配报告", self.learnings)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -328,9 +349,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.17.7 | 18 |", readme)
-        self.assertIn("| `drama-studio` | 1.12.0 | 27 |", readme)
-        self.assertIn("`drama-crew` v6.17.7", changelog)
+        self.assertIn("| `drama-crew` | 6.17.8 | 18 |", readme)
+        self.assertIn("| `drama-studio` | 1.13.0 | 28 |", readme)
+        self.assertIn("`drama-crew` v6.17.8", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)

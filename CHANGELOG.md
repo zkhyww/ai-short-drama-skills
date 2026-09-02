@@ -1,5 +1,11 @@
 # 变更记录
 
+## 2026-09-03 · `drama-studio` v1.13.0 + `drama-crew` v6.17.8
+
+- studio 新增 external-platforms.md 外部平台工序：flova 能力面实测（171 Skill 分八类）、替代/增强/无关三类判定、三步匹配规则、交接格式与纪律；
+- studio 能力口径预检句扩展：外部生成平台可达时同样可升级 execution；
+- crew learnings 升格表增外部平台匹配报告去向行。
+
 ## 2026-09-03 · `drama-crew` v6.17.7 + `drama-studio` v1.12.0
 
 - crew：learnings 团队模式定版（PR 默认/单人快道例外/直推 main 禁区）；
