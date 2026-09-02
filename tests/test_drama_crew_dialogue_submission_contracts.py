@@ -26,7 +26,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.submission = read("drama-crew/references/submission-format.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.17.2", self.skill)
+        self.assertIn("version: 6.17.3", self.skill)
         self.assertIn("version: 1.11.2", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
@@ -115,6 +115,12 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("空格分隔", self.submission)
         self.assertIn("∆", self.submission)
         self.assertIn("无指定模板时的团队通用投稿阅读格式", self.submission)
+        # v6.17.3：字幕行 + OS 独白 + 括号提示放宽（对照真实商业剧本体例补齐）
+        self.assertIn("【字幕】", self.submission)
+        self.assertIn("（OS）", self.submission)
+        self.assertNotIn("≤5 字", self.submission)
+        self.assertIn("自然短语", self.submission)
+        self.assertIn("【字幕】身份行", self.skill)
         for contract in (self.skill, self.roles, self.submission):
             with self.subTest(contract=contract[:30]):
                 self.assertIn("DOCX 工具可用时默认交付 DOCX", contract)
@@ -220,6 +226,20 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("不为显得自然机械添加口误、错名或身体反应", self.writing)
         self.assertNotIn("一次口误比十句精准台词更像人", self.writing)
 
+    def test_inner_monologue_os_is_legalized_with_density_discipline(self) -> None:
+        # v6.17.3：OS 内心独白合法化 + 密度纪律（对照《神话树》类商业剧本体例）
+        for required in (
+            "OS 内心独白（第一人称画外音",
+            "单场 1-3 条",
+            "连续 OS 不超过 2 条",
+            "OS 计入净台词字数",
+            "不越权替别人内心播报",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.writing)
+        # 净台词口径同步：OS 计入
+        self.assertIn("OS 内心独白与必要旁白", self.commercial)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -232,9 +252,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.17.2 | 18 |", readme)
+        self.assertIn("| `drama-crew` | 6.17.3 | 18 |", readme)
         self.assertIn("| `drama-studio` | 1.11.2 | 27 |", readme)
-        self.assertIn("`drama-crew` v6.17.2", changelog)
+        self.assertIn("`drama-crew` v6.17.3", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
