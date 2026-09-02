@@ -19,10 +19,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.roles = read("drama-crew/references/role-cards.md")
         cls.scorecard = read("drama-crew/references/review-scorecard.md")
         cls.ledger = read("drama-crew/references/canon-ledger.md")
+        cls.bible = read("drama-crew/references/character-bible.md")
         cls.submission = read("drama-crew/references/submission-format.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.15.1", self.skill)
+        self.assertIn("version: 6.16.0", self.skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -102,6 +103,34 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("在投稿阅读稿里改台词/动作/剧情", self.skill)
         self.assertIn("投稿阅读稿不得作为第二内容真源", self.roles)
 
+    def test_submission_uses_standard_screenplay_format(self) -> None:
+        # v6.16.0：4B 升级为标准剧本排版（国内影视通用格式），默认 Markdown 载体
+        self.assertIn("§4a 标准剧本排版", self.submission)
+        self.assertIn("**场{集}-{场} {日/夜} {内/外} {地点}**", self.submission)
+        self.assertIn("**人物：", self.submission)
+        self.assertIn("空格分隔", self.submission)
+        self.assertIn("∆", self.submission)
+        for required in ("标准剧本格式排版", "默认交付 Markdown 排版稿"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.skill)
+                self.assertIn(required, self.roles)
+        self.assertIn("《剧名》_投稿阅读稿.md", self.skill)
+
+    def test_authentic_voice_principles_and_literary_ai_words_are_wired(self) -> None:
+        # v6.16.0：吸收 novel-creator 裁定项——正向人声七招 + 文学向 AI 高频词
+        self.assertIn("正向人声七招", self.writing)
+        for principle in ("不完整", "重复", "延迟", "出错误", "身体在场", "活在当下"):
+            with self.subTest(principle=principle):
+                self.assertIn(principle, self.writing)
+        self.assertIn("文学向 AI 高频词", self.writing)
+        self.assertIn("与此同时", self.writing)
+        self.assertIn("涌上心头", self.writing)
+        self.assertIn("沉默即回合", self.dialogue)
+        self.assertIn("一场最多一次", self.dialogue)
+        self.assertIn("天降解决", self.scorecard)
+        self.assertIn("15 条", self.scorecard)
+        self.assertIn("突变合法路径四步", self.bible)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -114,8 +143,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.15.1 | 18 |", readme)
-        self.assertIn("`drama-crew` v6.15.1", changelog)
+        self.assertIn("| `drama-crew` | 6.16.0 | 18 |", readme)
+        self.assertIn("`drama-crew` v6.16.0", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
 
@@ -147,7 +176,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("每 10 集至少 1 次结构变奏", self.commercial)
         self.assertIn("时长结构模板化", self.scorecard)
         self.assertIn("时长结构模板化", self.roles)
-        self.assertIn("14 条", self.scorecard)
+        self.assertIn("15 条", self.scorecard)
 
     def test_artifact_necessity_matrix_is_documented(self) -> None:
         self.assertIn("产物必要性判定表", self.submission)
