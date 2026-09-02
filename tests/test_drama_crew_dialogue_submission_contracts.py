@@ -18,9 +18,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.commercial = read("drama-crew/references/commercial-craft.md")
         cls.roles = read("drama-crew/references/role-cards.md")
         cls.scorecard = read("drama-crew/references/review-scorecard.md")
+        cls.ledger = read("drama-crew/references/canon-ledger.md")
+        cls.submission = read("drama-crew/references/submission-format.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.13.0", self.skill)
+        self.assertIn("version: 6.14.0", self.skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -80,9 +82,6 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("对白硬度门", self.roles)
 
     def test_submission_view_is_derived_from_single_production_master(self) -> None:
-        submission_path = ROOT / "drama-crew/references/submission-format.md"
-        self.assertTrue(submission_path.is_file())
-        submission = submission_path.read_text(encoding="utf-8")
         for required in (
             "完整制作母稿.md",
             "《剧名》_投稿阅读稿.docx",
@@ -94,21 +93,20 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "不得生成、推断或预填",
         ):
             with self.subTest(required=required):
-                self.assertIn(required, submission)
+                self.assertIn(required, self.submission)
         self.assertIn("### 第 4A 步：内部制作母稿", self.skill)
         self.assertIn("### 第 4B 步：投稿阅读稿排版", self.skill)
         self.assertIn("只能把完整制作母稿交给 `drama-studio`", self.skill)
-        self.assertIn("逐页渲染", submission)
+        self.assertIn("逐页渲染", self.submission)
         self.assertIn("只改投稿阅读稿的字体/分页/缩进/标题层级", self.skill)
         self.assertIn("在投稿阅读稿里改台词/动作/剧情", self.skill)
         self.assertIn("投稿阅读稿不得作为第二内容真源", self.roles)
 
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
-        submission = read("drama-crew/references/submission-format.md")
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
-        self.assertIn("不新增用户弹窗", submission)
-        self.assertIn("不得生成、推断或预填", submission)
+        self.assertIn("不新增用户弹窗", self.submission)
+        self.assertIn("不得生成、推断或预填", self.submission)
         self.assertIn("不新增角色", self.skill)
 
     def test_public_docs_and_markdown_count_match_release(self) -> None:
@@ -116,10 +114,49 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.13.0 | 18 |", readme)
-        self.assertIn("`drama-crew` v6.13.0", changelog)
+        self.assertIn("| `drama-crew` | 6.14.0 | 18 |", readme)
+        self.assertIn("`drama-crew` v6.14.0", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
+
+    def test_directory_uniqueness_audit_is_wired_before_final_review(self) -> None:
+        self.assertIn("终审前目录唯一性核验", self.skill)
+        self.assertIn("最终/final/副本/汇总", self.skill)
+        self.assertIn("目录核验", self.roles)
+        self.assertIn("文件治理失守", self.scorecard)
+
+    def test_duplicate_check_evidence_has_single_default_location(self) -> None:
+        self.assertIn("v6.14.0 统一留痕口径", self.skill)
+        self.assertIn("候选结构查重", self.skill)
+        self.assertIn("查重结论", self.skill)
+        self.assertIn("02A", self.skill)
+
+    def test_ledger_increments_are_standalone_files_with_adaptive_batch_size(self) -> None:
+        self.assertIn("增量落位口径（唯一", self.ledger)
+        self.assertIn("{项目名}_增量_E{起}-E{止}.md", self.ledger)
+        self.assertIn("批次粒度（唯一口径）", self.ledger)
+        self.assertIn("10-20 集/批", self.ledger)
+        self.assertIn("不建议低于 5 集/批", self.ledger)
+        self.assertIn("{项目名}_增量_E{起}-E{止}.md", self.roles)
+        self.assertNotIn("5 集/批，用户另指定批大小时从用户", self.ledger)
+        self.assertIn("逐集续写完整正文", self.skill)
+
+    def test_second_structure_variation_and_duration_template_checks(self) -> None:
+        self.assertIn("秒数结构变奏", self.commercial)
+        self.assertIn("±10%", self.commercial)
+        self.assertIn("每 10 集至少 1 次结构变奏", self.commercial)
+        self.assertIn("时长结构模板化", self.scorecard)
+        self.assertIn("时长结构模板化", self.roles)
+        self.assertIn("14 条", self.scorecard)
+
+    def test_artifact_necessity_matrix_is_documented(self) -> None:
+        self.assertIn("产物必要性判定表", self.submission)
+        self.assertIn("必产条件", self.submission)
+        self.assertIn("全量档", self.submission)
+        self.assertIn("标准档", self.submission)
+        self.assertIn("轻量档", self.submission)
+        self.assertIn("产物档位", self.skill)
+        self.assertIn("产物必要性判定表", self.skill)
 
 
 if __name__ == "__main__":
