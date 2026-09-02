@@ -33,7 +33,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
         self.assertIn("version: 6.17.9", self.skill)
-        self.assertIn("version: 1.13.3", self.studio_skill)
+        self.assertIn("version: 1.13.4", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -376,6 +376,18 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("仓库所有者（zkhyww）本机**直推 main**", self.studio_learnings)
         self.assertIn("§2.6 真实感锚定", self.studio_roles)
 
+    def test_native_audio_replaces_dubbing_step(self) -> None:
+        # v1.13.4：Seedance 原生音频为主，独立配音取消，TTS 后备
+        ext = read("drama-studio/references/external-platforms.md")
+        for required in ("Seedance 原生音视频联合生成为主", "无需独立配音步骤", "角色名+动作表情描述+冒号+引号台词",
+                         "每镜重复音色描述锚定", "回退 jimeng audio create TTS 后备链路", "音声设计提示词要点"):
+            with self.subTest(required=required):
+                self.assertIn(required, ext)
+        audio = read("drama-studio/references/dimensions/dim-audio.md")
+        for required in ("原生音频双轨制", "对白格式（官方规范", "音色锚定", "翻车回退"):
+            with self.subTest(required=required):
+                self.assertIn(required, audio)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -389,7 +401,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
         self.assertIn("| `drama-crew` | 6.17.9 | 18 |", readme)
-        self.assertIn("| `drama-studio` | 1.13.3 | 28 |", readme)
+        self.assertIn("| `drama-studio` | 1.13.4 | 28 |", readme)
         self.assertIn("`drama-crew` v6.17.9", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
