@@ -124,6 +124,43 @@ class DreaminaRouteTests(unittest.TestCase):
                 video_resolution="720p",
             )
 
+    def test_video_route_rejects_non_image_first_frame_and_references(self) -> None:
+        # v1.13.5 复核补丁：首帧/尾帧/多模态 --image 必须是图片文件，防整段视频被当首帧喂给 image2video
+        route = load_script("dreamina_route")
+        with tempfile.TemporaryDirectory() as temp_dir:
+            not_image = Path(temp_dir) / "clip.mp4"
+            not_image.write_bytes(b"fixture")
+
+            with self.assertRaisesRegex(ValueError, "must be an image file"):
+                route.build_video_command(
+                    prompt="女主推门",
+                    model_version="seedance2.0",
+                    duration=5,
+                    video_resolution="720p",
+                    first_frame=not_image,
+                )
+            # --video 参考（真正的视频文件）必须放行——mp4 走 _existing_paths 合法
+            command = route.build_video_command(
+                prompt="动作迁移参考",
+                model_version="seedance2.5",
+                duration=8,
+                video_resolution="1080p",
+                reference_videos=[not_image],
+            )
+            self.assertIn("multimodal2video", command)
+        # 音频参考走 _existing_paths 不受图片校验影响
+        with tempfile.TemporaryDirectory() as temp_dir:
+            audio_ref = Path(temp_dir) / "voice.wav"
+            audio_ref.write_bytes(b"fixture")
+            with self.assertRaisesRegex(ValueError, "requires at least one image or video"):
+                route.build_video_command(
+                    prompt="音色参考",
+                    model_version="seedance2.0",
+                    duration=8,
+                    video_resolution="720p",
+                    reference_audios=[audio_ref],
+                )
+
     def test_image_reference_routes_to_official_image2image(self) -> None:
         route = load_script("dreamina_route")
         with tempfile.TemporaryDirectory() as temp_dir:

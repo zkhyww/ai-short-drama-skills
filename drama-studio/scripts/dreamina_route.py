@@ -34,6 +34,9 @@ def _require_prompt(prompt: str) -> str:
     return prompt
 
 
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+
+
 def _existing_paths(paths: Iterable[str | Path], label: str) -> list[Path]:
     resolved: list[Path] = []
     for raw_path in paths:
@@ -41,6 +44,14 @@ def _existing_paths(paths: Iterable[str | Path], label: str) -> list[Path]:
         if not path.is_file():
             raise ValueError(f"{label} does not exist or is not a file: {path}")
         resolved.append(path)
+    return resolved
+
+
+def _image_paths(paths: Iterable[str | Path], label: str) -> list[Path]:
+    resolved = _existing_paths(paths, label)
+    for path in resolved:
+        if path.suffix.lower() not in IMAGE_EXTENSIONS:
+            raise ValueError(f"{label} must be an image file {sorted(IMAGE_EXTENSIONS)}, got: {path.suffix or '(no extension)'} {path}")
     return resolved
 
 
@@ -86,11 +97,11 @@ def build_video_command(
     if ratio not in VIDEO_RATIOS:
         raise ValueError(f"unsupported video ratio: {ratio}")
 
-    images = _existing_paths(reference_images, "reference image")
+    images = _image_paths(reference_images, "reference image")
     videos = _existing_paths(reference_videos, "reference video")
     audios = _existing_paths(reference_audios, "reference audio")
-    first = _existing_paths([first_frame], "first frame")[0] if first_frame else None
-    last = _existing_paths([last_frame], "last frame")[0] if last_frame else None
+    first = _image_paths([first_frame], "first frame")[0] if first_frame else None
+    last = _image_paths([last_frame], "last frame")[0] if last_frame else None
 
     if last is not None and first is None:
         raise ValueError("last_frame requires first_frame")
