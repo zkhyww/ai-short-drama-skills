@@ -20,11 +20,14 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.scorecard = read("drama-crew/references/review-scorecard.md")
         cls.ledger = read("drama-crew/references/canon-ledger.md")
         cls.bible = read("drama-crew/references/character-bible.md")
+        cls.studio_skill = read("drama-studio/SKILL.md")
+        cls.studio_roles = read("drama-studio/references/role-cards.md")
         cls.studio_assets = read("drama-studio/references/asset-library.md")
         cls.submission = read("drama-crew/references/submission-format.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.17.0", self.skill)
+        self.assertIn("version: 6.17.1", self.skill)
+        self.assertIn("version: 1.11.2", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -105,17 +108,38 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("投稿阅读稿不得作为第二内容真源", self.roles)
 
     def test_submission_uses_standard_screenplay_format(self) -> None:
-        # v6.16.0：4B 升级为标准剧本排版（国内影视通用格式），默认 Markdown 载体
+        # v6.17.1：内部母稿保持 Markdown；对外阅读且工具可用时默认 DOCX。
         self.assertIn("§4a 标准剧本排版", self.submission)
         self.assertIn("**场{集}-{场} {日/夜} {内/外} {地点}**", self.submission)
         self.assertIn("**人物：", self.submission)
         self.assertIn("空格分隔", self.submission)
         self.assertIn("∆", self.submission)
-        for required in ("标准剧本格式排版", "默认交付 Markdown 排版稿"):
-            with self.subTest(required=required):
-                self.assertIn(required, self.skill)
-                self.assertIn(required, self.roles)
-        self.assertIn("《剧名》_投稿阅读稿.md", self.skill)
+        self.assertIn("无指定模板时的团队通用投稿阅读格式", self.submission)
+        for contract in (self.skill, self.roles, self.submission):
+            with self.subTest(contract=contract[:30]):
+                self.assertIn("DOCX 工具可用时默认交付 DOCX", contract)
+                self.assertIn("Markdown", contract)
+                self.assertIn("降级", contract)
+        self.assertIn("PDF 只在用户或接收方明确要求时生成", self.submission)
+
+    def test_submission_default_structure_is_reader_facing_and_ordered(self) -> None:
+        section = self.submission[
+            self.submission.index("## 4. 通用投稿阅读稿结构") :
+            self.submission.index("### §4a 标准剧本排版")
+        ]
+        expected = (
+            "1. 封面",
+            "2. 一句话卖点",
+            "3. 故事梗概",
+            "4. 主要人物",
+            "5. 粗纲",
+            "6. 逐集集纲",
+            "7. 正文",
+        )
+        positions = [section.index(item) for item in expected]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn("选题分析结论只作可选策划附件", section)
+        self.assertIn("不默认并入投稿剧本正文", section)
 
     def test_authentic_voice_principles_and_literary_ai_words_are_wired(self) -> None:
         # v6.16.0：吸收 novel-creator 裁定项——正向人声七招 + 文学向 AI 高频词
@@ -127,25 +151,74 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("与此同时", self.writing)
         self.assertIn("涌上心头", self.writing)
         self.assertIn("沉默即回合", self.dialogue)
-        self.assertIn("一场最多一次", self.dialogue)
+        self.assertIn("不按次数设硬上限", self.dialogue)
+        self.assertIn("重复沉默没有新增压力、关系或含义", self.dialogue)
         self.assertIn("天降解决", self.scorecard)
         self.assertIn("15 条", self.scorecard)
         self.assertIn("突变合法路径四步", self.bible)
 
     def test_master_doc_carries_outline_bible_and_visual_anchors(self) -> None:
-        # v6.17.0：母稿含粗纲/集纲/人物档案/视觉锚定；投稿版含选题结论/粗纲/集纲
+        # v6.17.1：母稿含粗纲/集纲/人物档案/基础视觉事实；投稿版按阅读顺序输出。
         for required in ("粗纲与集纲", "人物视觉锚定", "人物小传档"):
             with self.subTest(required=required):
                 self.assertIn(required, self.submission)
         for required in ("粗纲/集纲/人物档案（小传节）", "人物视觉锚定行"):
             with self.subTest(required=required):
                 self.assertIn(required, self.skill)
-        for required in ("选题分析结论", "粗纲", "集纲"):
+        for required in ("一句话卖点", "故事梗概", "主要人物", "粗纲", "逐集集纲"):
             with self.subTest(required=required):
                 self.assertIn(required, self.submission)
         self.assertIn("视觉锚定", self.roles)
         self.assertIn("视觉锚定", self.bible)
         self.assertIn("人物视觉锚定行", self.studio_assets)
+
+    def test_visual_anchor_contract_separates_story_facts_from_production_design(self) -> None:
+        crew_contracts = "\n".join((self.skill, self.roles, self.bible, self.submission))
+        self.assertIn("基础视觉事实", crew_contracts)
+        self.assertNotIn("唯一文字依据", crew_contracts)
+        for required in (
+            "逐字继承 crew 基础视觉事实",
+            "制作设计/推断",
+            "不得覆盖 crew 基础视觉事实",
+            "≥3 条稳定结构轴",
+            "≥2 条必须在脸部",
+            "8-12 个视觉词",
+            "forbidden 3-5 项",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_assets)
+        self.assertIn("覆盖 crew 基础视觉事实即失败", self.studio_roles)
+
+    def test_master_content_changes_sync_all_reader_facing_sections_in_one_revision(self) -> None:
+        for required in (
+            "同一 `script_rev` 内同步",
+            "故事梗概",
+            "人物档案",
+            "粗纲",
+            "逐集集纲",
+            "关键事件",
+            "人物状态",
+            "集数",
+            "结尾卡点",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.submission)
+        self.assertIn("同一 `script_rev` 内同步", self.skill)
+
+    def test_red_light_14_and_15_use_distinct_evidence(self) -> None:
+        self.assertIn("#14 时长结构模板化只核秒数结构变奏", self.roles)
+        self.assertIn("#15 天降解决只核未铺垫外力", self.roles)
+        self.assertIn("主角行动、代价与因果铺垫", self.roles)
+
+    def test_character_and_dialogue_diagnostics_do_not_use_mechanical_failure_counts(self) -> None:
+        self.assertNotIn("一场最多一次", self.dialogue)
+        self.assertNotIn("四步缺任一 = OOC = 返修", self.bible)
+        self.assertIn("四项是因果证据维度", self.bible)
+        self.assertIn("可跨场分布或隐含", self.bible)
+        self.assertIn("以能否由压力、经历和前文推导裁决", self.bible)
+        self.assertIn("七招是可选策略", self.writing)
+        self.assertIn("不为显得自然机械添加口误、错名或身体反应", self.writing)
+        self.assertNotIn("一次口误比十句精准台词更像人", self.writing)
 
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
@@ -159,8 +232,10 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.17.0 | 18 |", readme)
-        self.assertIn("`drama-crew` v6.17.0", changelog)
+        self.assertIn("| `drama-crew` | 6.17.1 | 18 |", readme)
+        self.assertIn("| `drama-studio` | 1.11.2 | 27 |", readme)
+        self.assertIn("`drama-crew` v6.17.1", changelog)
+        self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
 
