@@ -1,14 +1,14 @@
 # 模型能力卡：豆包 Seedance（字节跳动）
 
-> 装配时只读**用户指定模型对应的一张卡**；未指定模型走通用保守模式（见 prompt-assembly.md 第 6 节）。
+> 规划时读取用户指定的 Seedance 模型卡；进入 `execution` 还要读取实际 provider/adapter 卡。默认由官方 Dreamina CLI 执行时，必须同时读取 `dreamina.md`，并以当次 CLI/后端约束收紧本卡；未指定模型才走通用保守模式（见 prompt-assembly.md 第 6 节）。
 
 ## 基本信息
 
 | 字段 | 值 |
 |---|---|
 | 模型/版本 | Seedance 1.0 Pro / 1.0 Pro Fast / **1.5 Pro（音画同生）** / **2.0（旗舰）** / **2.5（长片+编辑）** |
-| verified_at | 2026-09-01 |
-| evidence_source | 火山方舟官方 volcengine.com/docs/82379/2165104；视频生成任务 API volcengine.com/docs/6511/1393047（Seedance 2.5 分辨率口径）；Seedance 2.5 提示词指南 docs.volcengine.com/docs/82379/2607689 |
+| verified_at | 2026-09-03 |
+| evidence_source | 火山方舟 Seedance 2.0 提示词指南 docs.volcengine.com/docs/82379/2222480；视频生成任务 API volcengine.com/docs/6511/1393047（Seedance 2.5 分辨率口径）；Seedance 2.5 提示词指南 docs.volcengine.com/docs/82379/2607689 |
 | capability_state | **confirmed**（官方文档证实） |
 | 模型状态 | 正常服务；2.0 与 2.5 为当前主力 |
 
@@ -26,7 +26,7 @@
 | 原生音频/语音 | ✅ 1.5 Pro（音画同生）起：语音+音效+音乐同步生成；多语言 |
 | 已知冲突 | ①首尾帧/编辑/延长模式**强制 adaptive 画幅**，不可覆写；②2.5 编辑源视频须 4–30s；③**真人素材须走资产库 `asset://`，裸真人图被上游审核拒绝**；④输出不支持调帧率（固定 24fps）；⑤**2.5 的 1080p 输出为 10-bit H.265/HEVC 编码**——少数播放环境不兼容（需升级系统或用 VLC/MPV/QuickTime 播放），交付前确认下游播放链路；2.0 的 4k 同为 10-bit/H.265 |
 | 失败降级 | 播放环境不支持 10-bit/H.265 时 2.5 的 1080p 改出 720p（8-bit）或改用 2.0 的 1080p（8-bit，上限 15s）；要 >15s 用 2.5（4–30s）；长镜头用「向前/向后延长」续写而非一次生成 |
-| 提示词适配 | 中文理解强；prompt 内用 `@video1` / `@image1` 标签引用素材；参考任务对输出画幅无锁定 |
+| 提示词适配 | 中文理解强；按火山方舟 Seedance 2.0 指南，台词内容用 `{}`、音乐用 `（）`、音效用 `<>`、字幕用 `【】`，角色/动作/表情/发声方式写在对应内容之前；素材引用使用当前 provider 规定的标签。带参考音频时按上传顺序明确写出音频编号及其用途（角色音色/音乐/音效），不能只上传不指代。Dreamina 页面另有自然语言引号句式示例，`execution` 以本次 provider/adapter 的当前指南与实测为准，不把任一示例外推成全渠道统一语法 |
 
 ## 制作侧使用要点
 

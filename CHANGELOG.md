@@ -1,5 +1,10 @@
 # 变更记录
 
+## 2026-09-03 · `drama-studio` v1.13.6
+
+- 校正 Seedance 音声 Prompt 格式：原生音视频主链与外部 WAV/TTS 后备不变；火山方舟 Seedance 2.0 使用 `{台词}`、`（音乐）`、`<音效>`、`【字幕】` 的官方符号约定，Dreamina 页面自然语言引号句式只作为该接入方示例，实际执行服从当次 provider/adapter。
+- 明确模型 Prompt 与投稿剧本排版是两层合同；crew 的 `OS=角色内心独白`、`VO=画外音` 不受本次改动影响。角色母音色冻结后，支持音频参考的 provider 将该样本用于后续正式对白镜；这仍是 Seedance 原生音频生成，外部 TTS 才是失败后备。
+
 ## 2026-09-03 · `drama-studio` v1.13.5
 
 - 默认本机生成引擎切换为 OAuth 登录的官方 `dreamina` CLI，生产主链不再依赖第三方命令行工具或浏览器签名状态；补齐 text/image/first-last-frame/multimodal 的真实命令路由与参数预检脚本；默认 Dreamina 执行 Seedance 时同时注入模型卡与 provider/adapter 卡。
@@ -10,7 +15,7 @@
 
 ## 2026-09-03 · `drama-studio` v1.13.4
 
-- 音频链路改版：Seedance 2.0 原生音视频联合生成为主（对白/环境音/动效一次出），独立配音步骤取消；对白官方格式+音色逐镜锚定；TTS 降为后备；dim-audio 原生音频双轨制；external-platforms §2.8 同步。
+- 音频链路改版：Seedance 2.0 原生音视频联合生成为主（对白/环境音/动效一次出），独立配音步骤取消；音色逐镜锚定，TTS 降为后备；dim-audio 原生音频双轨制；external-platforms §2.8 同步。当时的引号式提示词示例已由 v1.13.6 按 provider/adapter 分层校正。
 
 ## 2026-09-03 · `drama-studio` v1.13.3 + `drama-crew` v6.17.9
 
