@@ -27,6 +27,7 @@ __pycache__/
 # Editor and OS files
 .vscode/
 .idea/
+.worktrees/
 .DS_Store
 Thumbs.db
 desktop.ini
