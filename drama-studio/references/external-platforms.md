@@ -59,13 +59,13 @@ execution 预检（SKILL.md 第 0 步）
 | 角色/场景设定图 | GPT Image 2 出角色卡+场景卡，多宫格锁定 | 丹青三件套+场景资产板（asset-library §2/§2.5/§4） | 无（§2.5 极繁纪律补齐质感密度） |
 | 分镜设计 | 多宫格分镜参考图→一镜到底工作流 | 景川六问判读+维度装配+七段式提示词 | 无 |
 | 视频生成 | Seedance 2.5 480p 逐镜生成 | 景川 execution→jimeng video create（seedance-2.0 双档） | 无 |
-| 时间线合成 | 平台内自动拼接成片 | **缺口**——本地无自动剪辑，落盘分镜视频后需人工/外部工具拼接 | 见下 |
+| 时间线合成 | 平台内自动拼接成片 | **ffmpeg 7.1.1 已在本机**（v1.13.3 实测）——concat 无损拼接+音频混流脚本化自动合成，缺口闭合 | 无 |
 | 音频链路 | 原生音频或 TTS 配音 | 闻笙音色卡+jimeng audio create（TTS 在位） | 无 |
 | 关键阶段确认 | 里程碑暂停等用户点头 | 沈砚停点制（资产确认/首批分镜确认/交付严恪） | 无 |
 
-**「一键成片·自建版」串联顺序**（用户给一份剧本后全程无需挑工具）：剧本→crew 创作定稿→丹青资产三件套（§2.5 极繁提示词）→景川分镜提示词→jimeng image create（--reference-image 传定妆照锁人）→jimeng video create（seedance，--ratio 9:16）→jimeng audio create（配音）→落盘 05_成片/ 待拼接（唯一人工环节：剪映导入拼接，或未来接入 flova 运行时调用代拼）。
+**「一键成片·自建版」串联顺序**（用户给一份剧本后全程无需挑工具）：剧本→crew 创作定稿→丹青资产三件套（§2.5 极繁提示词）→景川分镜提示词→jimeng image create（--reference-image 传定妆照锁人）→jimeng video create（seedance，--ratio 9:16）→jimeng audio create（配音）→ffmpeg concat 拼接+音频混流出 05_成片/（v1.13.3 起全自动成片，无需剪映）。
 
-**实测约束（2026-09-03）**：jimeng image create 支持 `--reference-image <path>`（角色一致性垫图入口，与丹青三件套衔接的关键参数）；video create 支持 `--ratio 9:16 --duration 5`（竖屏短剧口径）；生成类命令当前报缺 xmst 签名——待重装 `curl -s https://jimeng.jianying.com/cli \| bash` 或 `jimeng auth capture` 后复测，只读命令不受影响。
+**实测约束（2026-09-03，v1.13.3 更新）**：jimeng image create 支持 `--reference-image <path>`（角色一致性垫图入口）；**video create 参数面仅 prompt/model/ratio/duration——无图生视频/首帧参数**，视频侧角色一致性靠资产卡锚点提示词 +「视频提示词复用故事板」法（flova #149 同款：成片提示词直接复用分镜表镜头描述）；「首帧承接」（提取上一镜末帧作下一镜首帧，flova #84 技法）待 CLI 支持图生视频后启用。xmst：auth capture 已重跑（sessionid 已更新），xmst 仍缺——需在调试 Chrome（9222 端口）窗口完成即梦登录让 localStorage 写入 xmst 后再 capture（修复入口已交 codex）；capture 调试注意本机 `HTTPS_PROXY` 会劫持 127.0.0.1 请求，需 `NO_PROXY=127.0.0.1,localhost` 绕行。
 
 ## 3. 交接格式（我们产出 → flova 输入）
 

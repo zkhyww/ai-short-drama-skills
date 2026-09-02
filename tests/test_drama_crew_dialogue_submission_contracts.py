@@ -32,8 +32,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.studio_assets = read("drama-studio/references/asset-library.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.17.8", self.skill)
-        self.assertIn("version: 1.13.2", self.studio_skill)
+        self.assertIn("version: 6.17.9", self.skill)
+        self.assertIn("version: 1.13.3", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -277,8 +277,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
 
     def test_self_evolution_engineering_and_language_assets_are_wired(self) -> None:
         # v6.17.6：自进化工程化（CI/复盘仪式）+ 语言资产库 + 对标解剖工序
-        # 1. 复盘仪式：单人/团队分流 + 判定法 + CI 引用
-        for required in ("项目复盘仪式", "git log --format", "PR", "contract-tests.yml", "squash"):
+        # 1. 复盘仪式：作者分流（v6.17.9 按账号身份）+ CI 引用
+        for required in ("项目复盘仪式", "仓库所有者（zkhyww，本机本账号）", "其他设备/其他账号（协作者）", "一律 **PR**", "contract-tests.yml", "squash"):
             with self.subTest(required=required):
                 self.assertIn(required, self.learnings)
         # 2. 升格表有语料去向
@@ -296,14 +296,14 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         # 6. 望舒卡交付物含解剖报告
         self.assertIn("解剖报告", self.roles)
 
-    def test_team_default_and_physical_wording_discipline_are_wired(self) -> None:
-        # v6.17.7 / studio v1.12.0：团队默认反转 + 物理措辞纪律 + 外部素材索引
-        # 1. crew：团队 PR 默认、单人降为例外快道、直推禁区
-        for required in ("团队为默认", "单人快道（例外）", "直推 main 禁区", "squash"):
+    def test_owner_push_policy_and_physical_wording_discipline_are_wired(self) -> None:
+        # v6.17.9 / studio v1.13.3：作者分流按账号身份（所有者直推 main）+ 物理措辞纪律 + 外部素材索引
+        # 1. crew：所有者直推 main、协作者一律 PR、CI 红双通道
+        for required in ("仓库所有者（zkhyww，本机本账号）", "直推 main", "其他设备/其他账号（协作者）", "一律 **PR**", "CI 红处置", "squash"):
             with self.subTest(required=required):
                 self.assertIn(required, self.learnings)
-        # 2. studio：复盘仪式同构 + 团队默认同口径
-        for required in ("项目复盘仪式", "团队为默认", "contract-tests.yml"):
+        # 2. studio：复盘仪式同构 + 作者分流同口径
+        for required in ("项目复盘仪式", "作者分流", "直推 main", "contract-tests.yml"):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_learnings)
         # 3. 物理措辞纪律：两禁 + 五维 + 自检核对项
@@ -357,6 +357,25 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
                 self.assertIn(required, ext)
         self.assertIn("服化道极繁纪律逐层扩写", self.studio_roles)
 
+    def test_setting_sheet_13_modules_realism_anchor_and_owner_push(self) -> None:
+        # v1.13.3 / v6.17.9：13 模块清单 + 真实感锚定 + ffmpeg 闭环 + 作者分流
+        assets = read("drama-studio/references/asset-library.md")
+        for required in ("设定图 13 模块清单", "构图行规范", "画面结构行", "面部细项扩展", "姿态与动作行", "配饰与武器行", "负面提示词基线",
+                         "真实感锚定", "反模板脸", "深棕色眼睛", "网红脸", "鼻翼阴影", "总吸收项 ≤2", "混血感超标即废图重生成",
+                         "金发，蓝眼，欧美脸"):
+            with self.subTest(required=required):
+                self.assertIn(required, assets)
+        ext = read("drama-studio/references/external-platforms.md")
+        for required in ("ffmpeg 7.1.1 已在本机", "缺口闭合", "无图生视频/首帧参数", "提示词复用故事板", "NO_PROXY=127.0.0.1,localhost"):
+            with self.subTest(required=required):
+                self.assertIn(required, ext)
+        # 作者分流：所有者直推 main，其他设备/账号 PR
+        for required in ("仓库所有者（zkhyww，本机本账号）", "直推 main", "其他设备/其他账号（协作者）", "一律 **PR**"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.learnings)
+        self.assertIn("仓库所有者（zkhyww）本机**直推 main**", self.studio_learnings)
+        self.assertIn("§2.6 真实感锚定", self.studio_roles)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -369,9 +388,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.17.8 | 18 |", readme)
-        self.assertIn("| `drama-studio` | 1.13.2 | 28 |", readme)
-        self.assertIn("`drama-crew` v6.17.8", changelog)
+        self.assertIn("| `drama-crew` | 6.17.9 | 18 |", readme)
+        self.assertIn("| `drama-studio` | 1.13.3 | 28 |", readme)
+        self.assertIn("`drama-crew` v6.17.9", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)

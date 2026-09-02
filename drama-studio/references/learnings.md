@@ -49,7 +49,7 @@
 
 项目交付后，沈砚收尾制作端经验：汇总本项目的 QC 报告模式、失败图谱新条目、装配自检新命中、抽卡预算实耗 → 逐条判定去向（升格进 references / 留本库 / 丢弃）→ 跑合同测试全绿 → 升 patch → 提交推送。剧本侧经验不收（回传 crew learnings，见 §5 对照表末行）。
 
-**单人 vs 团队分流（团队为默认，与 crew 同口径）**：默认走 **PR**——条目带证据，CI（`.github/workflows/contract-tests.yml`）机器先拦，人审价值，squash 合并；仅当仓库单作者且用户明示单人使用时走直推 main 快道。团队模式下不绕过 PR 直推 main。
+**作者分流（v1.13.3 与 crew v6.17.9 同口径，用户裁定）**：仓库所有者（zkhyww）本机**直推 main**（本地跑绿合同测试+CI push 复验）；其他设备/其他账号一律 **PR**（条目带证据，CI（`.github/workflows/contract-tests.yml`）机器先拦，人审价值，squash 合并）。
 
 ## 6. 升格目标对照表（快速通道用）
 
