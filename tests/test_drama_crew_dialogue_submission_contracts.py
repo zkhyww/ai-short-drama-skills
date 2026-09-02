@@ -20,10 +20,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.scorecard = read("drama-crew/references/review-scorecard.md")
         cls.ledger = read("drama-crew/references/canon-ledger.md")
         cls.bible = read("drama-crew/references/character-bible.md")
+        cls.studio_assets = read("drama-studio/references/asset-library.md")
         cls.submission = read("drama-crew/references/submission-format.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.16.0", self.skill)
+        self.assertIn("version: 6.17.0", self.skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -131,6 +132,21 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("15 条", self.scorecard)
         self.assertIn("突变合法路径四步", self.bible)
 
+    def test_master_doc_carries_outline_bible_and_visual_anchors(self) -> None:
+        # v6.17.0：母稿含粗纲/集纲/人物档案/视觉锚定；投稿版含选题结论/粗纲/集纲
+        for required in ("粗纲与集纲", "人物视觉锚定", "人物小传档"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.submission)
+        for required in ("粗纲/集纲/人物档案（小传节）", "人物视觉锚定行"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.skill)
+        for required in ("选题分析结论", "粗纲", "集纲"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.submission)
+        self.assertIn("视觉锚定", self.roles)
+        self.assertIn("视觉锚定", self.bible)
+        self.assertIn("人物视觉锚定行", self.studio_assets)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -143,8 +159,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.16.0 | 18 |", readme)
-        self.assertIn("`drama-crew` v6.16.0", changelog)
+        self.assertIn("| `drama-crew` | 6.17.0 | 18 |", readme)
+        self.assertIn("`drama-crew` v6.17.0", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
 
