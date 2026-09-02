@@ -1,5 +1,12 @@
 # 变更记录
 
+## 2026-09-03 · `drama-crew` v6.17.7 + `drama-studio` v1.12.0
+
+- crew：learnings 团队模式定版（PR 默认/单人快道例外/直推 main 禁区）；
+- studio：prompt-assembly §6.5 物理措辞纪律（两禁+五维相对化措辞，消化情绪导演 V2.1）；
+- studio：asset-library §9.5 外部素材索引（gptimage2 图卡库登记，图卡不进 git）；
+- studio：learnings §5 项目复盘仪式（与 crew 同构，团队默认）。
+
 ## 2026-09-03 · `drama-crew` v6.17.6
 
 - 新增 CI 合同测试 workflow（push/PR 自动跑，团队协作机器先拦）；

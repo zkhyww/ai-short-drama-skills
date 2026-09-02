@@ -26,10 +26,13 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.submission = read("drama-crew/references/submission-format.md")
         cls.fight = read("drama-crew/references/genre-and-fight-rules.md")
         cls.learnings = read("drama-crew/references/learnings.md")
+        cls.studio_learnings = read("drama-studio/references/learnings.md")
+        cls.studio_prompt = read("drama-studio/references/prompt-assembly.md")
+        cls.studio_assets = read("drama-studio/references/asset-library.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.17.6", self.skill)
-        self.assertIn("version: 1.11.2", self.studio_skill)
+        self.assertIn("version: 6.17.7", self.skill)
+        self.assertIn("version: 1.12.0", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -292,6 +295,27 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         # 6. 望舒卡交付物含解剖报告
         self.assertIn("解剖报告", self.roles)
 
+    def test_team_default_and_physical_wording_discipline_are_wired(self) -> None:
+        # v6.17.7 / studio v1.12.0：团队默认反转 + 物理措辞纪律 + 外部素材索引
+        # 1. crew：团队 PR 默认、单人降为例外快道、直推禁区
+        for required in ("团队为默认", "单人快道（例外）", "直推 main 禁区", "squash"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.learnings)
+        # 2. studio：复盘仪式同构 + 团队默认同口径
+        for required in ("项目复盘仪式", "团队为默认", "contract-tests.yml"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_learnings)
+        # 3. 物理措辞纪律：两禁 + 五维 + 自检核对项
+        for required in ("物理措辞纪律", "禁文学化修辞", "心如刀割", "禁 AI 执行不了的精确物理值", "相对化", "光线", "动作", "表情", "声音", "空间"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_prompt)
+        self.assertIn("无文学化修辞残留", self.studio_prompt)
+        self.assertIn("无 AI 执行不了的精确物理值", self.studio_prompt)
+        # 4. 外部素材索引：gptimage2 登记 + 不进 git 铁律
+        for required in ("外部素材索引", "gptimage2", "不进 git"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_assets)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -304,9 +328,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.17.6 | 18 |", readme)
-        self.assertIn("| `drama-studio` | 1.11.2 | 27 |", readme)
-        self.assertIn("`drama-crew` v6.17.6", changelog)
+        self.assertIn("| `drama-crew` | 6.17.7 | 18 |", readme)
+        self.assertIn("| `drama-studio` | 1.12.0 | 27 |", readme)
+        self.assertIn("`drama-crew` v6.17.7", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
