@@ -12,6 +12,8 @@ from typing import Iterable, Sequence
 
 VIDEO_RATIOS = {"1:1", "3:4", "16:9", "4:3", "9:16", "21:9"}
 IMAGE_RATIOS = {"21:9", "16:9", "3:2", "4:3", "1:1", "3:4", "2:3", "9:16"}
+# v1.13.7：默认视频模型为 seedance2.0fast_vip（VIP 快速通道，普通 seedance2.0 排队可达数小时）
+DEFAULT_VIDEO_MODEL = "seedance2.0fast_vip"
 SEEDANCE_20_MODELS = {
     "seedance2.0",
     "seedance2.0fast",
@@ -213,9 +215,9 @@ def _parser() -> argparse.ArgumentParser:
 
     video = subparsers.add_parser("video", help="preview a Dreamina video command")
     video.add_argument("--prompt", required=True)
-    video.add_argument("--model", required=True)
+    video.add_argument("--model", default=DEFAULT_VIDEO_MODEL)
     video.add_argument("--duration", required=True, type=int)
-    video.add_argument("--resolution", required=True)
+    video.add_argument("--resolution", default="720p")
     video.add_argument("--ratio", default="16:9")
     video.add_argument("--first-frame")
     video.add_argument("--last-frame")

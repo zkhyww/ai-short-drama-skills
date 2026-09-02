@@ -1,4 +1,4 @@
-# 生成能力供给与外部平台工序（v1.13.6）
+# 生成能力供给与外部平台工序（v1.13.7）
 
 > 用途：`execution` 模式工具预检（SKILL.md 第 0 步）确认生成能力供给方。**双层供给**——第 0 层是本机官方 `dreamina` CLI（默认引擎，OAuth 登录）；第 1 层是外部平台 flova，本机能力不够或用户点名时才路由。旧第三方即梦命令行工具及其浏览器签名状态不参与生产主链。flova 线上 Skill 内容受 Flova 使用规范保护（只记名称/作者/公开摘要/链接，不搬运内容进本仓库），本文件只登记能力面、调用时机与交接格式。
 
@@ -85,7 +85,7 @@ flova Skill 接受自然语言指令 + 上传素材。交接包按目标 Skill �
 |---|---|
 | 身份认证 | 官方 OAuth Device Flow；`dreamina login` 登录，`dreamina user_credit` 同时验证登录态并读取当前积分，不把余额写死进规范 |
 | 图像 | `dreamina text2image`；有 1–10 张本地参考图时用 `dreamina image2image`。当前公开图像模型为 3.0–5.0Pro，参数以子命令帮助为准 |
-| 视频 | `dreamina text2video` / `image2video` / `frames2video` / `multiframe2video` / `multimodal2video`；Seedance 2.0 系列常规 4–15 秒，Seedance 2.5 为 4–30 秒 |
+| 视频 | `dreamina text2video` / `image2video` / `frames2video` / `multiframe2video` / `multimodal2video`；Seedance 2.0 系列常规 4–15 秒，Seedance 2.5 为 4–30 秒。**默认模型 `seedance2.0fast_vip`（v1.13.7，VIP 快速通道；普通 seedance2.0 排队可达数小时，用户为 VIP）**，仅 720p；用户点名才换其他模型 |
 | 画幅与分辨率 | 文生/多模态支持 9:16 等公开画幅；图生视频画幅跟随输入图。Seedance 2.5 当前支持 480p/720p/1080p；其他组合按目标子命令实时帮助核对 |
 | 混合参考 | 2.0 系列：最多 9 图、3 视频、3 音频、合计 12；2.5：最多 30 图、10 视频、10 音频、合计 50，且允许纯音频参考 |
 | 音频 | Seedance 原生音视频联合生成；官方 CLI 无独立 TTS 命令。外部母音色/WAV 可作多模态参考，独立 TTS＋lip-sync 仅为后备 |

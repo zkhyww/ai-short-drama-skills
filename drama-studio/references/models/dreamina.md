@@ -28,10 +28,10 @@
 
 | 项 | 参数 |
 |---|---|
-| 视频模型 | `seedance2.0` / `seedance2.0fast` / `seedance2.0_vip` / `seedance2.0fast_vip` / `seedance2.0mini` / `seedance2.5`；部分图生入口另支持 1.0fast/1.5pro |
+| 视频模型 | **默认 `seedance2.0fast_vip`（v1.13.7，VIP 快速通道，用户裁定：普通 seedance2.0 排队可达数小时）**；全集合 `seedance2.0` / `seedance2.0fast` / `seedance2.0_vip` / `seedance2.0fast_vip` / `seedance2.0mini` / `seedance2.5`；部分图生入口另支持 1.0fast/1.5pro。用户点名才偏离默认，偏离时在调用记录注明 |
 | 时长 | Seedance 2.0 系列输出 **4–15s**；Seedance 2.5 输出 **4–30s**；旧模型按具体子命令帮助 |
 | 画幅 | 文生/全能参考：1:1、3:4、16:9、4:3、9:16、21:9；单首帧/首尾帧/多帧由输入图推断 |
-| 分辨率 | Seedance 2.5：480p/720p/1080p；`seedance2.0_vip`：720p/1080p/4k；其余当前公开 2.0 组合为 720p |
+| 分辨率 | Seedance 2.5：480p/720p/1080p；`seedance2.0_vip`：720p/1080p/4k；**`seedance2.0fast_vip`（默认）：720p**；其余当前公开 2.0 组合为 720p |
 | 2.0 全能参考 | 图≤9、视频≤3、音频≤3、总输入≤12；至少一张图或一段视频；参考视频/音频单段和合计 2–15s |
 | 2.5 全能参考 | 图≤30、视频≤10、音频≤10、总输入≤50；允许纯音频；参考视频/音频单段和合计 2–30s；VIP only |
 | 原生音频 | Seedance 音视频联合生成按目标模型实时能力执行。角色已有**已冻结母音色**时，优先作为 `multimodal2video --audio` 音色参考，并在 Prompt 中按上传顺序明确绑定音频编号、角色与音色用途；2.0 全能参考还须至少带一张图或一段视频，2.5 允许纯音频参考 |

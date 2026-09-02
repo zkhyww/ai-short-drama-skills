@@ -124,6 +124,29 @@ class DreaminaRouteTests(unittest.TestCase):
                 video_resolution="720p",
             )
 
+    def test_default_video_model_is_seedance_20fast_vip(self) -> None:
+        # v1.13.7：用户裁定默认模型走 VIP 快速通道，防止普通 seedance2.0 数小时排队
+        route = load_script("dreamina_route")
+
+        self.assertEqual("seedance2.0fast_vip", route.DEFAULT_VIDEO_MODEL)
+
+        command = route.build_video_command(
+            prompt="女主在黑雨中奔跑",
+            model_version=route.DEFAULT_VIDEO_MODEL,
+            duration=10,
+            video_resolution="720p",
+            ratio="9:16",
+        )
+
+        self.assertIn("--model_version=seedance2.0fast_vip", command)
+        self.assertIn("--video_resolution=720p", command)
+
+        # CLI 参数缺省也指向同一默认模型
+        parser = route._parser()
+        args = parser.parse_args(["video", "--prompt", "测试", "--duration", "8"])
+        self.assertEqual("seedance2.0fast_vip", args.model)
+        self.assertEqual("720p", args.resolution)
+
     def test_video_route_rejects_non_image_first_frame_and_references(self) -> None:
         # v1.13.5 复核补丁：首帧/尾帧/多模态 --image 必须是图片文件，防整段视频被当首帧喂给 image2video
         route = load_script("dreamina_route")
