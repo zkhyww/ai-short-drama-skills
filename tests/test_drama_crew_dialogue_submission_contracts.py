@@ -24,9 +24,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.studio_roles = read("drama-studio/references/role-cards.md")
         cls.studio_assets = read("drama-studio/references/asset-library.md")
         cls.submission = read("drama-crew/references/submission-format.md")
+        cls.fight = read("drama-crew/references/genre-and-fight-rules.md")
+        cls.learnings = read("drama-crew/references/learnings.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.17.4", self.skill)
+        self.assertIn("version: 6.17.5", self.skill)
         self.assertIn("version: 1.11.2", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
@@ -161,7 +163,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("不按次数设硬上限", self.dialogue)
         self.assertIn("重复沉默没有新增压力、关系或含义", self.dialogue)
         self.assertIn("天降解决", self.scorecard)
-        self.assertIn("15 条", self.scorecard)
+        self.assertIn("16 条", self.scorecard)
         self.assertIn("突变合法路径四步", self.bible)
 
     def test_master_doc_carries_outline_bible_and_visual_anchors(self) -> None:
@@ -248,6 +250,27 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("可见动作另写 `∆` 行", self.submission)
         self.assertIn("OS 内心独白、VO 画外音与必要旁白", self.commercial)
 
+    def test_gap_awareness_loop_is_wired_end_to_end(self) -> None:
+        # v6.17.5：缺口感知三件套——词库/红灯#16/六行自检+沉淀回路，端到端接线
+        # 1. 战斗动作词库
+        for required in ("战斗动作词库", "环境反馈链", "反词穷纪律"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.fight)
+        # 2. 红灯 #16：15→16 全量换口径，旧口径禁残留
+        self.assertIn("16 条", self.scorecard)
+        self.assertIn("动作词穷", self.scorecard)
+        self.assertIn("暴涨", self.scorecard)
+        self.assertIn("16 条", self.roles)
+        self.assertIn("动作词穷", self.roles)
+        self.assertNotIn("机械过 15 条", self.roles)
+        # 3. 文茵六行自检（六行齐全 + 先补后写）
+        for line in ("写批前六行自检", "题材", "战戏", "情绪", "场景", "专业", "词穷", "先补后写"):
+            with self.subTest(line=line):
+                self.assertIn(line, self.roles)
+        # 4. 沉淀回路：learnings 升格表有词库去向 + 触发表有补缺行
+        self.assertIn("战斗动作/情绪语汇/场景质感词库", self.learnings)
+        self.assertIn("运行时补缺是经验库的主动来源", self.learnings)
+
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
@@ -260,9 +283,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.17.4 | 18 |", readme)
+        self.assertIn("| `drama-crew` | 6.17.5 | 18 |", readme)
         self.assertIn("| `drama-studio` | 1.11.2 | 27 |", readme)
-        self.assertIn("`drama-crew` v6.17.4", changelog)
+        self.assertIn("`drama-crew` v6.17.5", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
@@ -295,7 +318,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("每 10 集至少 1 次结构变奏", self.commercial)
         self.assertIn("时长结构模板化", self.scorecard)
         self.assertIn("时长结构模板化", self.roles)
-        self.assertIn("15 条", self.scorecard)
+        self.assertIn("16 条", self.scorecard)
 
     def test_artifact_necessity_matrix_is_documented(self) -> None:
         self.assertIn("产物必要性判定表", self.submission)
