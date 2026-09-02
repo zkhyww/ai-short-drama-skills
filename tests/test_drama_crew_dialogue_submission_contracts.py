@@ -22,7 +22,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.submission = read("drama-crew/references/submission-format.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.14.0", self.skill)
+        self.assertIn("version: 6.15.0", self.skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -114,8 +114,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.14.0 | 18 |", readme)
-        self.assertIn("`drama-crew` v6.14.0", changelog)
+        self.assertIn("| `drama-crew` | 6.15.0 | 18 |", readme)
+        self.assertIn("`drama-crew` v6.15.0", changelog)
         self.assertIn("投稿阅读稿", readme)
         self.assertIn("台词桌读", readme)
 
@@ -157,6 +157,39 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("轻量档", self.submission)
         self.assertIn("产物档位", self.skill)
         self.assertIn("产物必要性判定表", self.skill)
+
+    def test_cognitive_permission_split_from_knowledge_ledger(self) -> None:
+        self.assertIn("认知与表达权限", self.dialogue)
+        self.assertIn("认知错位", self.dialogue)
+        self.assertIn("表达权限", self.dialogue)
+        self.assertIn("知情范围", self.dialogue)
+        for required in ("认知与表达权限", "越权", "退回上游", "9.1"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.dialogue)
+
+    def test_ai_trace_uses_cause_first_minimal_fix_and_no_forced_edit(self) -> None:
+        self.assertIn("处置三原则", self.writing)
+        self.assertIn("成因定位先于改写", self.writing)
+        self.assertIn("最小修复", self.writing)
+        self.assertIn("自然文本不硬改", self.writing)
+        self.assertIn("本段不改", self.scorecard)
+        self.assertIn("不为评分强改", self.scorecard)
+
+    def test_observer_blind_spot_excludes_action_beat_section(self) -> None:
+        self.assertIn("观察者盲区", self.writing)
+        self.assertIn("无功能环境", self.scorecard)
+        self.assertIn("观察者盲区", self.scorecard)
+        self.assertIn("认知与视角越界", self.scorecard)
+        self.assertIn("§12 豁免声明", self.writing)
+        self.assertIn("禁止用「观察者盲区/关键帧」思维砍动作节拍段", self.writing)
+        self.assertIn("不适用于动作节拍段", self.roles)
+        self.assertNotIn("2-3 个关键帧", self.writing)
+        self.assertNotIn("2-3个关键帧", self.writing)
+
+    def test_conflict_resolution_starts_from_earliest_source(self) -> None:
+        self.assertIn("最早出现问题的源点", self.ledger)
+        self.assertIn("顺链核对", self.ledger)
+        self.assertIn("最早出现问题的源点集/场", self.roles)
 
 
 if __name__ == "__main__":
