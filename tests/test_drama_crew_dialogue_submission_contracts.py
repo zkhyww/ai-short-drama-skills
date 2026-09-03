@@ -32,7 +32,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.studio_assets = read("drama-studio/references/asset-library.md")
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.17.9", self.skill)
+        self.assertIn("version: 6.18.0", self.skill)
         self.assertIn("version: 1.13.7", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
@@ -480,11 +480,15 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.17.9 | 18 |", readme)
+        self.assertIn("| `drama-crew` | 6.18.0 | 18 |", readme)
         self.assertIn("| `drama-studio` | 1.13.7 | 30 |", readme)
-        self.assertIn("`drama-crew` v6.17.9", changelog)
+        self.assertIn("`drama-crew` v6.18.0", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
+        for public_doc in (readme, read("docs/使用说明.md")):
+            with self.subTest(public_doc=public_doc[:30]):
+                self.assertIn("《剧名》_标准投稿阅读稿.md", public_doc)
+                self.assertIn("audit_screenplay.py", public_doc)
         self.assertIn("台词桌读", readme)
 
     def test_directory_uniqueness_audit_is_wired_before_final_review(self) -> None:
