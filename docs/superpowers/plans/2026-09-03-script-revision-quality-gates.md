@@ -269,7 +269,7 @@ Run Markdown fence parity, local Markdown reference resolution, `git diff --chec
 
 - [ ] **Step 4: Sync the installed skill and verify byte equality**
 
-Copy only changed skill files plus the new auditor to `C:\Users\Administrator\.workbuddy\skills\drama-crew` when that installed root exists. Compare hashes or file content for every synced path; do not copy the private three-project test directory into the public repository or installed skill.
+Copy only changed skill files plus the new auditor to the active local installed-skill root when that root exists. Compare hashes or file content for every synced path; do not copy private behavior-test projects into the public repository or installed skill.
 
 - [ ] **Step 5: Commit and push the release**
 
@@ -286,9 +286,7 @@ Expected: remote `main` contains v6.18.0 and CI succeeds.
 ### Task 5: Dispatch and independently reaccept the three targeted revisions
 
 **Files:**
-- Modify in project 1: `D:\视频\三剧正式行为测试_2026-09-03\01_封闭绝境第一季\*`
-- Modify in project 2: `D:\视频\三剧正式行为测试_2026-09-03\02_科幻档案第一季\*`
-- Modify in project 3: `D:\视频\三剧正式行为测试_2026-09-03\03_自主高潜第一季\*`
+- Modify only the three private behavior-test project directories assigned by the controller; keep their local paths outside this public repository.
 
 **Interfaces:**
 - Consumes: installed `drama-crew` v6.18.0 and its preflight command.
@@ -296,11 +294,7 @@ Expected: remote `main` contains v6.18.0 and CI succeeds.
 
 - [ ] **Step 1: Send project-specific revision packets to the original tasks**
 
-Use the existing project tasks, not new windows:
-
-- `01a0639e-9551-7e12-8091-1219548e30d0` — 《闭库名单》.
-- `01a0639e-a2a8-7f83-a05a-be612ee3ae81` — 《静帧许可》.
-- `01a0639e-ae99-73b2-a128-3cfd901c514a` — 《她们的工时账》.
+Use the three existing private project tasks supplied by the controller, not new windows. Keep task IDs, project titles, and local paths in the private execution handoff rather than this public plan.
 
 Each packet must require work only in its own project directory, preservation of unrelated files, master-first editing, regenerated standard submission view, the v6.18.0 preflight, and a final callback containing exact files, audit result, timing evidence, unresolved risks, and score evidence.
 

@@ -82,6 +82,26 @@ script_rev: 7
         self.assertIn("EMPTY_EPISODE_OUTLINE", codes)
         self.assertIn("INTERNAL_FIELD_IN_SUBMISSION", codes)
 
+    def test_submission_rejects_an_individually_empty_episode_outline_entry(self) -> None:
+        invalid = submission(
+            """# 第 1 集
+**场1-1 夜 内 值班室**
+**人物：甲**
+甲：我不同意。
+# 第 2 集
+**场2-1 日 内 值班室**
+**人物：甲**
+甲：我还是不同意。
+""",
+            outline="- 第1集：\n- 第2集：甲继续拒绝签字。",
+        )
+
+        result = AUDIT.audit_submission(invalid, expected_episodes=2)
+
+        self.assertTrue(
+            any(item.code == "EMPTY_EPISODE_OUTLINE_ENTRY" for item in result.findings)
+        )
+
     def test_submission_rejects_beat_markup_duplicate_people_and_visible_action_hint(self) -> None:
         invalid = submission(
             """# 第 1 集
@@ -125,6 +145,17 @@ script_rev: 7
         )
 
         self.assertTrue(any(item.code == "INVALID_ROMANCE_AXIS" for item in result.findings))
+
+    def test_master_rejects_empty_numeric_or_chinese_romance_axis(self) -> None:
+        for value in ("", "1", "无"):
+            with self.subTest(value=value):
+                result = AUDIT.audit_master(
+                    f"romance_axis={value}\n## 正文\n# 第 1 集\n甲：我不同意。",
+                    expected_episodes=1,
+                )
+                self.assertTrue(
+                    any(item.code == "INVALID_ROMANCE_AXIS" for item in result.findings)
+                )
 
     def test_non_spoken_writing_action_is_not_counted_as_dialogue(self) -> None:
         sample = submission(
@@ -206,6 +237,27 @@ script_rev: 7
                 )
             self.assertEqual(0, valid_exit)
             self.assertEqual(1, invalid_exit)
+
+    def test_cli_rejects_identical_master_and_submission_paths(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            shared = Path(tmp_dir) / "shared.md"
+            shared.write_text(VALID_MASTER, encoding="utf-8")
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                exit_code = AUDIT.main(
+                    [
+                        "--master",
+                        str(shared),
+                        "--submission",
+                        str(shared),
+                        "--expected-episodes",
+                        "1",
+                    ]
+                )
+
+            self.assertEqual(1, exit_code)
+            self.assertIn("IDENTICAL_DELIVERABLE_PATH", output.getvalue())
 
 
 if __name__ == "__main__":

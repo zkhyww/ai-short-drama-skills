@@ -142,11 +142,18 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("预检退出码为 0", self.submission)
         self.assertIn("audit_screenplay.py --master", self.submission)
         self.assertIn("--submission", self.submission)
+        self.assertIn("# 第 1 集", self.submission)
+        self.assertNotIn("# 第一集", self.submission)
         self.assertIn("--expected-episodes", self.submission)
         for contract in (self.skill, self.roles):
             with self.subTest(contract=contract[:30]):
                 self.assertIn("预检退出码为 0", contract)
                 self.assertIn("先回完整制作母稿修改", contract)
+
+    def test_carrier_confirmation_uses_evidence_based_runtime_contract(self) -> None:
+        self.assertIn("真人=台词驱动", self.skill)
+        self.assertIn("350–500 字只作同体量真人短剧的诊断区间", self.skill)
+        self.assertNotIn("真人=台词驱动/净台词 350-500 字", self.skill)
 
     def test_submission_default_structure_is_reader_facing_and_ordered(self) -> None:
         section = self.submission[

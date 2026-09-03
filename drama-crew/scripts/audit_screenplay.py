@@ -20,6 +20,11 @@ EPISODE_HEADING_RE = re.compile(
     r"^#{1,3}\s*(?:第\s*(\d+)\s*集|E(\d{1,3})(?:\b|（|\())",
     re.MULTILINE | re.IGNORECASE,
 )
+OUTLINE_ENTRY_RE = re.compile(
+    r"^[ \t]*(?:[-*+][ \t]*)?(?:#{1,6}[ \t]*)?第[ \t]*(\d+)[ \t]*集"
+    r"[ \t]*(?:[:：][ \t]*)?(.*)$",
+    re.MULTILINE,
+)
 DIALOGUE_RE = re.compile(r"^(?P<speaker>[^#∆【*|>\-\s][^：\n]{0,40})：(?P<content>.*)$")
 PERSON_LINE_RE = re.compile(r"^\*\*人物：(.+?)\*\*\s*$")
 SPEAKER_ANNOTATION_RE = re.compile(r"^([^#∆【*|>\-\s][^：\n]{0,30})（([^）]+)）：")
@@ -138,6 +143,40 @@ def _check_episode_count(
             Finding("error", "DUPLICATE_EPISODE_HEADING", line_offset, "正文存在重复集号。")
         )
     return findings, unique
+
+
+def _check_episode_outline(
+    outline_text: str,
+    line_offset: int,
+    expected_episodes: int | None,
+) -> list[Finding]:
+    findings: list[Finding] = []
+    entries = list(OUTLINE_ENTRY_RE.finditer(outline_text))
+    outlined = sorted({int(match.group(1)) for match in entries})
+
+    if expected_episodes is not None and outlined != list(range(1, expected_episodes + 1)):
+        findings.append(
+            Finding(
+                "error",
+                "INCOMPLETE_EPISODE_OUTLINE",
+                line_offset,
+                f"逐集集纲应覆盖 1-{expected_episodes} 集，实际为 {outlined or '空'}。",
+            )
+        )
+
+    for index, match in enumerate(entries):
+        next_start = entries[index + 1].start() if index + 1 < len(entries) else len(outline_text)
+        entry_content = f"{match.group(2)}\n{outline_text[match.end():next_start]}"
+        if not entry_content.strip(" \t\r\n|-"):
+            findings.append(
+                Finding(
+                    "error",
+                    "EMPTY_EPISODE_OUTLINE_ENTRY",
+                    line_offset + outline_text.count("\n", 0, match.start()),
+                    f"第 {int(match.group(1))} 集集纲没有核心事件与结尾卡点。",
+                )
+            )
+    return findings
 
 
 def _strip_hint(content: str) -> tuple[str, str]:
@@ -370,17 +409,8 @@ def audit_submission(text: str, expected_episodes: int | None = None) -> AuditRe
             findings.append(Finding("error", code, section[1], f'“{title}”节为空。'))
 
     outline = _section_content(text, "逐集集纲")
-    if outline and outline[0].strip() and expected_episodes is not None:
-        outlined = sorted(set(int(value) for value in re.findall(r"第\s*(\d+)\s*集", outline[0])))
-        if outlined != list(range(1, expected_episodes + 1)):
-            findings.append(
-                Finding(
-                    "error",
-                    "INCOMPLETE_EPISODE_OUTLINE",
-                    outline[1],
-                    f"逐集集纲应覆盖 1-{expected_episodes} 集，实际为 {outlined or '空'}。",
-                )
-            )
+    if outline and outline[0].strip():
+        findings.extend(_check_episode_outline(outline[0], outline[1], expected_episodes))
 
     body, body_line = _after_section(text, "正文")
     count_findings, episodes = _check_episode_count(body, body_line, expected_episodes)
@@ -394,8 +424,12 @@ def audit_submission(text: str, expected_episodes: int | None = None) -> AuditRe
 
 def audit_master(text: str, expected_episodes: int | None = None) -> AuditResult:
     findings: list[Finding] = []
-    for match in re.finditer(r"romance_axis\s*(?::|=)\s*([A-Za-z_]+)", text, re.IGNORECASE):
-        value = match.group(1).lower()
+    for match in re.finditer(
+        r"^\s*romance_axis\s*(?::|=)[ \t]*([^\r\n]*)$",
+        text,
+        re.IGNORECASE | re.MULTILINE,
+    ):
+        value = match.group(1).strip().lower()
         if value not in {"on", "off"}:
             findings.append(
                 Finding(
@@ -473,14 +507,31 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.master is None and args.submission is None:
         _parser().error("至少提供 --master 或 --submission")
 
-    master_text = args.master.read_text(encoding="utf-8") if args.master else None
-    submission_text = args.submission.read_text(encoding="utf-8") if args.submission else None
-    if master_text is not None and submission_text is not None:
-        result = audit_pair(master_text, submission_text, args.expected_episodes)
-    elif master_text is not None:
-        result = audit_master(master_text, args.expected_episodes)
+    if (
+        args.master is not None
+        and args.submission is not None
+        and args.master.resolve() == args.submission.resolve()
+    ):
+        result = AuditResult(
+            findings=[
+                Finding(
+                    "error",
+                    "IDENTICAL_DELIVERABLE_PATH",
+                    1,
+                    "完整制作母稿与标准投稿阅读稿必须使用两个不同文件路径。",
+                )
+            ],
+            metrics={},
+        )
     else:
-        result = audit_submission(submission_text or "", args.expected_episodes)
+        master_text = args.master.read_text(encoding="utf-8") if args.master else None
+        submission_text = args.submission.read_text(encoding="utf-8") if args.submission else None
+        if master_text is not None and submission_text is not None:
+            result = audit_pair(master_text, submission_text, args.expected_episodes)
+        elif master_text is not None:
+            result = audit_master(master_text, args.expected_episodes)
+        else:
+            result = audit_submission(submission_text or "", args.expected_episodes)
 
     if args.json:
         print(json.dumps(_result_payload(result), ensure_ascii=False, indent=2, sort_keys=True))
