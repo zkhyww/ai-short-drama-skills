@@ -95,10 +95,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
     def test_submission_view_is_derived_from_single_production_master(self) -> None:
         for required in (
             "完整制作母稿.md",
-            "《剧名》_投稿阅读稿.docx",
+            "《剧名》_标准投稿阅读稿.md",
             "唯一内容真源",
             "派生阅读视图",
-            "每集另起一页",
             "script_rev",
             "SHA-256",
             "不得生成、推断或预填",
@@ -108,13 +107,16 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("### 第 4A 步：内部制作母稿", self.skill)
         self.assertIn("### 第 4B 步：投稿阅读稿排版", self.skill)
         self.assertIn("只能把完整制作母稿交给 `drama-studio`", self.skill)
-        self.assertIn("逐页渲染", self.submission)
         self.assertIn("只改投稿阅读稿的字体/分页/缩进/标题层级", self.skill)
         self.assertIn("在投稿阅读稿里改台词/动作/剧情", self.skill)
         self.assertIn("投稿阅读稿不得作为第二内容真源", self.roles)
+        for contract in (self.skill, self.roles, self.submission):
+            with self.subTest(contract=contract[:30]):
+                self.assertIn("两个不同文件", contract)
+                self.assertIn("《剧名》_标准投稿阅读稿.md", contract)
 
     def test_submission_uses_standard_screenplay_format(self) -> None:
-        # v6.17.1：内部母稿保持 Markdown；对外阅读且工具可用时默认 DOCX。
+        # 标准投稿 Markdown 是必需阅读视图；DOCX 仅按明确要求派生。
         self.assertIn("§4a 标准剧本排版", self.submission)
         self.assertIn("**场{集}-{场} {日/夜} {内/外} {地点}**", self.submission)
         self.assertIn("**人物：", self.submission)
@@ -128,12 +130,23 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertNotIn("≤5 字", self.submission)
         self.assertIn("自然短语", self.submission)
         self.assertIn("【字幕】身份行按需", self.skill)
-        for contract in (self.skill, self.roles, self.submission):
+        active_skill = self.skill.split("## 版本记录", 1)[0]
+        for contract in (active_skill, self.roles, self.submission):
             with self.subTest(contract=contract[:30]):
-                self.assertIn("DOCX 工具可用时默认交付 DOCX", contract)
-                self.assertIn("Markdown", contract)
-                self.assertIn("降级", contract)
+                self.assertNotIn("DOCX 工具可用时默认交付 DOCX", contract)
+        self.assertIn("DOCX 仅在用户或接收方明确要求时生成", self.submission)
         self.assertIn("PDF 只在用户或接收方明确要求时生成", self.submission)
+
+    def test_submission_delivery_requires_complete_outline_and_clean_pair_preflight(self) -> None:
+        self.assertIn("逐集集纲非空且覆盖到最后一集", self.submission)
+        self.assertIn("预检退出码为 0", self.submission)
+        self.assertIn("audit_screenplay.py --master", self.submission)
+        self.assertIn("--submission", self.submission)
+        self.assertIn("--expected-episodes", self.submission)
+        for contract in (self.skill, self.roles):
+            with self.subTest(contract=contract[:30]):
+                self.assertIn("预检退出码为 0", contract)
+                self.assertIn("先回完整制作母稿修改", contract)
 
     def test_submission_default_structure_is_reader_facing_and_ordered(self) -> None:
         section = self.submission[
