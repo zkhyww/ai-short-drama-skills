@@ -606,6 +606,36 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             with self.subTest(source_like_phrase=source_like_phrase):
                 self.assertNotIn(source_like_phrase, self.writing)
 
+    def test_runtime_evidence_does_not_pad_dialogue_or_claim_measured_duration(self) -> None:
+        for required in (
+            "诊断区间，不是逐集最低配额",
+            "禁止为补足字数增加同义解释或程序话术",
+            "逐项动作/停顿估时",
+            "只能标为估算",
+            "固定每条动作",
+            "固定秒数",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.commercial)
+        self.assertNotIn("净台词按 350–500 字收", self.commercial)
+        self.assertIn("不适用逐集最低配额", self.writing)
+        self.assertNotIn("净台词 350–500 字 = 配音对白量", self.roles)
+        self.assertNotIn("净台词 350–500 字 / 语速", self.roles)
+
+    def test_midseries_semantic_repetition_and_time_anchor_gates_are_wired(self) -> None:
+        for required in (
+            "语义功能重复",
+            "删除后不改变选择、关系、证据、压力或后果",
+            "普通中段、低冲突或报告类场景",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, "\n".join((self.dialogue, self.scorecard)))
+        for required in ("显式时间锚", "与账本推进一致"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.ledger)
+        self.assertIn("预检失败不得进入评分放行", self.scorecard)
+        self.assertIn("普通中段、低冲突或报告类场景", self.roles)
+
 
 if __name__ == "__main__":
     unittest.main()

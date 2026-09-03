@@ -117,6 +117,7 @@ git commit -m "feat: add screenplay submission preflight"
 **Files:**
 - Modify: `drama-crew/references/commercial-craft.md`
 - Modify: `drama-crew/references/dialogue-craft.md`
+- Modify: `drama-crew/references/writing-craft.md`
 - Modify: `drama-crew/references/canon-ledger.md`
 - Modify: `drama-crew/references/review-scorecard.md`
 - Modify: `drama-crew/references/role-cards.md`
@@ -154,6 +155,8 @@ Expected: the newly added contract test fails on missing new wording or obsolete
 In `commercial-craft.md` §5, keep the 90–120 second and 3.5–4.5 characters/second references as planning inputs. Rewrite the 350–500 rule as a diagnostic band, prohibit padding, and require per-episode columns for spoken characters, speech rate, spoken seconds, action/pause estimates, transition estimates, total estimate, and evidence state. Explicitly forbid fixed-per-action and fixed-per-episode additions as final evidence.
 
 In `dialogue-craft.md`, add semantic-function repetition and padding detection to the existing table-read/refinement owner section. Delete-only testing asks whether a line changes choice, relationship, evidence, pressure, or consequence; unchanged lines are candidates, not automatic deletions.
+
+In `writing-craft.md`, replace shorthand that still presents `350–500` as a per-episode requirement with a direct reference to the evidence-based diagnostic contract in `commercial-craft.md`.
 
 In `canon-ledger.md`, add a cross-episode explicit-time-anchor check so identical clock/date lines must agree with ledger progression; repeated wording alone is not the issue, frozen story time is.
 
