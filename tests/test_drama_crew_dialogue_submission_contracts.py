@@ -19,6 +19,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.roles = read("drama-crew/references/role-cards.md")
         cls.scorecard = read("drama-crew/references/review-scorecard.md")
         cls.ledger = read("drama-crew/references/canon-ledger.md")
+        cls.world = read("drama-crew/references/world-bible.md")
         cls.bible = read("drama-crew/references/character-bible.md")
         cls.studio_skill = read("drama-studio/SKILL.md")
         cls.studio_roles = read("drama-studio/references/role-cards.md")
@@ -30,10 +31,15 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         cls.studio_learnings = read("drama-studio/references/learnings.md")
         cls.studio_prompt = read("drama-studio/references/prompt-assembly.md")
         cls.studio_assets = read("drama-studio/references/asset-library.md")
+        cls.studio_shots = read("drama-studio/references/shot-contract.md")
+        cls.studio_storyboard = read("drama-studio/references/storyboard-craft.md")
+        cls.studio_performance = read(
+            "drama-studio/references/dimensions/dim-performance.md"
+        )
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.18.0", self.skill)
-        self.assertIn("version: 1.13.7", self.studio_skill)
+        self.assertIn("version: 6.19.0", self.skill)
+        self.assertIn("version: 1.14.0", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -487,9 +493,10 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.18.0 | 18 |", readme)
-        self.assertIn("| `drama-studio` | 1.13.7 | 30 |", readme)
-        self.assertIn("`drama-crew` v6.18.0", changelog)
+        self.assertIn("| `drama-crew` | 6.19.0 | 18 |", readme)
+        self.assertIn("| `drama-studio` | 1.14.0 | 30 |", readme)
+        self.assertIn("`drama-crew` v6.19.0", changelog)
+        self.assertIn("`drama-studio` v1.14.0", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         for public_doc in (readme, read("docs/使用说明.md")):
@@ -659,6 +666,114 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
                 self.assertIn(required, self.ledger)
         self.assertIn("预检失败不得进入评分放行", self.scorecard)
         self.assertIn("普通中段、低冲突或报告类场景", self.roles)
+
+    def test_dsh_crew_mechanisms_are_absorbed_without_new_workflow(self) -> None:
+        for required in (
+            "机制真实契约",
+            "剧中披露状态",
+            "世界真实如何运行",
+            "人物当前知道",
+            "观众当前知道",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.world)
+
+        for required in (
+            "机制耗尽",
+            "收束 / 改造 / 移交",
+            "信息密度过匀",
+            "代价即时结清",
+            "承重声源",
+            "主动留白",
+            "撤出与恢复",
+            "声桥",
+            "混音参数归制作侧",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.writing)
+
+        for required in (
+            "可见/可听载体",
+            "直接支持的最强结论",
+            "尚未证明的推断",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.ledger)
+
+        combined = "\n".join((self.roles, self.scorecard))
+        self.assertIn("机制耗尽", combined)
+        self.assertIn("信息密度过匀", combined)
+        self.assertIn("尚未证明的推断", combined)
+
+    def test_dsh_studio_mechanisms_are_absorbed_without_mechanical_rules(self) -> None:
+        for required in (
+            "`prompt_only` / `file_ready` / `external_mount_plan`",
+            "`reuse` / `new_variant` / `new_asset` / `unresolved`",
+            "未命名群演",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_assets)
+
+        for required in (
+            "保留 Shot ID，提升修订号",
+            "新 Shot ID",
+            "旧 ID 停用",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_shots)
+
+        assembly = "\n".join((self.studio_prompt, self.studio_storyboard))
+        for required in (
+            "首帧只写开始时已经成立",
+            "尾帧只写目标终点",
+            "逐字正文只出现一次",
+            "`show_now` / `withhold_now`",
+            "实际 provider 支持",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, assembly)
+
+        for required in (
+            "承重台词",
+            "不固定顺序",
+            "不要求人人错峰反应",
+            "诊断",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, self.studio_performance)
+
+        for required in (
+            "参考资产就绪三态",
+            "身份/状态决策四词",
+            "未命名群演",
+            "保留 Shot ID，提升修订号",
+            "首帧只写开始时已经成立",
+            "逐字正文只出现一次",
+            "`show_now` / `withhold_now`",
+            "实际 provider 支持",
+            "承重台词",
+            "不固定顺序",
+        ):
+            with self.subTest(role_dispatch=required):
+                self.assertIn(required, self.studio_roles)
+
+        for required in (
+            "参考资产就绪三态",
+            "身份/状态决策四词",
+            "保留 Shot ID，提升修订号",
+            "`show_now` / `withhold_now`",
+            "逐字正文只出现一次",
+        ):
+            with self.subTest(main_flow=required):
+                self.assertIn(required, self.studio_skill)
+
+        active_contracts = "\n".join(
+            (self.studio_storyboard, self.studio_performance, self.studio_prompt)
+        )
+        self.assertNotIn("完整情绪链必须按顺序走完", active_contracts)
+        self.assertNotIn("[OS]=同场画外对白", active_contracts)
+        self.assertEqual(18, len(list((ROOT / "drama-crew").rglob("*.md"))))
+        self.assertEqual(28, len(list((ROOT / "drama-studio").rglob("*.md"))))
 
 
 if __name__ == "__main__":
