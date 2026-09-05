@@ -61,10 +61,100 @@ romance_axis=off
 # 第 1 集
 【场景设定】夜，值班室。
 甲：我不同意。
+乙：那你就留下。
 """
 
 
 class ScreenplayAuditTests(unittest.TestCase):
+    def test_expected_count_does_not_hide_duplicate_or_reordered_episodes(self) -> None:
+        for numbers, code in (([1, 1], "DUPLICATE_EPISODE_HEADING"), ([2, 1], "EPISODE_ORDER_MISMATCH")):
+            body = "\n".join(
+                f"# 第 {n} 集\n**场{n}-1 夜 内 门厅**\n**人物：甲**\n∆甲关门。"
+                for n in numbers
+            )
+            with self.subTest(numbers=numbers):
+                result = AUDIT.audit_submission(submission(body), max(numbers))
+                self.assertIn(code, {item.code for item in result.findings})
+
+    def test_submission_requires_real_scenes_and_people_not_just_headings(self) -> None:
+        cases = (
+            ("# 第 1 集\n待写", "MISSING_SCENE"),
+            ("# 第 1 集\n**场1-1 夜 内 门厅**\n**人物：甲**", "EMPTY_SCENE"),
+            ("# 第 1 集\n**场1-1 夜 内 门厅**\n∆甲关门。", "MISSING_PERSON_LINE"),
+            ("# 第 1 集\n**场1-2 夜 内 门厅**\n**人物：甲**\n∆甲关门。", "SCENE_NUMBER_MISMATCH"),
+        )
+        for body, code in cases:
+            with self.subTest(code=code):
+                result = AUDIT.audit_submission(submission(body), 1)
+                self.assertIn(code, {item.code for item in result.findings})
+
+    def test_pair_rejects_changed_missing_or_reassigned_spoken_text(self) -> None:
+        for changed in (
+            VALID_SUBMISSION.replace("我不同意。", "我全都同意。"),
+            VALID_SUBMISSION.replace("乙：那你就留下。\n", ""),
+            VALID_SUBMISSION.replace("乙：那你就留下。", "甲：那你就留下。"),
+            VALID_SUBMISSION.replace("（低声）", "（OS）"),
+        ):
+            with self.subTest(changed=changed):
+                result = AUDIT.audit_pair(VALID_MASTER, changed, 1)
+                self.assertIn("PAIR_SPOKEN_TEXT_MISMATCH", {item.code for item in result.findings})
+
+    def test_legal_vocal_directions_are_not_visible_action_errors(self) -> None:
+        for hint in ("打趣", "打断对方", "吞吞吐吐", "低声，OS"):
+            with self.subTest(hint=hint):
+                result = AUDIT.audit_submission(VALID_SUBMISSION.replace("低声", hint), 1)
+                self.assertFalse(result.blocking, result.findings)
+
+    def test_visible_action_in_later_hint_is_not_missed(self) -> None:
+        result = AUDIT.audit_submission(VALID_SUBMISSION.replace("（低声）", "（OS）（转身）"), 1)
+        self.assertIn("VISIBLE_ACTION_IN_DIALOGUE_HINT", {item.code for item in result.findings})
+
+    def test_on_screen_text_is_not_counted_as_spoken_dialogue(self) -> None:
+        body = "# 第 1 集\n**场1-1 夜 内 门厅**\n**人物：甲**\n∆甲举起纸条。\n甲：（写字）不许进。\n甲：（低声）（OS）不能出声。"
+        result = AUDIT.audit_submission(submission(body), 1)
+        self.assertEqual(4, result.metrics["spoken_chars"])
+        self.assertEqual(1, result.metrics["os_lines"])
+        self.assertEqual(1, result.metrics["dialogue_lines"])
+
+    def test_receiver_body_only_mode_does_not_require_pitch_sections(self) -> None:
+        body = "# 第 1 集\n**场1-1 夜 内 门厅**\n**人物：甲**\n∆甲关门。"
+        self.assertTrue(AUDIT.audit_submission(body, 1).blocking)
+        result = AUDIT.audit_submission(body, 1, submission_scope="body-only")
+        self.assertFalse(result.blocking, result.findings)
+
+    def test_runtime_metrics_are_per_episode_without_inventing_total_duration(self) -> None:
+        body = "# 第 1 集\n**场1-1 夜 内 门厅**\n**人物：甲**\n甲：（OS）别出声。\n# 第 2 集\n**场2-1 日 外 空巷**\n**人物：无（空镜）**\n∆铁门在风里合上。"
+        result = AUDIT.audit_submission(submission(body, outline="- 第1集：甲躲避。\n- 第2集：空巷关门。"), 2)
+        rows = result.metrics["per_episode"]
+        self.assertEqual([3, 0], [row["spoken_chars"] for row in rows])
+        self.assertEqual([1, 2], [row["episode"] for row in rows])
+        self.assertTrue(all("estimated_total_runtime" not in row for row in rows))
+
+    def test_empty_dialogue_does_not_make_an_empty_scene_valid(self) -> None:
+        for line in ("甲：", "甲：（低声）", "（画面闪回：∆）", "（画面闪回：∆  ）"):
+            result = AUDIT.audit_submission(submission(f"# 第 1 集\n**场1-1 日 内 门厅**\n**人物：甲**\n{line}"), 1)
+            self.assertIn("EMPTY_SCENE", {item.code for item in result.findings})
+
+    def test_empty_vocal_hints_do_not_count_but_silent_scene_content_is_kept(self) -> None:
+        body = "# 第 1 集\n**场1-1 日 内 门厅**\n**人物：甲**\n甲：（手语）别进。\n甲：（低声）"
+        result = AUDIT.audit_submission(submission(body), 1)
+        self.assertFalse(result.blocking, result.findings)
+        self.assertEqual(0, result.metrics["dialogue_lines"])
+        self.assertEqual(0, result.metrics["spoken_chars"])
+
+    def test_flashback_and_episode_title_are_not_spoken_dialogue(self) -> None:
+        body = "# 第 1 集 标题：我回来了\n**场1-1 日 内 家**\n**人物：甲**\n（画面闪回：∆甲推门而入。）\n甲：回来吧。"
+        result = AUDIT.audit_submission(submission(body), 1)
+        self.assertFalse(result.blocking, result.findings)
+        self.assertEqual(3, result.metrics["spoken_chars"])
+        self.assertEqual(3, result.metrics["per_episode"][0]["spoken_chars"])
+        self.assertEqual(1, result.metrics["dialogue_lines"])
+
+    def test_audio_type_punctuation_does_not_hide_type_changes(self) -> None:
+        for hint in ("OS/低声", "VO、低声"):
+            result = AUDIT.audit_pair(VALID_MASTER, VALID_SUBMISSION.replace("低声", hint), 1)
+            self.assertIn("PAIR_SPOKEN_TEXT_MISMATCH", {item.code for item in result.findings})
+
     def test_submission_rejects_empty_episode_outline_and_internal_fields(self) -> None:
         invalid = submission(
             """# 第 1 集

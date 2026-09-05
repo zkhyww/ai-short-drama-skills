@@ -164,13 +164,15 @@ def assemble_timeline(
             raise ValueError(f"clip does not exist: {source}")
 
     target = Path(output).expanduser().resolve()
+    fallback = Path(external_audio).expanduser().resolve() if external_audio is not None else None
+    for source in [*sources, *([fallback] if fallback is not None else [])]:
+        if target == source or (target.exists() and source.exists() and target.samefile(source)):
+            raise ValueError(f"output must not overwrite input media: {source}")
     if target.exists() and not overwrite:
         raise FileExistsError(f"output already exists: {target}")
     target.parent.mkdir(parents=True, exist_ok=True)
 
-    fallback = None
-    if external_audio is not None:
-        fallback = Path(external_audio).expanduser().resolve()
+    if fallback is not None:
         if not fallback.is_file():
             raise ValueError(f"external audio does not exist: {fallback}")
         if not _has_stream(probe_media(fallback, ffprobe), "audio"):

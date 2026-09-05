@@ -24,6 +24,26 @@ def load_script(name: str):
 
 
 class DreaminaRouteTests(unittest.TestCase):
+    def test_image_generation_rejects_video_disguised_as_reference_image(self) -> None:
+        route = load_script("dreamina_route")
+        with tempfile.TemporaryDirectory() as temp_dir:
+            video = Path(temp_dir) / "clip.mp4"
+            video.write_bytes(b"fixture")
+            with self.assertRaisesRegex(ValueError, "must be an image file"):
+                route.build_image_command(prompt="建立人物", reference_images=[video])
+
+    def test_precise_frame_and_mother_voice_cannot_silently_drop_each_other(self) -> None:
+        route = load_script("dreamina_route")
+        with tempfile.TemporaryDirectory() as temp_dir:
+            first = Path(temp_dir) / "first.png"
+            voice = Path(temp_dir) / "voice.wav"
+            first.write_bytes(b"fixture")
+            voice.write_bytes(b"fixture")
+            with self.assertRaisesRegex(ValueError, "cannot be mixed"):
+                route.build_video_command(
+                    prompt="母音色对白", model_version="seedance2.5", duration=8,
+                    video_resolution="720p", first_frame=first, reference_audios=[voice],
+                )
     def test_text_only_seedance_25_uses_official_text2video(self) -> None:
         route = load_script("dreamina_route")
 
@@ -234,6 +254,24 @@ class DreaminaRouteTests(unittest.TestCase):
 
 @unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "ffmpeg/ffprobe required")
 class TimelineAssemblerIntegrationTests(unittest.TestCase):
+    def test_overwrite_permission_never_allows_replacing_input_media(self) -> None:
+        assembler = load_script("assemble_timeline")
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            clip = root / "source.mp4"
+            fallback = root / "voice.wav"
+            self.make_clip(clip, "160x120", 24, 0.3, with_audio=True)
+            self.make_audio(fallback, 0.3)
+            for target in (clip, fallback):
+                with self.subTest(target=target):
+                    original = target.read_bytes()
+                    with self.assertRaisesRegex(ValueError, "output must not overwrite input"):
+                        assembler.assemble_timeline(
+                            clips=[clip], output=target, external_audio=fallback,
+                            width=160, height=120, overwrite=True,
+                        )
+                    self.assertEqual(original, target.read_bytes())
+
     @staticmethod
     def make_clip(path: Path, size: str, rate: int, duration: float, with_audio: bool) -> None:
         command = [

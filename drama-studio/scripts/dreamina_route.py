@@ -189,7 +189,7 @@ def build_image_command(
         choices = ", ".join(sorted(allowed_resolutions))
         raise ValueError(f"model {model_version} supports resolution_type: {choices}")
 
-    references = _existing_paths(reference_images, "reference image")
+    references = _image_paths(reference_images, "reference image")
     if len(references) > 10:
         raise ValueError("dreamina image2image accepts at most 10 images")
     if references and model_version in {"3.0", "3.1"}:
