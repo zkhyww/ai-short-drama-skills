@@ -58,7 +58,7 @@
 | 分镜质量/微节拍/表情/防错 | `references/storyboard-craft.md` |
 | 资产/角色锚定/场景板/九宫格 | `references/asset-library.md` |
 | 镜头契约/六问/镜头卡/重拍 | `references/shot-contract.md` |
-| 装配/七段式/映射表/平台适配 | `references/prompt-assembly.md` |
+| 装配/四区块/映射表/平台适配 | `references/prompt-assembly.md` |
 | 景别/运镜/光影/站位/表演/动作/风格/音效某维度 | `references/dimensions/` 对应维度卡 |
 | QC 尺度/失败图谱条目 | `references/failure-atlas.md` |
 | 剧本侧问题（节奏/选题/命名等） | 回传 drama-crew 的 learnings.md，不写进本库 |

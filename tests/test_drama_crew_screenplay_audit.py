@@ -130,6 +130,25 @@ class ScreenplayAuditTests(unittest.TestCase):
         self.assertEqual([1, 2], [row["episode"] for row in rows])
         self.assertTrue(all("estimated_total_runtime" not in row for row in rows))
 
+    def test_runtime_metrics_include_three_cps_reference_without_removing_legacy_rates(self) -> None:
+        thirty_spoken_characters = "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十"
+        sample = submission(
+            "# 第 1 集\n**场1-1 夜 内 门厅**\n**人物：甲**\n甲："
+            + thirty_spoken_characters
+        )
+
+        result = AUDIT.audit_submission(sample, 1)
+
+        self.assertEqual(30, result.metrics["spoken_chars"])
+        self.assertEqual(10.0, result.metrics["spoken_seconds_at_3_0_cps"])
+        self.assertIn("spoken_seconds_at_3_5_cps", result.metrics)
+        self.assertIn("spoken_seconds_at_4_5_cps", result.metrics)
+        self.assertEqual(10.0, result.metrics["per_episode"][0]["spoken_seconds_at_3_0_cps"])
+        self.assertEqual(8.57, result.metrics["per_episode"][0]["spoken_seconds_at_3_5_cps"])
+        self.assertEqual(6.67, result.metrics["per_episode"][0]["spoken_seconds_at_4_5_cps"])
+        self.assertNotIn("estimated_total_runtime", result.metrics)
+        self.assertNotIn("estimated_total_runtime", result.metrics["per_episode"][0])
+
     def test_empty_dialogue_does_not_make_an_empty_scene_valid(self) -> None:
         for line in ("甲：", "甲：（低声）", "（画面闪回：∆）", "（画面闪回：∆  ）"):
             result = AUDIT.audit_submission(submission(f"# 第 1 集\n**场1-1 日 内 门厅**\n**人物：甲**\n{line}"), 1)

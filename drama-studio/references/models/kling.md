@@ -1,6 +1,6 @@
 # 模型能力卡：可灵 Kling（快手）
 
-> 装配时只读**用户指定模型对应的一张卡**；未指定模型走通用保守模式（见 prompt-assembly.md 第 6 节）。
+> 选用本模型时才加载本卡，并按实际 provider/adapter 补充限制；未回答模型选择时按 prompt-assembly.md §1 默认 Seedance + Dreamina，不自动选择本模型。
 
 ## 基本信息
 

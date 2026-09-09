@@ -1,6 +1,6 @@
 # 模型能力卡：豆包 Seedance（字节跳动）
 
-> 规划时读取用户指定的 Seedance 模型卡；进入 `execution` 还要读取实际 provider/adapter 卡。默认由官方 Dreamina CLI 执行时，必须同时读取 `dreamina.md`，并以当次 CLI/后端约束收紧本卡；未指定模型才走通用保守模式（见 prompt-assembly.md 第 6 节）。
+> 用户指定或未回答按默认选择 Seedance 时，规划即读取本卡与实际 provider/adapter 卡。默认官方 Dreamina 路线同时读取 `dreamina.md`，未回答采用 `seedance2.0fast_vip` / 15 秒；仅用户明确暂不选型才用通用保守规划。execution 以当次 CLI/后端约束收紧本卡（见 prompt-assembly.md §1）。
 
 ## 基本信息
 

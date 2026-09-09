@@ -306,6 +306,7 @@ def _dialogue_metrics(body: str) -> dict[str, object]:
         "action_lines": action_lines,
         "os_lines": os_lines,
         "vo_lines": vo_lines,
+        "spoken_seconds_at_3_0_cps": round(spoken_chars / 3.0, 2),
         "spoken_seconds_at_3_5_cps": round(spoken_chars / 3.5, 2),
         "spoken_seconds_at_4_5_cps": round(spoken_chars / 4.5, 2),
         "institutional_term_counts": dict(institutional_counts),

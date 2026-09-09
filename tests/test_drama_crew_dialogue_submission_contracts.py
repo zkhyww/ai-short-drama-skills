@@ -9,6 +9,10 @@ def read(relative_path: str) -> str:
     return (ROOT / relative_path).read_text(encoding="utf-8")
 
 
+def section_between(text: str, start: str, end: str) -> str:
+    return text[text.index(start) : text.index(end, text.index(start) + len(start))]
+
+
 class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -38,8 +42,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         )
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.19.1", self.skill)
-        self.assertIn("version: 1.14.1", self.studio_skill)
+        self.assertIn("version: 6.20.0", self.skill)
+        self.assertIn("version: 1.15.0", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -86,7 +90,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
     def test_existing_roles_own_refinement_recheck_and_gate(self) -> None:
         for required in (
             "文茵 3.7 台词桌读与表演化精修下发模板",
-            "剧情事实、证据、知情边界、人物关系、结果、目标时长与季终悬念",
+            "剧情事实、证据、知情边界、人物关系、结果与季终悬念",
             "完整修订稿",
             "台词精修变更表",
             "青梧 3.7 改动场局部复核下发模板",
@@ -245,7 +249,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("同一 `script_rev` 内同步", self.skill)
 
     def test_red_light_14_and_15_use_distinct_evidence(self) -> None:
-        self.assertIn("#14 时长结构模板化只核秒数结构变奏", self.roles)
+        self.assertIn("#14 时长结构模板化只在实际疲劳或设计重复证据下判问题", self.roles)
         self.assertIn("#15 天降解决只核未铺垫外力", self.roles)
         self.assertIn("主角行动、代价与因果铺垫", self.roles)
 
@@ -310,7 +314,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         # 2. 升格表有语料去向
         self.assertIn("方言俚语/年代语/行话语料", self.learnings)
         # 3. 语言资产库：四类语料+纪律，接声音指纹
-        for required in ("语言资产库", "地域方言", "俚俗语", "年代语", "行业行话", "一人一语域", "上下文可自明", "报菜名"):
+        for required in ("语言资产库", "地域方言", "俚俗语", "年代语", "行业行话", "惯性与受压变化", "上下文可自明", "报菜名"):
             with self.subTest(required=required):
                 self.assertIn(required, self.dialogue)
         # 4. 六行自检第 5 行扩词
@@ -332,12 +336,12 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for required in ("项目复盘仪式", "作者分流", "直推 main", "contract-tests.yml"):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_learnings)
-        # 3. 物理措辞纪律：两禁 + 五维 + 自检核对项
-        for required in ("物理措辞纪律", "禁文学化修辞", "心如刀割", "禁 AI 执行不了的精确物理值", "相对化", "光线", "动作", "表情", "声音", "空间"):
+        # 3. 画面措辞纪律不能误伤逐字台词、时间码与实际接口参数。
+        for required in ("物理措辞纪律", "禁文学化修辞", "心如刀割", "避免不可验证的伪精度", "相对化", "光线", "动作", "表情", "声音", "空间"):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_prompt)
-        self.assertIn("无文学化修辞残留", self.studio_prompt)
-        self.assertIn("无 AI 执行不了的精确物理值", self.studio_prompt)
+        self.assertIn("台词/OS/VO 的原文修辞与数字未被改写", self.studio_prompt)
+        self.assertIn("实际参数与时间码保留", self.studio_prompt)
         # 4. 外部素材索引：gptimage2 登记 + 不进 git 铁律
         for required in ("外部素材索引", "gptimage2", "不进 git"):
             with self.subTest(required=required):
@@ -449,7 +453,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for required in ("Seedance 原生音视频联合生成为主", "无需独立配音步骤", "台词内容放在 `{}` 内",
                          "音乐用 `（）`、音效用 `<>`、字幕用 `【】`",
                          "Dreamina 页面示例", "provider/adapter",
-                         "每镜重复音色描述锚定", "外部 WAV/TTS 后备", "音声设计提示词要点"):
+                         "每个独立 Clip 在【声音】声明角色声线/母音色绑定一次", "外部 WAV/TTS 后备", "音声设计提示词要点"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
         self.assertNotIn("角色名+动作表情描述+冒号+引号台词", ext)
@@ -461,6 +465,34 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertNotIn("对白格式（官方规范", audio)
         self.assertIn("外部 TTS", audio)
         self.assertNotIn("jimeng audio create", audio)
+
+    def test_studio_four_block_delivery_and_model_default_wiring(self) -> None:
+        # Wiring guards only; actual prompt consumption is checked with a reader agent.
+        prompt = self.studio_prompt
+        schema = prompt.split("## 2. 四区块终编骨架", 1)[1].split("```", 2)[1]
+        headings = [line for line in schema.splitlines() if line.startswith("【")]
+        self.assertEqual(["【基础设定】", "【氛围与画质】", "【声音】", "【画面内容】"], headings)
+        for fragment in ("`seedance2.0fast_vip` / 15 秒一组", "两卡", "5–8 个分镜",
+                         "参考生仅 8s", "同一 Clip 内切场景不重置时间", "一个 Shot"):
+            self.assertIn(fragment, prompt)
+        for fragment in ("用户指定或第 0 步默认", "规划时同时定位", "seedance.md", "dreamina.md"):
+            self.assertIn(fragment, self.studio_skill)
+        roles = read("drama-studio/references/role-cards.md")
+        self.assertIn("连续音频起止秒、覆盖镜号与可见口型区间", roles)
+        self.assertIn("逐组四区块视频提示词", roles)
+        for stale in ("七段式", "单块最小 2s", "默认 1 Shot/Clip"):
+            self.assertNotIn(stale, prompt)
+
+    def test_continuous_dialogue_budget_and_reference_boundaries(self) -> None:
+        audio = read("drama-studio/references/dimensions/dim-audio.md")
+        for fragment in ("3–3.5 字/秒", "不是统一行业标准", "标点不计字但停顿计时",
+                         "顺序发声的所有角色共用时间", "L-Cut 不增加声窗容量", "跨独立生成 Clip",
+                         "不会自动逐句定位", "不重复加", "原生音频优先"):
+            self.assertIn(fragment, audio)
+        self.assertIn("对白/OS/VO 中的比喻", self.studio_prompt)
+        self.assertIn("不造 `@图1`", self.studio_prompt)
+        self.assertNotIn("每镜重复写", audio)
+        self.assertNotIn("24fps 下 1 字", read("drama-studio/references/lip-sync.md"))
 
     def test_frozen_mother_voice_is_reused_in_seedance_native_audio(self) -> None:
         ext = read("drama-studio/references/external-platforms.md")
@@ -475,7 +507,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("仍由 Seedance 原生生成对白与口型", ext)
         self.assertIn("明确绑定音频编号、角色与音色用途", ext)
         self.assertIn("外部 TTS 才是后备", ext)
-        self.assertIn("不能只靠每镜重复文字音色描述", audio)
+        self.assertIn("不能只靠重复文字音色描述", audio)
         self.assertIn("后续正式对白镜", assets)
         self.assertIn("母音色参考路由", roles)
         self.assertIn("优先作为 `multimodal2video --audio`", dreamina)
@@ -493,10 +525,10 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.19.1 | 19 |", readme)
-        self.assertIn("| `drama-studio` | 1.14.1 | 30 |", readme)
-        self.assertIn("`drama-crew` v6.19.1", changelog)
-        self.assertIn("`drama-studio` v1.14.1", changelog)
+        self.assertIn("| `drama-crew` | 6.20.0 | 19 |", readme)
+        self.assertIn("| `drama-studio` | 1.15.0 | 30 |", readme)
+        self.assertIn("`drama-crew` v6.20.0", changelog)
+        self.assertIn("`drama-studio` v1.15.0", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         for public_doc in (readme, read("docs/使用说明.md")):
@@ -527,13 +559,174 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertNotIn("5 集/批，用户另指定批大小时从用户", self.ledger)
         self.assertIn("逐集续写完整正文", self.skill)
 
-    def test_second_structure_variation_and_duration_template_checks(self) -> None:
-        self.assertIn("秒数结构变奏", self.commercial)
-        self.assertIn("±10%", self.commercial)
-        self.assertIn("每 10 集至少 1 次结构变奏", self.commercial)
+    def test_duration_structure_review_requires_actual_fatigue_evidence(self) -> None:
+        self.assertIn("实际疲劳或设计重复证据", self.commercial)
+        self.assertNotIn("±10%", self.commercial)
+        self.assertNotIn("每 10 集至少 1 次结构变奏", self.commercial)
         self.assertIn("时长结构模板化", self.scorecard)
         self.assertIn("时长结构模板化", self.roles)
         self.assertIn("16 条", self.scorecard)
+
+    def test_v620_natural_dialogue_and_flexible_story_contracts_are_wired(self) -> None:
+        story = read("drama-crew/references/story-structure.md")
+        naming = read("drama-crew/references/naming-rules.md")
+        hit = read("drama-crew/references/hit-craft.md")
+        topic = read("drama-crew/references/topic-selection.md")
+        active_contracts = "\n".join((self.dialogue, self.writing, self.roles, self.scorecard))
+
+        for required in (
+            "正常承接词",
+            "因果辩解",
+            "完整听答",
+            "惯性与受压变化",
+            "早确认关系",
+            "能力兑现",
+            "共同完成",
+            "相邻微动作",
+            "3–3.5 字/秒",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, "\n".join((active_contracts, story, self.commercial)))
+
+        for obsolete in (
+            "关键场必须有",
+            "互通心意不早于收官前 10%",
+            "禁纯约会集",
+            "稀有姓优先",
+            "名意锁",
+        ):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, "\n".join((active_contracts, story, naming)))
+
+        self.assertIn("类型融合", hit)
+        self.assertIn("未知时保持 `carrier=pending`", topic)
+
+    def test_v620_review_round_one_contracts_are_synchronized(self) -> None:
+        topic = read("drama-crew/references/topic-selection.md")
+        timing_contracts = "\n".join((self.skill, self.dialogue, self.roles))
+        commercial_contracts = "\n".join((self.commercial, self.roles))
+
+        for required in (
+            "只有用户、平台或已批准预算明确设定的硬性时长才冻结",
+            "暂排场景/分镜秒数",
+            "模型单次 Clip 上限",
+            "不得静默突破",
+            "实际付费调用仍需另行授权",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, timing_contracts)
+
+        for obsolete in (
+            "付费墙比例",
+            "三级卡点速查表",
+            "四大公式择二",
+            "付费后 1-2 集",
+        ):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, commercial_contracts)
+        self.assertIn("实际 IAP/IAA/混合条件", commercial_contracts)
+        self.assertIn("最早有效节点", commercial_contracts)
+
+        self.assertNotIn(
+            "句长偏好 / 口头禅或高频词 / 语速节奏 / 拒绝方式", self.roles
+        )
+        self.assertNotIn("句长偏好/口头禅/语速节奏/拒绝方式", self.roles)
+        for required in ("惯性与受压变化", "无目的宣读", "解释失效", "诊断越权"):
+            with self.subTest(required=required):
+                self.assertIn(required, self.roles)
+        review_contracts = "\n".join((self.roles, self.scorecard))
+        for obsolete in ("无阻力宣读证据链", "句句完整解释动机", "解释性语言 / 诊断性语言"):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, review_contracts)
+
+        ledger_wiring = "\n".join((self.skill, self.roles))
+        self.assertIn("连续性风险命中或批量续写", ledger_wiring)
+        self.assertNotIn("集数 ≥10 时首批", ledger_wiring)
+        self.assertNotIn("账本初始化（集数≥10）", ledger_wiring)
+
+        self.assertIn("当期模型/制作证据", topic)
+        self.assertIn("制作权衡", topic)
+        self.assertNotIn("超现实题材给 AI 漫剧，情感现实题材给仿真人或真人", topic)
+
+    def test_dialogue_diagnostics_require_scene_evidence_not_name_swap_templates(self) -> None:
+        subtext = section_between(self.dialogue, "## §2 ", "## §3 ")
+        emergency_table = section_between(self.dialogue, "## §5 ", "## §6 ")
+
+        self.assertIn("只有人物确有隐瞒、自欺或难言的依据时", subtext)
+        self.assertIn("才提示这场戏可能没找到戏眼", subtext)
+        self.assertNotIn("三层全平 = 这场戏还没找到戏眼", subtext)
+
+        self.assertIn("完整核心回合", emergency_table)
+        self.assertIn("实际同腔证据", emergency_table)
+        self.assertNotIn("台词换名试，通用即删", emergency_table)
+        self.assertNotIn("换成角色专属句式", emergency_table)
+        self.assertNotIn("霸总「你行的。不行也得行。」", emergency_table)
+
+    def test_writing_guidance_uses_function_and_evidence_not_fixed_article_rules(self) -> None:
+        pacing = section_between(self.writing, "## 2. ", "## 3. ")
+        ai_trace = section_between(self.writing, "## 10. ", "## 11. ")
+
+        for required in ("适用条件", "段落功能", "实际疲劳或设计重复证据"):
+            with self.subTest(pacing_required=required):
+                self.assertIn(required, pacing)
+        for obsolete in (
+            "统一骨架",
+            "标准节奏",
+            "禁止慢铺垫",
+            "10 秒内交代",
+            "每 15-20 秒",
+            "每 15–20 秒",
+        ):
+            with self.subTest(pacing_obsolete=obsolete):
+                self.assertNotIn(obsolete, pacing)
+
+        for required in ("角色", "场合", "保留原意", "最小修复"):
+            with self.subTest(ai_trace_required=required):
+                self.assertIn(required, ai_trace)
+        for obsolete in ("有观点", "长短句交替", "允许混乱", "完美结构=机械"):
+            with self.subTest(ai_trace_obsolete=obsolete):
+                self.assertNotIn(obsolete, ai_trace)
+
+    def test_role_dispatch_preserves_only_hard_timing_and_keeps_risk_rechecks(self) -> None:
+        dialogue_refinement = section_between(
+            self.roles,
+            "### 文茵 3.7 台词桌读与表演化精修下发模板",
+            "## 青梧 · 正典官",
+        )
+        canon_owner = section_between(
+            self.roles,
+            "## 青梧 · 正典官",
+            "### 青梧 3.7 改动场局部复核下发模板",
+        )
+
+        self.assertIn("明确硬限制", dialogue_refinement)
+        self.assertIn("暂排时长", dialogue_refinement)
+        self.assertIn("活动母稿、集纲与制作计划", dialogue_refinement)
+        self.assertNotIn("保持原场次结构、动作节拍和时长目标", dialogue_refinement)
+
+        for required in (
+            "实际低风险小体量",
+            "已命中连续性风险",
+            "用户要求核查",
+            "既有 3.7 局部复核",
+            "不因集数少于 10 集跳过",
+        ):
+            with self.subTest(canon_required=required):
+                self.assertIn(required, canon_owner)
+        self.assertNotIn("<10 集的小体量", canon_owner)
+
+    def test_topic_confirmation_derives_and_passes_romance_axis_without_new_question(self) -> None:
+        topic_confirmation = section_between(self.skill, "### 第 2.5 步：", "### 第 3 步：")
+
+        for required in (
+            "入选主题是否明确包含恋爱主线或副线",
+            "`romance_axis=on|off`",
+            "自动确定",
+            "下传文茵",
+            "不新增用户提问",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, topic_confirmation)
 
     def test_artifact_necessity_matrix_is_documented(self) -> None:
         self.assertIn("产物必要性判定表", self.submission)

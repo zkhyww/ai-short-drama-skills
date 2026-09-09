@@ -1,6 +1,6 @@
 # 模型能力卡：OpenAI Sora 2（⚠️ 已弃用 · 不接生产流程）
 
-> 装配时只读**用户指定模型对应的一张卡**；未指定模型走通用保守模式（见 prompt-assembly.md 第 6 节）。
+> 选用本模型时才加载本卡，并按实际 provider/adapter 补充限制；未回答模型选择时按 prompt-assembly.md §1 默认 Seedance + Dreamina，不自动选择本模型。
 
 ## 基本信息
 
@@ -31,5 +31,5 @@
 ## 制作侧使用要点
 
 - **不接入生产流程**。若用户指定 Sora，先提示停用日期并建议迁移。
-- 保留价值：官方 Prompting Guide 的导演式提示词方法论，可作为景川七段式提示词的写法参照。
+- 保留价值：官方 Prompting Guide 的导演式提示词方法论，可作为景川四区块提示词的写法参照。
 - 迁移对照：物理真实性→Veo 3.1 / Seedance；音画同步+角色一致性→Kling V3 / MiniMax H3；多镜头→Kling V3 / Vidu Q3。
