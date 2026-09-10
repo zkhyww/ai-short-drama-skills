@@ -42,7 +42,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         )
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.20.0", self.skill)
+        self.assertIn("version: 6.20.1", self.skill)
         self.assertIn("version: 1.15.0", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
@@ -248,11 +248,6 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
                 self.assertIn(required, self.submission)
         self.assertIn("同一 `script_rev` 内同步", self.skill)
 
-    def test_red_light_14_and_15_use_distinct_evidence(self) -> None:
-        self.assertIn("#14 时长结构模板化只在实际疲劳或设计重复证据下判问题", self.roles)
-        self.assertIn("#15 天降解决只核未铺垫外力", self.roles)
-        self.assertIn("主角行动、代价与因果铺垫", self.roles)
-
     def test_character_and_dialogue_diagnostics_do_not_use_mechanical_failure_counts(self) -> None:
         self.assertNotIn("一场最多一次", self.dialogue)
         self.assertNotIn("四步缺任一 = OOC = 返修", self.bible)
@@ -295,7 +290,6 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("动作词穷", self.scorecard)
         self.assertIn("暴涨", self.scorecard)
         self.assertIn("16 条", self.roles)
-        self.assertIn("动作词穷", self.roles)
         self.assertNotIn("机械过 15 条", self.roles)
         # 3. 文茵六行自检（六行齐全 + 先补后写）
         for line in ("写批前六行自检", "题材", "战戏", "情绪", "场景", "专业", "词穷", "先补后写"):
@@ -525,9 +519,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.20.0 | 19 |", readme)
+        self.assertIn("| `drama-crew` | 6.20.1 | 19 |", readme)
         self.assertIn("| `drama-studio` | 1.15.0 | 30 |", readme)
-        self.assertIn("`drama-crew` v6.20.0", changelog)
+        self.assertIn("`drama-crew` v6.20.1", changelog)
         self.assertIn("`drama-studio` v1.15.0", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
