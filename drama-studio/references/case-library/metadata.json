@@ -1,0 +1,3705 @@
+{
+  "schema_version": 1,
+  "library_id": "drama-studio-case-library",
+  "snapshot": {
+    "as_of": "2026-09-12",
+    "original_case_count": 71,
+    "prompt_policy": "metadata_only_unless_redistribution_permitted"
+  },
+  "authors": [
+    {
+      "id": "df_reno",
+      "display_name": "Flying puppy25",
+      "handle": "@df_reno",
+      "profile_url": "https://x.com/df_reno",
+      "public_numeric_id": "745523209"
+    },
+    {
+      "id": "lansenai",
+      "display_name": "澜森",
+      "handle": "@lansenai",
+      "profile_url": "https://x.com/lansenai",
+      "public_numeric_id": "1412032978667163652"
+    },
+    {
+      "id": "chengzilhy",
+      "display_name": "小宇Chengzi",
+      "handle": "@Chengzilhy",
+      "profile_url": "https://x.com/Chengzilhy",
+      "public_numeric_id": "2038081270497087488"
+    },
+    {
+      "id": "charaspowerai",
+      "display_name": "Pierrick Chevallier ／ IA",
+      "handle": "@CharaspowerAI",
+      "profile_url": "https://x.com/CharaspowerAI",
+      "public_numeric_id": "442815466"
+    },
+    {
+      "id": "arvin010717",
+      "display_name": "Arvin",
+      "handle": "@Arvin010717",
+      "profile_url": "https://x.com/Arvin010717",
+      "public_numeric_id": "1624379321115906049"
+    },
+    {
+      "id": "yura_elkin",
+      "display_name": "Yurii Yeltsov",
+      "handle": "@yura_elkin",
+      "profile_url": "https://x.com/yura_elkin",
+      "public_numeric_id": "241725240"
+    },
+    {
+      "id": "dheepanratnam",
+      "display_name": "Dheepan Ratnam",
+      "handle": "@Dheepanratnam",
+      "profile_url": "https://x.com/Dheepanratnam",
+      "public_numeric_id": "1891519289376854016"
+    },
+    {
+      "id": "abxxai",
+      "display_name": "Abdul Shakoor",
+      "handle": "@abxxai",
+      "profile_url": "https://x.com/abxxai",
+      "public_numeric_id": "1735327648329744384"
+    },
+    {
+      "id": "techiebysa",
+      "display_name": "TechieSA",
+      "handle": "@TechieBySA",
+      "profile_url": "https://x.com/TechieBySA",
+      "public_numeric_id": "1933179720465829888"
+    },
+    {
+      "id": "laowangbabababa",
+      "display_name": "产品经理老王霸",
+      "handle": "@laowangbabababa",
+      "profile_url": "https://x.com/laowangbabababa",
+      "public_numeric_id": "1780429591137652736"
+    },
+    {
+      "id": "techhalla",
+      "display_name": "TechHalla",
+      "handle": "@techhalla",
+      "profile_url": "https://x.com/techhalla",
+      "public_numeric_id": "119185333"
+    },
+    {
+      "id": "umesh_ai",
+      "display_name": "Umesh",
+      "handle": "@umesh_ai",
+      "profile_url": "https://x.com/umesh_ai",
+      "public_numeric_id": "1661811362337619978"
+    },
+    {
+      "id": "ludoviccreator",
+      "display_name": "LudovicCreator",
+      "handle": "@LudovicCreator",
+      "profile_url": "https://x.com/LudovicCreator",
+      "public_numeric_id": "1385619532841168898"
+    },
+    {
+      "id": "aimikoda",
+      "display_name": "Kōda",
+      "handle": "@aimikoda",
+      "profile_url": "https://x.com/aimikoda",
+      "public_numeric_id": "1780124030785204224"
+    },
+    {
+      "id": "bytedance-seed",
+      "display_name": "ByteDance Seed",
+      "handle": null,
+      "profile_url": "https://seed.bytedance.com/en/",
+      "public_numeric_id": null
+    }
+  ],
+  "cases": [
+    {
+      "id": "ACT-001",
+      "title": "御剑群战",
+      "category": "动作与打斗",
+      "summary": "用于研究打斗、御剑、群战、FPV。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "打斗",
+        "御剑",
+        "群战",
+        "FPV"
+      ],
+      "author_id": "df_reno",
+      "source": {
+        "post_url": "https://x.com/df_reno/status/2097677503422976328",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "末段完整；来源归属待核",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "P02_御剑群战/媒体/2097677503422976328_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "P02_御剑群战/案例.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/动作与打斗/ACT-001_御剑群战.txt",
+        "content_fingerprint": "d38dd46edbafc6e33e7e03fdf883dfcce965f7834693560896761e483b75bc47",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-002",
+      "title": "古寺双武僧",
+      "category": "动作与打斗",
+      "summary": "用于研究武僧拳脚、连续攻防、环境受力。",
+      "model_claim": {
+        "name": "Seedance 2.5／Pollo · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "武僧拳脚",
+        "连续攻防",
+        "环境受力"
+      ],
+      "author_id": "lansenai",
+      "source": {
+        "post_url": "https://x.com/lansenai/status/2098232543611121832",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三段顺接，0–30秒连续且末段完整；首帧未取到",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2098232543611121832_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-002_古寺双武僧.txt",
+        "content_fingerprint": "55df1992934319558321f3255c916c40613e3d5d8e2839bc482eed6c0c42f54d",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-003",
+      "title": "雪境双刀追战",
+      "category": "动作与打斗",
+      "summary": "用于研究雪境追战、双色刀气、连续空间位移。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "雪境追战",
+        "双色刀气",
+        "连续空间位移"
+      ],
+      "author_id": "chengzilhy",
+      "source": {
+        "post_url": "https://x.com/Chengzilhy/status/2098326362801221835",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；仅取到1张展示参考图，未核实对应Image编号，另外角色/场景输入不齐；作者注明武士角色来自@0xZekki",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2098326362801221835_1.mp4"
+          },
+          {
+            "label": "作者展示的武士参考图",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2098326638157295953_1.png"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-003_雪境双刀追战.txt",
+        "content_fingerprint": "c98d9cad62aa95d024259e85c7ca3cbd534df525096e28caefecd5068bc85e5a",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-006",
+      "title": "雨夜缠斗与伤势累积",
+      "category": "动作与打斗",
+      "summary": "用于研究抱缠摔投、压制反制、伤势持续、重力失衡、雨水。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "抱缠摔投",
+        "压制反制",
+        "伤势持续",
+        "重力失衡",
+        "雨水"
+      ],
+      "author_id": "lansenai",
+      "source": {
+        "post_url": "https://x.com/lansenai/status/2095035960170102871",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文末段完整；未声明必需上传输入，主帖及所取回复未附输入图；未观看验收，未生成复现",
+        "local_locators": [
+          {
+            "label": "平台成品视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2095035960170102871_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-006_雨夜缠斗与伤势累积.txt",
+        "content_fingerprint": "a6c33ddd95074916c10eaca9eae7db3cec8f8f97b6cd8eb4c030d016904473dc",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-007",
+      "title": "车厢三人围堵与错位脱困",
+      "category": "动作与打斗",
+      "summary": "用于研究多人空间、走位脱困、借墙转体、时间拉伸、手扶立杆。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "多人空间",
+        "走位脱困",
+        "借墙转体",
+        "时间拉伸",
+        "手扶立杆"
+      ],
+      "author_id": "charaspowerai",
+      "source": {
+        "post_url": "https://x.com/CharaspowerAI/status/2095225284807074072",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文末段完整；未声明必需上传输入，所取帖子未附输入图；末段disarmed缺少前文武器建立，原样保留；未观看验收，未生成复现",
+        "local_locators": [
+          {
+            "label": "平台成品视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2095225284807074072_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-007_车厢三人围堵与错位脱困.txt",
+        "content_fingerprint": "da1c695cd2ee4bd5b689d058cd2ab06cf580ad76c99d2b41dbca476a75806c28",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-004",
+      "title": "玄幻双人重击",
+      "category": "动作与打斗",
+      "summary": "用于研究打斗、玄幻、双人重击。",
+      "model_claim": {
+        "name": "模型未核明 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "打斗",
+        "玄幻",
+        "双人重击"
+      ],
+      "author_id": "lansenai",
+      "source": {
+        "post_url": "https://x.com/lansenai/status/2097629748805484837",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "末段完整",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "P01_慢蓄力重击/媒体/2097206331132531074_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "P01_慢蓄力重击/案例.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/动作与打斗/ACT-004_玄幻双人重击.txt",
+        "content_fingerprint": "f18501adfebec3fad738d7d91f137b360272779106cff8790f658161d2a34c24",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-005",
+      "title": "纯剑术高速近战",
+      "category": "动作与打斗",
+      "summary": "用于研究双人剑术、高速近战、伪一镜到底。",
+      "model_claim": {
+        "name": "Seedance 2.0 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "双人剑术",
+        "高速近战",
+        "伪一镜到底"
+      ],
+      "author_id": "arvin010717",
+      "source": {
+        "post_url": "https://x.com/Arvin010717/status/2098282939796905997",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；两张指定资产图未取到",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2098282939796905997_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-005_纯剑术高速近战.txt",
+        "content_fingerprint": "c046a62e704d0da6d861fb1b5fdd01e856813db1db87e96d791ceb0b2c123fcd",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-008",
+      "title": "GTA恋人争执与托盘反弹",
+      "category": "动作与打斗",
+      "summary": "用于研究连续攻防、只闪避不反击、亲吻打断、托盘接触、子弹时间、实体环绕。",
+      "model_claim": {
+        "name": "模型未注明（不能确认为2.5） · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "连续攻防",
+        "只闪避不反击",
+        "亲吻打断",
+        "托盘接触",
+        "子弹时间",
+        "实体环绕"
+      ],
+      "author_id": "yura_elkin",
+      "source": {
+        "post_url": "https://x.com/yura_elkin/status/2098370471414677906",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "用户指定来源；提示词末段完整；模型未注明；image 1 Jason与image 2 Lucia参考图未取到；未观看验收，未复现",
+        "local_locators": [
+          {
+            "label": "平台成品视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2098370471414677906_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-008_GTA恋人争执与托盘反弹.txt",
+        "content_fingerprint": "8c450969204484578cf00671c4627a78b941341ae3278d290743b0f7edd21c60",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "VFX-001",
+      "title": "真人渐变漫画 单镜头",
+      "category": "玄幻特效与巨物",
+      "summary": "用于研究长镜头、人物局部风格渐变、环境保真。",
+      "model_claim": {
+        "name": "Seedance 2.5／Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "长镜头",
+        "人物局部风格渐变",
+        "环境保真"
+      ],
+      "author_id": "charaspowerai",
+      "source": {
+        "post_url": "https://x.com/CharaspowerAI/status/2098109389659889692",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；原帖及返回的 6 条回复已取，不保证全部回复",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/素材/C01_2098109389659889692.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/玄幻特效与巨物/VFX-001_真人渐变漫画 单镜头.txt",
+        "content_fingerprint": "d98186787683fab0eaff08dfc16be9ed93f105175d5f4b7ed18889f0c8095e78",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "VFX-005",
+      "title": "有限兽群与巨兽状态持续",
+      "category": "玄幻特效与巨物",
+      "summary": "用于研究人兽交互、有限敌群、巨兽比例、受击后碎屑重力、引敌聚集、收剑接触。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "人兽交互",
+        "有限敌群",
+        "巨兽比例",
+        "受击后碎屑重力",
+        "引敌聚集",
+        "收剑接触"
+      ],
+      "author_id": "arvin010717",
+      "source": {
+        "post_url": "https://x.com/Arvin010717/status/2097930657213395038",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文末段完整；已取草原/巨兽/兽群三张作者参考图，3D女主.png未取到；未观看验收，未生成复现",
+        "local_locators": [
+          {
+            "label": "平台成品视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2097930657213395038_1.mp4"
+          },
+          {
+            "label": "作者展示参考图",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2097934223479021894_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/玄幻特效与巨物/VFX-005_有限兽群与巨兽状态持续.txt",
+        "content_fingerprint": "2bdd5d71f9f6cc70171b9631793c3710700843c078e65d8d1aa838712dfe02b8",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "VFX-006",
+      "title": "海面法相冰封与碎裂沉降",
+      "category": "玄幻特效与巨物",
+      "summary": "用于研究法术持续、冻结状态、巨龙法相、海浪交互、粒子沉降。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "法术持续",
+        "冻结状态",
+        "巨龙法相",
+        "海浪交互",
+        "粒子沉降"
+      ],
+      "author_id": "df_reno",
+      "source": {
+        "post_url": "https://x.com/df_reno/status/2097920751693336663",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文末段完整；作者附4张参考图已取，具体输入组合未核；作者称5剪一，视频为编辑成品，不等于一次生成结果；未观看验收，未生成复现",
+        "local_locators": [
+          {
+            "label": "平台成品视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2097920751693336663_1.mp4"
+          },
+          {
+            "label": "作者展示参考图",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2097921285464719496_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/玄幻特效与巨物/VFX-006_海面法相冰封与碎裂沉降.txt",
+        "content_fingerprint": "17bac0bf03d850f1413970bda08587f019706f6aed9dd4f2f71f67956142bc55",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "VFX-002",
+      "title": "太极水阵",
+      "category": "玄幻特效与巨物",
+      "summary": "用于研究单人太极、水流控制、技能展示。",
+      "model_claim": {
+        "name": "模型未核明 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "单人太极",
+        "水流控制",
+        "技能展示"
+      ],
+      "author_id": "lansenai",
+      "source": {
+        "post_url": "https://x.com/lansenai/status/2097319055829201188",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "已取原帖全文，结束于VFX清单；未发现续文，不等于已验证可复现",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2097319055829201188_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/玄幻特效与巨物/VFX-002_太极水阵.txt",
+        "content_fingerprint": "5ef3fcc6b04263fb050fca1b32ce85abcb53e7816c0c8d0a6dd7e6ca285f3a03",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "VFX-003",
+      "title": "竹湖百米神龙",
+      "category": "玄幻特效与巨物",
+      "summary": "用于研究巨物尺度、舞剑召龙、登龙头。",
+      "model_claim": {
+        "name": "模型未核明 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "巨物尺度",
+        "舞剑召龙",
+        "登龙头"
+      ],
+      "author_id": "df_reno",
+      "source": {
+        "post_url": "https://x.com/df_reno/status/2096562691792163009",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "8镜头至30秒、末段完整；全部指定资产文件未取到，原文中的省略文件名照录",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2096562691792163009_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/玄幻特效与巨物/VFX-003_竹湖百米神龙.txt",
+        "content_fingerprint": "403138dca68a078dda81e2b8390e6ba1c93b8ebad60b9b373068819336ed3375",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "VFX-004",
+      "title": "灵魂剥离",
+      "category": "玄幻特效与巨物",
+      "summary": "用于研究掌击触发、灵魂剥离、城市折叠。",
+      "model_claim": {
+        "name": "模型未核明 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "掌击触发",
+        "灵魂剥离",
+        "城市折叠"
+      ],
+      "author_id": "df_reno",
+      "source": {
+        "post_url": "https://x.com/df_reno/status/2095854115192701426",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "2镜头至15秒、末段完整；指定参考图未取到",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2095854115192701426_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/玄幻特效与巨物/VFX-004_灵魂剥离.txt",
+        "content_fingerprint": "09c8e8e6b1fadb1de73aae15f08ca041dd23d5886de05011ac2268f277b0b49b",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-011",
+      "title": "幼鸟成长与同伴接纳",
+      "category": "角色与参考资产",
+      "summary": "用于研究年龄变化、物种设计、身份连续、孤独转归属。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "年龄变化",
+        "物种设计",
+        "身份连续",
+        "孤独转归属"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2097182411435938057",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "未声明外部参考输入；原文要求分年龄阶段剪切而非魔法变身，保留温柔眼睛；明确Seedance 2.5，接入方未注明。 未观看验收、未生成复现；只保存平台版本；未推定再发布授权。",
+        "local_locators": [
+          {
+            "label": "作者演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2097182411435938057_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-011_幼鸟成长与同伴接纳.txt",
+        "content_fingerprint": "45b9b3cce1211f0634fb97d53adb15fa8d375f463fc69c243f1e131e68ee89c0",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-001",
+      "title": "女性四视图",
+      "category": "角色与参考资产",
+      "summary": "用于研究角色、写实、四视图。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "角色",
+        "写实",
+        "四视图"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097698694296686623",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "末段完整",
+        "local_locators": [
+          {
+            "label": "参考图",
+            "kind": "media",
+            "relative_path": "P03_手机跟拍/媒体/2097698712978087966_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "P03_手机跟拍/案例.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/角色与参考资产/REF-001_女性四视图.txt",
+        "content_fingerprint": "60842b88e9eda0417032e99e58b5acbaa3006bff847236bc1346de4068df525a",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-002",
+      "title": "男性四视图",
+      "category": "角色与参考资产",
+      "summary": "用于研究角色、写实、四视图。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "角色",
+        "写实",
+        "四视图"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097698694296686623",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "末段完整",
+        "local_locators": [
+          {
+            "label": "参考图",
+            "kind": "media",
+            "relative_path": "P03_手机跟拍/媒体/2097698747589468199_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "P03_手机跟拍/案例.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/角色与参考资产/REF-002_男性四视图.txt",
+        "content_fingerprint": "6abf85b55b7f243bdd6251c7d16904a03ec78eede3c4452c8375ecf4cf91351e",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-003",
+      "title": "五人角色表",
+      "category": "角色与参考资产",
+      "summary": "用于研究摄影、多人传递手机、窗侧光、沙龙三视角、房间一致性。",
+      "model_claim": {
+        "name": "GPT Image 2 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "多人传递手机",
+        "窗侧光",
+        "沙龙三视角",
+        "房间一致性"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2096989398005145678",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三段原文末尾完整；已取4张角色表、1张房间图、1个视频；第5张角色表和原始自拍未取。作者介绍的“vertical 16:9”与提示词内9:16冲突，未替作者改写",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2096989398005145678_1.mp4"
+          },
+          {
+            "label": "角色表1",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2096989405471007035_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/角色与参考资产/REF-003_五人角色表.txt",
+        "content_fingerprint": "9613287f73ac08e04c162b5f88cddc663682023601e5eccf2234d7649008ca41",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-004",
+      "title": "雾巷双人角色表",
+      "category": "角色与参考资产",
+      "summary": "用于研究场景、雾夜窄巷、暖煤气灯、湿石板、快速切镜。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "场景",
+        "雾夜窄巷",
+        "暖煤气灯",
+        "湿石板",
+        "快速切镜"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2098056422223167827",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段原文末尾完整，展示媒体已取；原文罪犯人数先6后8，原样保留；仅作为场景光影及风格案例收录",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2098056422223167827_1.mp4"
+          },
+          {
+            "label": "角色表",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2098056436173402238_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/角色与参考资产/REF-004_雾巷双人角色表.txt",
+        "content_fingerprint": "8af750f498e3b4c2150fbe56e85510351b2f36d41f4202b1e64073727646b818",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-005",
+      "title": "雨夜人物参考表",
+      "category": "角色与参考资产",
+      "summary": "用于研究摄影、雨夜街道、远景到侧向跟拍、轴线与终点、车灯闪电。",
+      "model_claim": {
+        "name": "生图模型见来源 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "雨夜街道",
+        "远景到侧向跟拍",
+        "轴线与终点",
+        "车灯闪电"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2097359965987934264",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段原文末尾完整，展示媒体已取；独立人物转身表及车辆参考表未取得；不能把组合表视为全部输入齐备",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2097359965987934264_1.mp4"
+          },
+          {
+            "label": "组合角色表",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2097359980244426876_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-005_雨夜人物参考表.txt",
+        "content_fingerprint": "b897144aee03ec0f8aaf5fbcaae08533384c14cb9c29b83d0c239024ba526fd2",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-006",
+      "title": "哪吒三视图",
+      "category": "角色与参考资产",
+      "summary": "用于研究角色一致性、三视图、白模动作。",
+      "model_claim": {
+        "name": "生图模型未注明 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "角色一致性",
+        "三视图",
+        "白模动作"
+      ],
+      "author_id": "laowangbabababa",
+      "source": {
+        "post_url": "https://x.com/laowangbabababa/status/2098246364895547453",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段生图提示词末段完整；视频生成提示词仅有局部截图，未冒充完整文字。白模系作者从抖音取得，原作者及授权未核明",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C01/2098246364895547453_1.mp4"
+          },
+          {
+            "label": "参考图1",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C01/2098246374676709668_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/角色与参考资产/REF-006_哪吒三视图.txt",
+        "content_fingerprint": "b7aa4f51d13af975f18d6ec381839f7ab9e7d7d02cb669f29e7fc4fd413ab215",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-007",
+      "title": "送货员参考图模板（参数缺失）",
+      "category": "角色与参考资产",
+      "summary": "用于研究声音视点、固定对白、惊慌转尴尬、多人互动。",
+      "model_claim": {
+        "name": "生图模板，模型见来源 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "声音视点",
+        "固定对白",
+        "惊慌转尴尬",
+        "多人互动"
+      ],
+      "author_id": "techhalla",
+      "source": {
+        "post_url": "https://x.com/techhalla/status/2098334086523683021",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "视频提示词末段完整；生图模板文字完整但各图 ALT 参数未取到；相近人物图手持酸奶与纸张，未确认是提示词所需的快递箱首帧",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C02/2098334086523683021_1.mp4"
+          },
+          {
+            "label": "作者引用的相近人物图",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C02/2098119669823459456_2.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-007_送货员参考图模板（参数缺失）.txt",
+        "content_fingerprint": "4583a092a2ff0e4b8126e66a9647d253765b7a26801eb3970bf60e1ebd202c7b",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-008",
+      "title": "咖啡师角色表",
+      "category": "角色与参考资产",
+      "summary": "用于研究温暖服务表演、职业动作、服装妆发一致、咖啡器具与手部连续、室内美术。",
+      "model_claim": {
+        "name": "GPT Image 2 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "温暖服务表演",
+        "职业动作",
+        "服装妆发一致",
+        "咖啡器具与手部连续",
+        "室内美术"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2096967412067242383",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段原文末尾完整；展示媒体已取。保留“角色表作为制作配套”与“视频明确要求输入”之间的区别，未推定还存在必需输入。温暖笑容、手部操作与咖啡流程是提示词要求，未判断成品是否做到",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2096967412067242383_1.mp4"
+          },
+          {
+            "label": "作者角色表",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2096967425132556778_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/角色与参考资产/REF-008_咖啡师角色表.txt",
+        "content_fingerprint": "a91a6dfbc35de270aa8b0440a5e7c06585d83e6774e9a5607e34870aa05fa4a5",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-009",
+      "title": "群像替换配套图1：学生群像参考表",
+      "category": "角色与参考资产",
+      "summary": "用于研究备选、中央人物、人群分别替换、原动作运镜环境保留。",
+      "model_claim": {
+        "name": "生图模型未注明 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "备选",
+        "中央人物",
+        "人群分别替换",
+        "原动作运镜环境保留"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097356202577739977",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三份提示词完整、展示素材已取得；两份生图词与各自附图互相错配，图2多人如何映射到“相同人物复制”也未说明；生图模型未注明；原片声明来自 GENER8ION - STORM，授权未核明",
+        "local_locators": [
+          {
+            "label": "作者替换演示",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D05_2097356202577739977_1.mp4"
+          },
+          {
+            "label": "图1帖实际图片",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D05_2097356233481355499_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-009_群像替换配套图1：学生群像参考表.txt",
+        "content_fingerprint": "c0790887c0dee914040bd7c88c0d0978bb5c7841d5bc34e2337f6761cd6afa8b",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-010",
+      "title": "群像替换配套图2：单人参考表",
+      "category": "角色与参考资产",
+      "summary": "用于研究备选、中央人物、人群分别替换、原动作运镜环境保留。",
+      "model_claim": {
+        "name": "生图模型未注明 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "备选",
+        "中央人物",
+        "人群分别替换",
+        "原动作运镜环境保留"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097356202577739977",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三份提示词完整、展示素材已取得；两份生图词与各自附图互相错配，图2多人如何映射到“相同人物复制”也未说明；生图模型未注明；原片声明来自 GENER8ION - STORM，授权未核明",
+        "local_locators": [
+          {
+            "label": "作者替换演示",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D05_2097356202577739977_1.mp4"
+          },
+          {
+            "label": "图1帖实际图片",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D05_2097356233481355499_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-010_群像替换配套图2：单人参考表.txt",
+        "content_fingerprint": "a83ed042eaa41233952f20fc77f048d27f137c7d6e57370c561b456c806ab091",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-001",
+      "title": "雾巷暖灯场景",
+      "category": "场景光影与美术",
+      "summary": "用于研究场景、雾夜窄巷、暖煤气灯、湿石板、快速切镜。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "场景",
+        "雾夜窄巷",
+        "暖煤气灯",
+        "湿石板",
+        "快速切镜"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2098056422223167827",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段原文末尾完整，展示媒体已取；原文罪犯人数先6后8，原样保留；仅作为场景光影及风格案例收录",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2098056422223167827_1.mp4"
+          },
+          {
+            "label": "角色表",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2098056436173402238_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/场景光影与美术/ART-001_雾巷暖灯场景.txt",
+        "content_fingerprint": "8c0dac39bf35a739990d1d2d9d8b5d134c0d346d0f60e832971d6744fe634053",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-002",
+      "title": "庭院人物场景",
+      "category": "场景光影与美术",
+      "summary": "用于研究场景、庭院、人物首帧。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "场景",
+        "庭院",
+        "人物首帧"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097698694296686623",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "末段完整",
+        "local_locators": [
+          {
+            "label": "参考图",
+            "kind": "media",
+            "relative_path": "P03_手机跟拍/媒体/2097698730564796683_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "P03_手机跟拍/案例.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/场景光影与美术/ART-002_庭院人物场景.txt",
+        "content_fingerprint": "7e0e5d7ac9c95aadd0c17ca658dc0e720b9d5754012de6bc1038572892d191cb",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-003",
+      "title": "草地男性人物场景",
+      "category": "场景光影与美术",
+      "summary": "用于研究摄影、黄金时段、草地、双人甩镜、自然逆光。",
+      "model_claim": {
+        "name": "GPT Image 2 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "黄金时段",
+        "草地",
+        "双人甩镜",
+        "自然逆光"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2094819241916801165",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三段提示词末尾完整；两图和对应视频已取；独立角色表及作者原始脸照未取得。主帖还有网球第二场景，未计入本案例",
+        "local_locators": [
+          {
+            "label": "对应视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2094819340189307133_1.mp4"
+          },
+          {
+            "label": "男性场景图",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2094819261491675607_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/场景光影与美术/ART-003_草地男性人物场景.txt",
+        "content_fingerprint": "37f529d090e4deb97caf433d45112e7c074c66c524a95cb12fd3ea20bbd17da1",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-004",
+      "title": "草地女性人物场景",
+      "category": "场景光影与美术",
+      "summary": "用于研究摄影、黄金时段、草地、双人甩镜、自然逆光。",
+      "model_claim": {
+        "name": "GPT Image 2 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "黄金时段",
+        "草地",
+        "双人甩镜",
+        "自然逆光"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2094819241916801165",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三段提示词末尾完整；两图和对应视频已取；独立角色表及作者原始脸照未取得。主帖还有网球第二场景，未计入本案例",
+        "local_locators": [
+          {
+            "label": "对应视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2094819340189307133_1.mp4"
+          },
+          {
+            "label": "男性场景图",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2094819261491675607_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/场景光影与美术/ART-004_草地女性人物场景.txt",
+        "content_fingerprint": "64e639c799f8254480df6cbec1b3ef849c2396196e260f498416422f62579bdd",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-005",
+      "title": "沙龙三视角场景",
+      "category": "场景光影与美术",
+      "summary": "用于研究摄影、多人传递手机、窗侧光、沙龙三视角、房间一致性。",
+      "model_claim": {
+        "name": "GPT Image 2 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "多人传递手机",
+        "窗侧光",
+        "沙龙三视角",
+        "房间一致性"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2096989398005145678",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三段原文末尾完整；已取4张角色表、1张房间图、1个视频；第5张角色表和原始自拍未取。作者介绍的“vertical 16:9”与提示词内9:16冲突，未替作者改写",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2096989398005145678_1.mp4"
+          },
+          {
+            "label": "角色表1",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2096989405471007035_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/场景光影与美术/ART-005_沙龙三视角场景.txt",
+        "content_fingerprint": "4bbeb05fcac4d5ceeaeab7c9156f3edd049774bda2f75d26ca4a10790bdace01",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-006",
+      "title": "演武场",
+      "category": "场景光影与美术",
+      "summary": "用于研究角色一致性、三视图、白模动作。",
+      "model_claim": {
+        "name": "生图模型未注明 · 生图",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "角色一致性",
+        "三视图",
+        "白模动作"
+      ],
+      "author_id": "laowangbabababa",
+      "source": {
+        "post_url": "https://x.com/laowangbabababa/status/2098246364895547453",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段生图提示词末段完整；视频生成提示词仅有局部截图，未冒充完整文字。白模系作者从抖音取得，原作者及授权未核明",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C01/2098246364895547453_1.mp4"
+          },
+          {
+            "label": "参考图1",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C01/2098246374676709668_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/场景光影与美术/ART-006_演武场.txt",
+        "content_fingerprint": "d456e2b5ab02f415157cad4c99466fc7ab13cbe45ec68031f029faa389a27cd9",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-007",
+      "title": "照片出鱼与鸟形投影",
+      "category": "场景光影与美术",
+      "summary": "用于研究诡异氛围、锁定俯拍、软日光、异形投影、物体跨媒介。",
+      "model_claim": {
+        "name": "未注明 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "诡异氛围",
+        "锁定俯拍",
+        "软日光",
+        "异形投影",
+        "物体跨媒介"
+      ],
+      "author_id": "umesh_ai",
+      "source": {
+        "post_url": "https://x.com/umesh_ai/status/2096179627853267373",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原帖及返回作者回复未注明模型，不能算Seedance 2.5；未观看验收或复现；独立TXT为提示词入口，补充原文.md仅作来源留档",
+        "local_locators": [
+          {
+            "label": "作者成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/X03_2096179627853267373.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/场景光影与美术/ART-007_照片出鱼与鸟形投影.txt",
+        "content_fingerprint": "5299135f27687d5079fc01ce66103323ca5c8022229306de8dfcf662ad4a5602",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-001",
+      "title": "手机随行跟拍（缺尾）",
+      "category": "镜头与空间运动",
+      "summary": "用于研究摄影、手机随行、一镜到底。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "手机随行",
+        "一镜到底"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097698694296686623",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "缺尾，尚不可当完整模板",
+        "local_locators": [
+          {
+            "label": "阶段视频",
+            "kind": "media",
+            "relative_path": "P03_手机跟拍/媒体/2097698830833868909_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "P03_手机跟拍/案例.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "partial",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-001_手机随行跟拍（缺尾）.txt",
+        "content_fingerprint": "72552573b39692a6f51f2dff4cd9aa1ffd026a51c463eac8b96fbe2e99aa7335",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-002",
+      "title": "草地黄金时段甩镜",
+      "category": "镜头与空间运动",
+      "summary": "用于研究摄影、黄金时段、草地、双人甩镜、自然逆光。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "黄金时段",
+        "草地",
+        "双人甩镜",
+        "自然逆光"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2094819241916801165",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三段提示词末尾完整；两图和对应视频已取；独立角色表及作者原始脸照未取得。主帖还有网球第二场景，未计入本案例",
+        "local_locators": [
+          {
+            "label": "对应视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2094819340189307133_1.mp4"
+          },
+          {
+            "label": "男性场景图",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2094819261491675607_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-002_草地黄金时段甩镜.txt",
+        "content_fingerprint": "ed06f70e614f2ae43d44839fd3f4ca25bac57459bcd3211fc484cedbb7b6c4bb",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-003",
+      "title": "五人传递手机",
+      "category": "镜头与空间运动",
+      "summary": "用于研究摄影、多人传递手机、窗侧光、沙龙三视角、房间一致性。",
+      "model_claim": {
+        "name": "Seedance 2.5／Higgsfield · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "多人传递手机",
+        "窗侧光",
+        "沙龙三视角",
+        "房间一致性"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2096989398005145678",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三段原文末尾完整；已取4张角色表、1张房间图、1个视频；第5张角色表和原始自拍未取。作者介绍的“vertical 16:9”与提示词内9:16冲突，未替作者改写",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2096989398005145678_1.mp4"
+          },
+          {
+            "label": "角色表1",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2096989405471007035_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-003_五人传递手机.txt",
+        "content_fingerprint": "de742e038468d7d2bdbdb70c33268af45428af6de784cc690aafd74975af50f5",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-004",
+      "title": "雨夜街道追踪",
+      "category": "镜头与空间运动",
+      "summary": "用于研究摄影、雨夜街道、远景到侧向跟拍、轴线与终点、车灯闪电。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "雨夜街道",
+        "远景到侧向跟拍",
+        "轴线与终点",
+        "车灯闪电"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2097359965987934264",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段原文末尾完整，展示媒体已取；独立人物转身表及车辆参考表未取得；不能把组合表视为全部输入齐备",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2097359965987934264_1.mp4"
+          },
+          {
+            "label": "组合角色表",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2097359980244426876_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-004_雨夜街道追踪.txt",
+        "content_fingerprint": "0bab2d57c655163aa3a18c3fd78f5e1af63d7b716140729a328f5319321027cf",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-005",
+      "title": "ATV多视点无缝转场",
+      "category": "镜头与空间运动",
+      "summary": "用于研究多视点转场、同车连续性、地形接续。",
+      "model_claim": {
+        "name": "Seedance 2.5／Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "多视点转场",
+        "同车连续性",
+        "地形接续"
+      ],
+      "author_id": "ludoviccreator",
+      "source": {
+        "post_url": "https://x.com/LudovicCreator/status/2098109356088656037",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；主帖与作者 2/2 回复均直接读取；下载的是平台 1280×720 版本",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/素材/C02_2098109356088656037.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-005_ATV多视点无缝转场.txt",
+        "content_fingerprint": "eb3e1c0df603773021ab69e8d80e96848aeca46c659efb47cebf8f908e405cc1",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-006",
+      "title": "地心飞行一镜到底",
+      "category": "镜头与空间运动",
+      "summary": "用于研究长镜头、地形连续穿越、无剪切 FPV。",
+      "model_claim": {
+        "name": "Seedance 2.5／Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "长镜头",
+        "地形连续穿越",
+        "无剪切 FPV"
+      ],
+      "author_id": "ludoviccreator",
+      "source": {
+        "post_url": "https://x.com/LudovicCreator/status/2097384547369255038",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；主帖与作者 2/2 回复均直接读取；平台版本 1280×720",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/素材/C04_2097384547369255038.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-006_地心飞行一镜到底.txt",
+        "content_fingerprint": "a1b52ba291dcb4f8be20f9d58050a966b8e4587af5d6c62ca2bed86801efece5",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-010",
+      "title": "白馆潜入的视线盲区与反射信息",
+      "category": "镜头与空间运动",
+      "summary": "用于研究悬疑惊悚、视线盲区、反射延迟、白色室内、琥珀光、空间建立。",
+      "model_claim": {
+        "name": "Seedance 2.5 / Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "悬疑惊悚",
+        "视线盲区",
+        "反射延迟",
+        "白色室内",
+        "琥珀光",
+        "空间建立"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2096887699357446328",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文末段完整；主帖称6张参考图，返回1张展示图；5个UUID锚点未提供对应独立文件；SHOT9时间段内写29秒及30秒后黑场等源内时码矛盾保留；未观看验收或复现；独立TXT为提示词入口，补充原文.md仅作来源留档",
+        "local_locators": [
+          {
+            "label": "作者成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/X01_2096887699357446328.mp4"
+          },
+          {
+            "label": "作者展示参考图，未确认全部6张独立输入",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/X01_2096887702671040707.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-010_白馆潜入的视线盲区与反射信息.txt",
+        "content_fingerprint": "b2207b4b70f0e5d175ec1bcc4e1e6e3b5811ec2916b27f41c59b21a0bf2b6c7f",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-007",
+      "title": "城市摄影集锦",
+      "category": "镜头与空间运动",
+      "summary": "用于研究摄影、城市航拍、巷道跟拍、升镜、景别组合、音乐卡点。",
+      "model_claim": {
+        "name": "MiniMax H3；作者另称试过2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "摄影",
+        "城市航拍",
+        "巷道跟拍",
+        "升镜",
+        "景别组合",
+        "音乐卡点"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2096242247490560050",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文末尾完整，主帖视频已取；作者回复确认示例城市为Tokyo；无已声明而未取得的参考图。提示词要求4K，不等同于平台视频实际分辨率",
+        "local_locators": [
+          {
+            "label": "视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2096242247490560050_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-007_城市摄影集锦.txt",
+        "content_fingerprint": "826af35e4a51add612b12a3c9170973fa12a8105a007248c0008efd9cdcb6725",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-008",
+      "title": "稳定俯视体育场制作",
+      "category": "镜头与空间运动",
+      "summary": "用于研究稳定机位、前三分之四俯视、手工制作、缩时、体育场空间结构。",
+      "model_claim": {
+        "name": "MiniMax H3 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "稳定机位",
+        "前三分之四俯视",
+        "手工制作",
+        "缩时",
+        "体育场空间结构"
+      ],
+      "author_id": "aimikoda",
+      "source": {
+        "post_url": "https://x.com/aimikoda/status/2095141166962311555",
+        "attribution_status": "attribution_warning",
+        "attribution_note": "also credited or republished by @TechieBySA; see status note",
+        "status_note": "原文末尾完整；两个演示视频已取；历史头像原输入与体育场参考图未取得。转用正文去掉外层引号后与先发正文逐字一致，仅存一份；发布者明确致谢并将提示词归于Aimi",
+        "local_locators": [
+          {
+            "label": "先发作者演示",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/素材/2095141166962311555_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-008_稳定俯视体育场制作.txt",
+        "content_fingerprint": "4bbbbf5424232a4201e7f2c81b73ec363109fe4f5a85c4f1a69179aedb562f3d",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-009",
+      "title": "霓虹摩托连续跟拍",
+      "category": "镜头与空间运动",
+      "summary": "用于研究长镜头、侧后跟拍接续、人物轮廓连续。",
+      "model_claim": {
+        "name": "MiniMax H3／Hailuo · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "长镜头",
+        "侧后跟拍接续",
+        "人物轮廓连续"
+      ],
+      "author_id": "ludoviccreator",
+      "source": {
+        "post_url": "https://x.com/LudovicCreator/status/2097746917904052662",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；主帖与作者 2/2 回复均直接读取；平台版本 1280×720",
+        "local_locators": [
+          {
+            "label": "成品视频",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/素材/C03_2097746917904052662.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/04_剪辑与连续性/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-009_霓虹摩托连续跟拍.txt",
+        "content_fingerprint": "31ef26292c84e956e95a3713780887e247d88e80e483771a7cd926d7bbac8235",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-011",
+      "title": "门厅楼梯的空间范围与上下位置锁定",
+      "category": "镜头与空间运动",
+      "summary": "用于研究空间建立、场景边界、上下位置、三角色限制、异版本对照。",
+      "model_claim": {
+        "name": "Seedance 2.0 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "空间建立",
+        "场景边界",
+        "上下位置",
+        "三角色限制",
+        "异版本对照"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2095913793607843990",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "明确为Seedance 2.0；原文概述半秒外景而分镜给1秒，照录；人物表要求已有上传角色表，未获得全部上游参考；未观看验收或复现；独立TXT为提示词入口，补充原文.md仅作来源留档",
+        "local_locators": [
+          {
+            "label": "作者成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/X04_2095913793607843990.mp4"
+          },
+          {
+            "label": "作者展示角色表，非全部上游输入",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/X04_2095913806060830881.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-011_门厅楼梯的空间范围与上下位置锁定.txt",
+        "content_fingerprint": "e56793dbaf0a0182ed7e903fe4458d9166590fcfb712baf67593504dbff159d2",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-001",
+      "title": "异星假日多人互动",
+      "category": "人物表演与关系",
+      "summary": "用于研究人物跨镜一致、朋友互动、微笑与舞蹈、环境声与远处音乐。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "人物跨镜一致",
+        "朋友互动",
+        "微笑与舞蹈",
+        "环境声与远处音乐"
+      ],
+      "author_id": "techhalla",
+      "source": {
+        "post_url": "https://x.com/techhalla/status/2097521124154241509",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整、对应成品已取得；声音与人物一致性效果未验收",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C04/2097521124154241509_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/人物表演与关系/PER-001_异星假日多人互动.txt",
+        "content_fingerprint": "9766a4c4f696ff53755e6f9f4df03482d778c6788c9f6ccc548781e439733609",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-002",
+      "title": "克制失落与黑色幽默",
+      "category": "人物表演与关系",
+      "summary": "用于研究克制期待转失落、黑色幽默、人犬身份、纸条跨场延续、固定结尾特写。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "克制期待转失落",
+        "黑色幽默",
+        "人犬身份",
+        "纸条跨场延续",
+        "固定结尾特写"
+      ],
+      "author_id": "aimikoda",
+      "source": {
+        "post_url": "https://x.com/aimikoda/status/2098021955899183300",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末尾完整；已取作者展示的输入图和成品。提示词要求期待逐渐消失、以静止构图产生喜剧；这不是我方观看结论。原文中的电话号码照录，真实性未核实，不作为联络信息使用",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2098021955899183300_1.mp4"
+          },
+          {
+            "label": "已取参考图",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2098022335173349489_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/人物表演与关系/PER-002_克制失落与黑色幽默.txt",
+        "content_fingerprint": "9101a94a6d118bb07371c8a895b7ddd3aca5e687937c1880410ca111afc85197",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-003",
+      "title": "维修工生活与群体调度",
+      "category": "人物表演与关系",
+      "summary": "用于研究普通人的克制表演、疲惫与微笑、邻里互助、服装工具包一致、电梯酒馆等群体调度。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "普通人的克制表演",
+        "疲惫与微笑",
+        "邻里互助",
+        "服装工具包一致",
+        "电梯酒馆等群体调度"
+      ],
+      "author_id": "aimikoda",
+      "source": {
+        "post_url": "https://x.com/aimikoda/status/2094815422063272145",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末尾完整；成品已取；没有已声明但缺失的图片输入。提示词要求无对白，以工作、邻里和同事互动表现人物；不是完整剧情或角色一致性验收",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2094815422063272145_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/人物表演与关系/PER-003_维修工生活与群体调度.txt",
+        "content_fingerprint": "59a9aae59523fe38e4b71502ba29f33527caf17d6a627a938a61217ad09df489",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-004",
+      "title": "情侣接话与情绪递进",
+      "category": "人物表演与关系",
+      "summary": "用于研究情侣自然接话、怀疑与短暂安心、克制嫉妒喜剧、服饰首饰一致、环境文字配合表演。",
+      "model_claim": {
+        "name": "Seedance 2.5／Pollo · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "情侣自然接话",
+        "怀疑与短暂安心",
+        "克制嫉妒喜剧",
+        "服饰首饰一致",
+        "环境文字配合表演"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2095548188765905094",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "视频原文末尾完整；两张角色参考表和成品已取；角色表上游脸照未取。作者只给生图步骤说明，未将其加工为新增生图提示词。对白、停顿、告示牌及单镜头是作者要求，未做口型或表演验收",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2095548188765905094_1.mp4"
+          },
+          {
+            "label": "男性参考表",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2095548219451412865_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/人物表演与关系/PER-004_情侣接话与情绪递进.txt",
+        "content_fingerprint": "bcaae039ad853d84f0501ff2b118ff56ed7adeeb4767fcb1ed3155e6781eed40",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-005",
+      "title": "咖啡馆人物与道具",
+      "category": "人物表演与关系",
+      "summary": "用于研究温暖服务表演、职业动作、服装妆发一致、咖啡器具与手部连续、室内美术。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "温暖服务表演",
+        "职业动作",
+        "服装妆发一致",
+        "咖啡器具与手部连续",
+        "室内美术"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2096967412067242383",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "两段原文末尾完整；展示媒体已取。保留“角色表作为制作配套”与“视频明确要求输入”之间的区别，未推定还存在必需输入。温暖笑容、手部操作与咖啡流程是提示词要求，未判断成品是否做到",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2096967412067242383_1.mp4"
+          },
+          {
+            "label": "作者角色表",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2096967425132556778_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/人物表演与关系/PER-005_咖啡馆人物与道具.txt",
+        "content_fingerprint": "28c1b7a27c932afd97103ecf566e73260944f6dcfbd6463aa9c40077b18b63e3",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-006",
+      "title": "篝火怀疑转恐惧",
+      "category": "人物表演与关系",
+      "summary": "用于研究恐惧、群体反应、空间关系、音色冒用。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "恐惧",
+        "群体反应",
+        "空间关系",
+        "音色冒用"
+      ],
+      "author_id": "aimikoda",
+      "source": {
+        "post_url": "https://x.com/aimikoda/status/2094159653861032004",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "未声明外部参考输入；主帖明确Seedance 2.5 / astorie_ai。 未观看验收、未生成复现；只保存平台版本；未推定再发布授权。",
+        "local_locators": [
+          {
+            "label": "作者演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2094159653861032004_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/人物表演与关系/PER-006_篝火怀疑转恐惧.txt",
+        "content_fingerprint": "bfe40185a99a585a54d24f33215f2cb1caf70c40eb0407010a3123b06de10a86",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-007",
+      "title": "离别前的克制告白",
+      "category": "人物表演与关系",
+      "summary": "用于研究悲伤、亲密、克制告白、衣物道具一致。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "悲伤",
+        "亲密",
+        "克制告白",
+        "衣物道具一致"
+      ],
+      "author_id": "aimikoda",
+      "source": {
+        "post_url": "https://x.com/aimikoda/status/2093770121848254584",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "作者明确纯文生视频，Seedance 2.5 / astorie_ai；无指定图片输入。 未观看验收、未生成复现；只保存平台版本；未推定再发布授权。",
+        "local_locators": [
+          {
+            "label": "作者演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2093770121848254584_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/人物表演与关系/PER-007_离别前的克制告白.txt",
+        "content_fingerprint": "eec6fa5d1679140b0439a7dd8bbde811ffcacf58c425228d6411f1fd0b5480d9",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-008",
+      "title": "巨人与小鼠的温柔照护",
+      "category": "人物表演与关系",
+      "summary": "用于研究体型差、照护、尴尬转专注、稳定双人镜头。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "体型差",
+        "照护",
+        "尴尬转专注",
+        "稳定双人镜头"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2097967512759492846",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "未声明外部参考输入；回复明确seedance 2.5 @ 480p，接入方未注明。 未观看验收、未生成复现；只保存平台版本；未推定再发布授权。",
+        "local_locators": [
+          {
+            "label": "作者演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2097967512759492846_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/人物表演与关系/PER-008_巨人与小鼠的温柔照护.txt",
+        "content_fingerprint": "0cb844c21216b645a042aec3a9d8275bd7f9cf044199ed1b6b64ebd006446dfa",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-009",
+      "title": "异种支持小组的分角色反应",
+      "category": "人物表演与关系",
+      "summary": "用于研究群体关系、哭泣、沉默、异种角色、服装一致。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "群体关系",
+        "哭泣",
+        "沉默",
+        "异种角色",
+        "服装一致"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2096982573738033395",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "4张指定角色参考表已取；作者主帖写Gpt2 images -> Seedance 2.5，未提供这些图的独立生图提示词，接入方未注明。原文内部声源及物种限制的冲突照录。 未观看验收、未生成复现；只保存平台版本；未推定再发布授权。",
+        "local_locators": [
+          {
+            "label": "作者演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2096982573738033395_1.mp4"
+          },
+          {
+            "label": "作者展示参考图1",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2096982576279720291_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/人物表演与关系/PER-009_异种支持小组的分角色反应.txt",
+        "content_fingerprint": "38d988443424a2a74755748bd3f57de33b9a0d919ac1b54fbfd4e8fee3e88944",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "PER-010",
+      "title": "虚荣掩饰到当众羞愧",
+      "category": "人物表演与关系",
+      "summary": "用于研究群体压力、假笑、羞愧、不同年龄、服装锁定。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "群体压力",
+        "假笑",
+        "羞愧",
+        "不同年龄",
+        "服装锁定"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2097324379629658318",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "未声明外部参考输入；明确Seedance 2.5，接入方未注明。返回原文最后一句有句号，但Narration开引号没有闭合；照录不补。 未观看验收、未生成复现；只保存平台版本；未推定再发布授权。",
+        "local_locators": [
+          {
+            "label": "作者演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/素材/2097324379629658318_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/02_角色美术与情绪表演/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "unknown",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/人物表演与关系/PER-010_虚荣掩饰到当众羞愧.txt",
+        "content_fingerprint": "89ac1d7eaae53ff2c6b3f66009c7ccc817a59201bb505232ed69dc86adf49853",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-001",
+      "title": "送货员声音视点",
+      "category": "声音对白与音乐",
+      "summary": "用于研究声音视点、固定对白、惊慌转尴尬、多人互动。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "声音视点",
+        "固定对白",
+        "惊慌转尴尬",
+        "多人互动"
+      ],
+      "author_id": "techhalla",
+      "source": {
+        "post_url": "https://x.com/techhalla/status/2098334086523683021",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "视频提示词末段完整；生图模板文字完整但各图 ALT 参数未取到；相近人物图手持酸奶与纸张，未确认是提示词所需的快递箱首帧",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C02/2098334086523683021_1.mp4"
+          },
+          {
+            "label": "作者引用的相近人物图",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C02/2098119669823459456_2.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-001_送货员声音视点.txt",
+        "content_fingerprint": "0a48d64f5f0c94d7813b2a40075b00c39ac8b18cc4ff8d26ef8d6b241ff6a571",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-002",
+      "title": "异星旅行者随拍",
+      "category": "声音对白与音乐",
+      "summary": "用于研究人物跨镜一致、自然随拍、呼吸与风声、声音远近。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "人物跨镜一致",
+        "自然随拍",
+        "呼吸与风声",
+        "声音远近"
+      ],
+      "author_id": "techhalla",
+      "source": {
+        "post_url": "https://x.com/techhalla/status/2097626129989280077",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整、对应成品已取得；口型与音频效果未验收",
+        "local_locators": [
+          {
+            "label": "成品",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/素材/C03/2097626129989280077_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/03_人物表演与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/声音对白与音乐/SND-002_异星旅行者随拍.txt",
+        "content_fingerprint": "c0053a3dccb91003e5a75cb7ac3027b72c50965d4f9ffbb9dd36e42ddba10458",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-003",
+      "title": "母女对白与听者口型",
+      "category": "声音对白与音乐",
+      "summary": "用于研究双人多轮对白；说话者口型分配；画外回应；情绪逐渐变化。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "双人多轮对白；说话者口型分配；画外回应；情绪逐渐变化"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2084576780392771813",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文完整；有具体台词和“Only the assigned speaker’s lips move”要求；成品实际1280×720，与提示词9:16要求不同；未验证台词、口型或情绪效果；；作者回复2085404028523991104明确称此例only text to video，未要求外部参考输入",
+        "local_locators": [
+          {
+            "label": "原帖成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/2084576780392771813_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/声音对白与音乐/SND-003_母女对白与听者口型.txt",
+        "content_fingerprint": "60c6eb820c19108036fc5b52146ce33b0ee174bd98385379bba12d72f7107f4e",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-004",
+      "title": "葬礼后双人声线连续",
+      "category": "声音对白与音乐",
+      "summary": "用于研究同一人物声线保持；双人轮流发言；画内、画外声音；跨镜连续。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "同一人物声线保持；双人轮流发言；画内",
+        "画外声音；跨镜连续"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2084577327451676686",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文完整；明确maintain identical faces, wardrobe and voices throughout及Precise dialogue synchronization；声线保持是要求，未验证跨片声线复用；成品1280×720，与提示词9:16不同；；提示词未指定外部音色或图片参考",
+        "local_locators": [
+          {
+            "label": "该回复成品",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/2084577327451676686_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/声音对白与音乐/SND-004_葬礼后双人声线连续.txt",
+        "content_fingerprint": "75d1aa71b126018fa0ec47d7445f7b8be2419acfe5491fbf280524f3dbe9ac4f",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-005",
+      "title": "Citypop后台至舞台",
+      "category": "声音对白与音乐",
+      "summary": "用于研究演唱动作与场面连续；工作人员提醒；Citypop演唱；观众欢呼。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "演唱动作与场面连续；工作人员提醒；Citypop演唱；观众欢呼"
+      ],
+      "author_id": "bytedance-seed",
+      "source": {
+        "post_url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文完整、视频已下载；未给确切歌词、曲目、BPM、逐音素同步或独立音轨；只作演唱与动作连续案例；；文生视频，无指定参考上传项",
+        "local_locators": [
+          {
+            "label": "官方配套视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/D03_Citypop.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/声音对白与音乐/SND-005_Citypop后台至舞台.txt",
+        "content_fingerprint": "6157478686cba51fdbb84a742114615e55fc186711b6c18c7f5c71d4c388ab5d",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-006",
+      "title": "独唱乐队合唱接力",
+      "category": "声音对白与音乐",
+      "summary": "用于研究音乐角色依次加入；钢琴起奏、独唱、弦乐、合唱及掌声；多人音乐表演。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "音乐角色依次加入；钢琴起奏、独唱、弦乐、合唱及掌声；多人音乐表演"
+      ],
+      "author_id": "bytedance-seed",
+      "source": {
+        "post_url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文完整；视频开头含参考图和提示词展示；18个参考图片输入未取得独立文件，不把展示截图当原始输入齐备；未给确切歌词、曲目、BPM或音轨；；；要求Image 1场馆、2钢琴师、3大提琴、4小提琴、5主唱、6–10乐队、11–14合唱、15–18观众",
+        "local_locators": [
+          {
+            "label": "官方配套视频，41.03秒",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/D04_音乐会.mp4"
+          },
+          {
+            "label": "5秒参考图展示截图",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/D04_5秒参考展示.png"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-006_独唱乐队合唱接力.txt",
+        "content_fingerprint": "661fa058eb1f9e54ea187fd68c70e85921f38af172917f81a48700a96033e652",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-008",
+      "title": "笛声停奏慢速返回与单人旁白",
+      "category": "声音对白与音乐",
+      "summary": "用于研究音乐驱动叙事、停奏、速度变化、风声收尾、英文旁白、单人声源。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "音乐驱动叙事",
+        "停奏",
+        "速度变化",
+        "风声收尾",
+        "英文旁白",
+        "单人声源"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2097270514561511435",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "直接读取的原文止于treat people fairly，缺闭合引号及句末标点；未猜补，完整性保留缺尾疑点；未指定外部输入；未验收或复现",
+        "local_locators": [
+          {
+            "label": "原帖视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/2097270514561511435_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "partial",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-008_笛声停奏慢速返回与单人旁白.txt",
+        "content_fingerprint": "7f65dfe6f9f8919f9c0aa462a330c43f8ac8029935c3152c7cacb9a0f78bbe89",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-007",
+      "title": "婚礼致辞停顿与现场弦乐骤停",
+      "category": "声音对白与音乐",
+      "summary": "用于研究停顿、温柔声线反差、现场弦乐、静默、尴尬掌声、原生音。",
+      "model_claim": {
+        "name": "未明示 · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "停顿",
+        "温柔声线反差",
+        "现场弦乐",
+        "静默",
+        "尴尬掌声",
+        "原生音"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2096928597822890021",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "原文末段完整；主帖及回传作者回复未明示模型，不计Seedance 2.5；参考表已取；未验收或复现",
+        "local_locators": [
+          {
+            "label": "原帖视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/2096928597822890021_1.mp4"
+          },
+          {
+            "label": "作者参考表",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/素材/2096928601279017128_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/03_对白口型与声音/来源/补充条目.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/声音对白与音乐/SND-007_婚礼致辞停顿与现场弦乐骤停.txt",
+        "content_fingerprint": "d6d6b7fc3d1527c5113992bb17d14ea314d7f878fad2315e917806c065ea44b2",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "INT-001",
+      "title": "F1赛车与维修区",
+      "category": "生物载具与复杂交互",
+      "summary": "用于研究载具操控、轮胎接地、雨水喷溅、维修区多人协作。",
+      "model_claim": {
+        "name": "Seedance 2.5／Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "载具操控、轮胎接地、雨水喷溅、维修区多人协作"
+      ],
+      "author_id": "charaspowerai",
+      "source": {
+        "post_url": "https://x.com/CharaspowerAI/status/2096659796212494521",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；未声明必需上传输入，所取主帖/回复未附输入图。维修程序与多人调度效果未验收",
+        "local_locators": [
+          {
+            "label": "平台视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2096659796212494521_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/生物载具与复杂交互/INT-001_F1赛车与维修区.txt",
+        "content_fingerprint": "cff29c3270b36004fcc14c1f46b5d72f1be85148c4d013bad1f2f189783d471b",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "INT-002",
+      "title": "幼虎与母虎环境探索",
+      "category": "生物载具与复杂交互",
+      "summary": "用于研究非人角色亲子关系、幼虎踩水、攀木、跟随、毛发与植被交互。",
+      "model_claim": {
+        "name": "Seedance 2.5／Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "非人角色亲子关系、幼虎踩水",
+        "攀木",
+        "跟随、毛发与植被交互"
+      ],
+      "author_id": "charaspowerai",
+      "source": {
+        "post_url": "https://x.com/CharaspowerAI/status/2096312532432457924",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；未声明必需上传输入，未附输入图。动物行为和花纹持续性未验收",
+        "local_locators": [
+          {
+            "label": "平台视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2096312532432457924_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/生物载具与复杂交互/INT-002_幼虎与母虎环境探索.txt",
+        "content_fingerprint": "bbe399a5d0c248d0290264c41d4e8145b231f60f8fe6059ca1b02f424d880f0a",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "INT-003",
+      "title": "拟人猫接触与群体反应",
+      "category": "生物载具与复杂交互",
+      "summary": "用于研究拟人动物表演、爪与面部接触、裁判、观众反应时序。",
+      "model_claim": {
+        "name": "Seedance 2.5／Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "拟人动物表演、爪与面部接触、裁判",
+        "观众反应时序"
+      ],
+      "author_id": "charaspowerai",
+      "source": {
+        "post_url": "https://x.com/CharaspowerAI/status/2095587761554071695",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；未声明必需上传输入，未附输入图。原文要求无血、无可见伤害的夸张喜剧击倒，未验证接触精度",
+        "local_locators": [
+          {
+            "label": "平台视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2095587761554071695_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/生物载具与复杂交互/INT-003_拟人猫接触与群体反应.txt",
+        "content_fingerprint": "29cb060a36dd152bd5a4239a9c96d1fb7ef4a689d402d4abf209dbb658e22458",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "INT-004",
+      "title": "第一人称绳索障碍与载具",
+      "category": "生物载具与复杂交互",
+      "summary": "用于研究人物与绳索接触、跨越障碍、载具换场、手部装备持续。",
+      "model_claim": {
+        "name": "Seedance 2.5／Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "人物与绳索接触、跨越障碍、载具换场、手部装备持续"
+      ],
+      "author_id": "charaspowerai",
+      "source": {
+        "post_url": "https://x.com/CharaspowerAI/status/2097384592407777294",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词末段完整；未声明必需上传输入，未附输入图。原文两名队友仅有概括性设定，不当作已解决复杂多人调度；手部、抓握与载具切换未验收",
+        "local_locators": [
+          {
+            "label": "平台视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/素材/2097384592407777294_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/01_场面交互与生物/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/生物载具与复杂交互/INT-004_第一人称绳索障碍与载具.txt",
+        "content_fingerprint": "5161d7d3cb80e0ccffa2f772e2f27fd2e89895b1cfaf237692529efd7cbe8db1",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_reviewed_or_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "EDT-001",
+      "title": "地铁追逐视频延长",
+      "category": "视频接续与局部编辑",
+      "summary": "用于研究视频延长、地铁到街道、人物与声音续接。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频／编辑",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "视频延长",
+        "地铁到街道",
+        "人物与声音续接"
+      ],
+      "author_id": "bytedance-seed",
+      "source": {
+        "post_url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词完整；独立原输入 @Video 1 未取得；未确认演示是否含前后对照，不当作原始输入",
+        "local_locators": [
+          {
+            "label": "网页演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D01_地铁追逐视频延长.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/视频接续与局部编辑/EDT-001_地铁追逐视频延长.txt",
+        "content_fingerprint": "a5983a5c12ed0d601597bf1a7d1c4d80d8d5732ce0e5ce1c61ee9499fb357c72",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "EDT-002",
+      "title": "绿幕足球场景与配角替换",
+      "category": "视频接续与局部编辑",
+      "summary": "用于研究绿幕替换、场景、障碍、服装、配角、时间段控制。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频／编辑",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "绿幕替换",
+        "场景",
+        "障碍",
+        "服装",
+        "配角",
+        "时间段控制"
+      ],
+      "author_id": "bytedance-seed",
+      "source": {
+        "post_url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词完整；独立绿幕原输入未取得；不能视为单一人物身份替换模板",
+        "local_locators": [
+          {
+            "label": "网页演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D02_绿幕足球场景与配角替换.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/视频接续与局部编辑/EDT-002_绿幕足球场景与配角替换.txt",
+        "content_fingerprint": "a9d6566ec6aeb3a540ff456d2686d39c3c28b5a2afb7b9514abf29691bb35bfd",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "EDT-003",
+      "title": "早餐片仅修改运镜",
+      "category": "视频接续与局部编辑",
+      "summary": "用于研究编辑保真、保留人物动作、仅修改运镜。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频／编辑",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "编辑保真",
+        "保留人物动作",
+        "仅修改运镜"
+      ],
+      "author_id": "bytedance-seed",
+      "source": {
+        "post_url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词完整；独立待编辑视频未取得；“人物动作不变”是原文要求，未由我方验收",
+        "local_locators": [
+          {
+            "label": "网页演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D03_早餐片仅修改运镜.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/视频接续与局部编辑/EDT-003_早餐片仅修改运镜.txt",
+        "content_fingerprint": "7f0ec5b385bd1051a4a4d5e5aef34092d09e542691d1a8a821b72bdf38838246",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "EDT-004",
+      "title": "白模到幻想叙事成片",
+      "category": "视频接续与局部编辑",
+      "summary": "用于研究多步生成、白模到成片、机位与调度继承、多场叙事。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频／编辑",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "多步生成",
+        "白模到成片",
+        "机位与调度继承",
+        "多场叙事"
+      ],
+      "author_id": "bytedance-seed",
+      "source": {
+        "post_url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "提示词完整；独立白模文件与参考图未取得；未把演示抽帧冒充输入",
+        "local_locators": [
+          {
+            "label": "网页演示视频",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D04_白模到幻想叙事成片.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/视频接续与局部编辑/EDT-004_白模到幻想叙事成片.txt",
+        "content_fingerprint": "a119d34ed4478253f510a24f6651d02419514f62bb53a13505f9ee0430554b8e",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "EDT-005",
+      "title": "双角色替换",
+      "category": "视频接续与局部编辑",
+      "summary": "用于研究后期、身份替换、局部编辑。",
+      "model_claim": {
+        "name": "Higgsfield Genjutsu · 视频／编辑",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "后期",
+        "身份替换",
+        "局部编辑"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097698694296686623",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "末段完整",
+        "local_locators": [
+          {
+            "label": "阶段视频",
+            "kind": "media",
+            "relative_path": "P03_手机跟拍/媒体/2097698892838309973_1.mp4"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "P03_手机跟拍/案例.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [],
+        "local_relative_path": "提示词/视频接续与局部编辑/EDT-005_双角色替换.txt",
+        "content_fingerprint": "d6210f68b1a424259ffa3a7af6f919f4d4e8f958da8b397f3bcc4fc93bc11d22",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "EDT-006",
+      "title": "Genjutsu群像人物替换",
+      "category": "视频接续与局部编辑",
+      "summary": "用于研究备选、中央人物、人群分别替换、原动作运镜环境保留。",
+      "model_claim": {
+        "name": "Higgsfield Genjutsu · 视频／编辑",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "备选",
+        "中央人物",
+        "人群分别替换",
+        "原动作运镜环境保留"
+      ],
+      "author_id": "abxxai",
+      "source": {
+        "post_url": "https://x.com/abxxai/status/2097356202577739977",
+        "attribution_status": "source_recorded_not_independently_verified",
+        "attribution_note": "see status note",
+        "status_note": "三份提示词完整、展示素材已取得；两份生图词与各自附图互相错配，图2多人如何映射到“相同人物复制”也未说明；生图模型未注明；原片声明来自 GENER8ION - STORM，授权未核明",
+        "local_locators": [
+          {
+            "label": "作者替换演示",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D05_2097356202577739977_1.mp4"
+          },
+          {
+            "label": "图1帖实际图片",
+            "kind": "media",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/素材/D05_2097356233481355499_1.jpg"
+          },
+          {
+            "label": "来源与全部素材",
+            "kind": "source",
+            "relative_path": "三个月补充_20260612-20260912/04_多镜叙事与编辑接续/索引.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "see_status_note"
+        ],
+        "local_relative_path": "提示词/视频接续与局部编辑/EDT-006_Genjutsu群像人物替换.txt",
+        "content_fingerprint": "ee1f8cf24db02e162dad2ed9cc31eea25654705dac18d7bb901939dda95c1e70",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    }
+  ],
+  "aliases": [
+    {
+      "legacy_id": "P03男性四视图",
+      "case_id": "REF-002"
+    },
+    {
+      "legacy_id": "P03女性四视图",
+      "case_id": "REF-001"
+    },
+    {
+      "legacy_id": "P03手机随行跟拍待补全",
+      "case_id": "CAM-001"
+    },
+    {
+      "legacy_id": "P02御剑群战",
+      "case_id": "ACT-001"
+    },
+    {
+      "legacy_id": "P01玄幻双人重击",
+      "case_id": "ACT-004"
+    },
+    {
+      "legacy_id": "P03双角色替换",
+      "case_id": "EDT-005"
+    },
+    {
+      "legacy_id": "P03庭院人物场景",
+      "case_id": "ART-002"
+    }
+  ]
+}

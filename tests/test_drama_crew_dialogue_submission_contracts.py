@@ -653,7 +653,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
         self.assertIn("| `drama-crew` | 6.20.3 | 19 |", readme)
-        self.assertIn("| `drama-studio` | 1.15.1 | 30 |", readme)
+        self.assertIn("| `drama-studio` | 1.15.1 | 33 |", readme)
         self.assertIn("`drama-crew` v6.20.3", changelog)
         self.assertIn("`drama-studio` v1.15.1", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
@@ -1093,7 +1093,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertNotIn("完整情绪链必须按顺序走完", active_contracts)
         self.assertNotIn("[OS]=同场画外对白", active_contracts)
         self.assertEqual(18, len(list((ROOT / "drama-crew").rglob("*.md"))))
-        self.assertEqual(28, len(list((ROOT / "drama-studio").rglob("*.md"))))
+        self.assertEqual(29, len(list((ROOT / "drama-studio").rglob("*.md"))))
 
 
 if __name__ == "__main__":

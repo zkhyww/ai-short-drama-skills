@@ -31,3 +31,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Private case-library bindings and derived local views
+drama-studio/references/case-library/local-config.json
+drama-studio/references/case-library/local-index.md
