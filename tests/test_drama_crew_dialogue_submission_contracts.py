@@ -84,9 +84,17 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "不能为使用方法补人物、建筑、道具、破坏状态或改结果",
             "读取方法不等于安装、运行脚本、上传或生成",
             "仅引用解决当前缺口的必要范围",
+            "输出是带启用条件的可选建议",
+            "除非既有硬边界或当前任务证据已要求",
+            "不得把外部方法改写成新的必做项、齐套检查、硬门槛或每镜合同",
+            "条件不足只能保留候选，不能靠换措辞启用",
         ):
             with self.subTest(required=required):
                 self.assertIn(required, method_route)
+
+        workflow_map = section_between(self.studio_ext, "## 2.8 ", "## 3. ")
+        self.assertIn("按项目锁定集数", workflow_map)
+        self.assertNotIn("61 集粗纲", workflow_map)
 
         rights_route = section_between(self.studio_ext, "## 2.5 ", "## 2.8 ")
         for required in (
