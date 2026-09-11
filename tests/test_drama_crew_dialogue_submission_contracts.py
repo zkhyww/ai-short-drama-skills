@@ -88,6 +88,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "除非既有硬边界或当前任务证据已要求",
             "不得把外部方法改写成新的必做项、齐套检查、硬门槛或每镜合同",
             "条件不足只能保留候选，不能靠换措辞启用",
+            "方法只作用于当前缺口对应的段落或承担该功能的镜头",
+            "先写出可观察的启用条件再给具体创意",
+            "不承担该功能的镜头可不启用",
+            "缺少具体职责或启用条件时先保留为可选方案",
+            "`planning_only` 无需为证明方法有效而付费生成",
         ):
             with self.subTest(required=required):
                 self.assertIn(required, method_route)
