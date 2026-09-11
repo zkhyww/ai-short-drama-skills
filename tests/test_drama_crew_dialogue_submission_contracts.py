@@ -42,14 +42,100 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         )
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.20.2", self.skill)
-        self.assertIn("version: 1.15.0", self.studio_skill)
+        self.assertIn("version: 6.20.3", self.skill)
+        self.assertIn("version: 1.15.1", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
         final_review = self.skill.index("### 第 3.9 步：总编终审关")
         self.assertLess(dialogue_gate, compliance_gate)
         self.assertLess(compliance_gate, final_review)
+
+    def test_external_case_learning_is_evidence_scoped_and_not_auto_injected(self) -> None:
+        for learning in (self.learnings, self.studio_learnings):
+            for required in (
+                "外部成功/失败案例",
+                "普通问答不触发",
+                "来源 URL",
+                "授权状态",
+                "已见事实 / 作者声称 / 我方推断",
+                "输入与后期条件",
+                "适用 / 不适用范围",
+                "实际验证",
+                "无复现不宣称可复现",
+                "低置信或待讨论条目不得自动",
+            ):
+                with self.subTest(required=required):
+                    self.assertIn(required, learning)
+            self.assertIn("点赞量或重发次数", learning)
+            self.assertIn("资料截断属于采集缺项", learning)
+
+    def test_external_method_reference_and_generation_execution_are_separate_routes(self) -> None:
+        method_route = section_between(self.studio_ext, "## 2. ", "## 2.5 ")
+        for required in (
+            "方法参考",
+            "planning_only",
+            "实际生成",
+            "原有 `execution` 流程",
+            "现有规则 / 已核案例 / 已审核安装专项",
+            "当前节点缺口 + 已锁事实资产 + 目标模型条件",
+            "现有资产 / 镜头 / 四区块",
+            "固定计数",
+            "不能为使用方法补人物、建筑、道具、破坏状态或改结果",
+            "读取方法不等于安装、运行脚本、上传或生成",
+            "仅引用解决当前缺口的必要范围",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, method_route)
+
+        rights_route = section_between(self.studio_ext, "## 2.5 ", "## 2.8 ")
+        for required in (
+            "公开可读不代表可复制发布",
+            "无许可证或来源争议",
+            "不复制第三方长文、资产或脚本进公共仓库",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, rights_route)
+        self.assertNotIn("清洁室消化", rights_route)
+        self.assertNotIn("工序编排可复制到我们管线", self.studio_ext)
+
+        platform_registry = self.studio_ext[self.studio_ext.index("## 5. ") :]
+        for required in (
+            "方法候选",
+            "触发 / 输入输出 / 适用模型 / 来源版本 / 许可 / 验证状态",
+            "已实测平台能力",
+            "候选不得写成已安装可运行",
+            "采集、完整观看与生成复现是不同证据",
+            "相称的文字、接口或生成验证",
+            "未复现不强制付费试制",
+            "不阻塞其他已获授权工序",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, platform_registry)
+
+    def test_main_entry_and_owner_dispatch_share_context_scoped_learning_route(self) -> None:
+        for source in (self.skill, self.studio_skill, self.roles, self.studio_roles):
+            for required in (
+                "按题材 / 节点 / 模型条件",
+                "低置信或待讨论",
+                "不自动",
+            ):
+                with self.subTest(required=required):
+                    self.assertIn(required, source)
+
+    def test_external_case_rules_retire_fixed_counts_and_universal_cost_claims(self) -> None:
+        learnings = "\n".join((self.learnings, self.studio_learnings))
+        for obsolete in (
+            "卡点必须带现实代价",
+            "高(验证3次+)",
+            "中(1-2次)",
+            "低(仅1次)",
+            "## 6. 体量维护",
+            "写入规则（5 条）",
+        ):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, learnings)
+        self.assertIn("见 §6 对照表", self.studio_learnings)
 
     def test_sentence_level_mechanical_rules_are_not_active_contracts(self) -> None:
         active_contracts = "\n".join(
@@ -362,9 +448,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("外部平台能力面/匹配报告", self.learnings)
 
     def test_official_dreamina_default_engine_and_flova_three_usages_are_registered(self) -> None:
-        # v1.13.5：官方 dreamina 默认 + flova 三种合法用法
+        # v1.15.1：官方 dreamina 默认 + 外部 Skill 三种合法用法
         ext = read("drama-studio/references/external-platforms.md")
-        for required in ("dreamina", "官方 CLI", "默认引擎", "dreamina user_credit", "dreamina text2image", "dreamina image2image", "dreamina text2video", "dreamina image2video", "dreamina frames2video", "dreamina multimodal2video", "flova Skill 能力的三种合法用法", "运行时调用", "清洁室消化", "自建等效工作流", "云端编排", "判定顺序：B > C > A"):
+        for required in ("dreamina", "官方 CLI", "默认引擎", "dreamina user_credit", "dreamina text2image", "dreamina image2image", "dreamina text2video", "dreamina image2video", "dreamina frames2video", "dreamina multimodal2video", "外部 Skill 能力的三种合法用法", "运行时调用", "原创方法归纳", "自建等效工作流", "云端编排", "判定顺序：B > C > A"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
         self.assertIn("默认本机引擎为官方 dreamina CLI", self.studio_skill)
@@ -519,10 +605,10 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.20.2 | 19 |", readme)
-        self.assertIn("| `drama-studio` | 1.15.0 | 30 |", readme)
-        self.assertIn("`drama-crew` v6.20.2", changelog)
-        self.assertIn("`drama-studio` v1.15.0", changelog)
+        self.assertIn("| `drama-crew` | 6.20.3 | 19 |", readme)
+        self.assertIn("| `drama-studio` | 1.15.1 | 30 |", readme)
+        self.assertIn("`drama-crew` v6.20.3", changelog)
+        self.assertIn("`drama-studio` v1.15.1", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
         for public_doc in (readme, read("docs/使用说明.md")):
