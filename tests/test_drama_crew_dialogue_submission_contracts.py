@@ -80,6 +80,12 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "作品任务 → 观看重点 / 已有约束 → 已有规则与本地方法 → 具体设计 → 相称核验",
             "不要求用户点名",
             "不强迫每次联网",
+            "已有检索授权",
+            "已有入库授权",
+            "没有检索授权时记录缺项",
+            "继续有依据的原创规划",
+            "不为每条材料重复确认",
+            "本次任务明确不联网或不落盘",
             "观看重点 + 已锁事实资产 + 目标模型条件",
             "现有资产 / 镜头 / 四区块",
             "固定计数",
@@ -98,6 +104,30 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         ):
             with self.subTest(required=required):
                 self.assertIn(required, method_route)
+
+        external_platform_row = next(
+            line
+            for line in self.studio_skill.splitlines()
+            if line.startswith("| references/external-platforms.md |")
+        )
+        self.assertIn("作品任务首次判断观看重点与表现机会时读", external_platform_row)
+        self.assertIn("后续有界补搜", external_platform_row)
+        self.assertNotIn("有明确方法缺口", external_platform_row)
+
+        assembly_checklist = self.studio_prompt[
+            self.studio_prompt.index("## 7. 装配自检") :
+        ]
+        checklist_lines = [
+            line for line in assembly_checklist.splitlines() if line.startswith("- [ ]")
+        ]
+        self.assertIn("观看重点与各镜职责", checklist_lines[0])
+        self.assertIn("叙事目的、实际画面/声音或参考职责", checklist_lines[0])
+        self.assertIn("不承担该功能的镜头未被要求齐套", checklist_lines[0])
+        self.assertNotIn("\n- [ ] 本段观看重点与各镜职责已成立；", assembly_checklist)
+
+        for text in (self.studio_skill, self.studio_roles):
+            self.assertIn("核对采用方法", text)
+            self.assertNotIn("核采用方法", text)
 
         workflow_map = section_between(self.studio_ext, "## 2.8 ", "## 3. ")
         self.assertIn("按项目锁定集数", workflow_map)
@@ -441,6 +471,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for required in ("外部素材索引", "gptimage2", "不进 git"):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_assets)
+        self.assertIn("本地视觉方法索引中的 `gptimage2 图卡库` 条目", self.studio_assets)
+        self.assertNotIn("C://Users//Administrator//Downloads//gptimage2//", self.studio_assets)
 
     def test_external_platform_routing_is_wired(self) -> None:
         # v6.17.8 / studio v1.13.0：flova 实测驱动的外部平台工序端到端
