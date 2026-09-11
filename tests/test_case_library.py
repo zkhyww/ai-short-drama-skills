@@ -1,3 +1,4 @@
+import copy
 import json
 import hashlib
 import subprocess
@@ -86,9 +87,32 @@ class CaseLibraryCliTests(unittest.TestCase):
         )
 
     def write_json(self, path: Path, value: dict) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(
             json.dumps(value, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
+        )
+
+    def write_prompt(self, local_root: Path, case: dict, body: str) -> Path:
+        prompt_path = local_root / Path(case["prompt"]["local_relative_path"])
+        prompt_path.parent.mkdir(parents=True, exist_ok=True)
+        prompt_path.write_text(body, encoding="utf-8")
+        return prompt_path
+
+    def write_config(
+        self,
+        path: Path,
+        metadata_path: Path,
+        local_root: Path,
+        local_view: Path,
+    ) -> None:
+        self.write_json(
+            path,
+            {
+                "canonical_metadata": str(metadata_path),
+                "local_root": str(local_root),
+                "local_view": str(local_view),
+            },
         )
 
     def test_validate_and_build_separate_public_and_local_views(self) -> None:
@@ -125,28 +149,52 @@ class CaseLibraryCliTests(unittest.TestCase):
             self.assertNotIn("third-party prompt body", public_text)
             self.assertIn(str(prompt_path), local_text)
             self.assertIn("ACT-001_Example.txt", local_text)
+            self.assertIn("## 动作与打斗", local_text)
+            self.assertIn("action / spatial-continuity", local_text)
+            self.assertIn("Example Model（author_claimed）", local_text)
+            self.assertIn(
+                "complete；缺输入：未记录缺项（非输入齐备证明）", local_text
+            )
+            self.assertIn("author_post_unverified", local_text)
+            self.assertIn("媒体 not_reviewed；许可 unknown", local_text)
 
-    def test_add_keeps_distinct_ids_on_same_post_and_patch_does_not_duplicate(self) -> None:
+    def test_add_keeps_distinct_ids_on_same_post_and_fill_only_patch_is_idempotent(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             temp = Path(temp_dir)
             metadata_path = temp / "metadata.json"
+            public_path = temp / "README.md"
+            local_view = temp / "开始这里.md"
+            local_root = temp / "案例库"
             add_path = temp / "add.json"
             patch_path = temp / "patch.json"
-            self.write_json(metadata_path, valid_metadata())
+            metadata = valid_metadata()
+            self.write_json(metadata_path, metadata)
+            self.write_prompt(local_root, metadata["cases"][0], "third-party prompt body")
 
-            added = valid_metadata()["cases"][0].copy()
+            added = copy.deepcopy(valid_metadata()["cases"][0])
             added["id"] = "CAM-002"
             added["title"] = "Example camera move"
             added["prompt"] = {
                 **added["prompt"],
                 "local_relative_path": "提示词/镜头与空间运动/CAM-002_Example.txt",
                 "content_fingerprint": hashlib.sha256(
-                    "different prompt body".encode("utf-8")
+                    "differentpromptbody".encode("utf-8")
                 ).hexdigest(),
             }
+            self.write_prompt(local_root, added, "different prompt body")
             self.write_json(add_path, added)
             result = self.run_cli(
-                "add", "--metadata", str(metadata_path), "--record", str(add_path)
+                "add",
+                "--metadata",
+                str(metadata_path),
+                "--record",
+                str(add_path),
+                "--local-root",
+                str(local_root),
+                "--local-view",
+                str(local_view),
+                "--public-view",
+                str(public_path),
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             after_add = json.loads(metadata_path.read_text(encoding="utf-8"))
@@ -163,35 +211,83 @@ class CaseLibraryCliTests(unittest.TestCase):
                 patch_path,
                 {
                     "id": "CAM-002",
-                    "source": {"post_url": "https://example.com/post/2"},
+                    "source": {"post_url": "https://example.com/post/1"},
                 },
             )
             result = self.run_cli(
-                "add", "--metadata", str(metadata_path), "--record", str(patch_path)
+                "add",
+                "--metadata",
+                str(metadata_path),
+                "--record",
+                str(patch_path),
+                "--local-root",
+                str(local_root),
+                "--local-view",
+                str(local_view),
+                "--public-view",
+                str(public_path),
             )
             self.assertEqual(result.returncode, 0, result.stderr)
 
             updated = json.loads(metadata_path.read_text(encoding="utf-8"))
             self.assertEqual([item["id"] for item in updated["cases"]], ["ACT-001", "CAM-002"])
-            self.assertEqual(updated["cases"][1]["source"]["post_url"], "https://example.com/post/2")
+            self.assertEqual(updated["cases"][1]["source"]["post_url"], "https://example.com/post/1")
+
+            self.write_json(
+                patch_path,
+                {"id": "CAM-002", "source": {"post_url": "https://example.com/post/2"}},
+            )
+            before = metadata_path.read_bytes()
+            result = self.run_cli(
+                "add",
+                "--metadata",
+                str(metadata_path),
+                "--record",
+                str(patch_path),
+                "--local-root",
+                str(local_root),
+                "--local-view",
+                str(local_view),
+                "--public-view",
+                str(public_path),
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("conflicting non-empty value", result.stderr)
+            self.assertEqual(metadata_path.read_bytes(), before)
 
     def test_add_rejects_new_id_for_the_same_normalized_prompt(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             temp = Path(temp_dir)
             metadata_path = temp / "metadata.json"
             add_path = temp / "add.json"
-            self.write_json(metadata_path, valid_metadata())
-            duplicate_prompt = valid_metadata()["cases"][0].copy()
+            local_root = temp / "案例库"
+            local_view = temp / "开始这里.md"
+            public_view = temp / "README.md"
+            metadata = valid_metadata()
+            self.write_json(metadata_path, metadata)
+            self.write_prompt(local_root, metadata["cases"][0], "third-party prompt body")
+            duplicate_prompt = copy.deepcopy(valid_metadata()["cases"][0])
             duplicate_prompt["id"] = "CAM-099"
             duplicate_prompt["title"] = "Same prompt under a new id"
             duplicate_prompt["prompt"] = {
                 **duplicate_prompt["prompt"],
                 "local_relative_path": "提示词/镜头与空间运动/CAM-099_Same.txt",
             }
+            self.write_prompt(local_root, duplicate_prompt, "third-party prompt body")
             self.write_json(add_path, duplicate_prompt)
 
             result = self.run_cli(
-                "add", "--metadata", str(metadata_path), "--record", str(add_path)
+                "add",
+                "--metadata",
+                str(metadata_path),
+                "--record",
+                str(add_path),
+                "--local-root",
+                str(local_root),
+                "--local-view",
+                str(local_view),
+                "--public-view",
+                str(public_view),
             )
 
             self.assertNotEqual(result.returncode, 0)
@@ -224,6 +320,297 @@ class CaseLibraryCliTests(unittest.TestCase):
             result = self.run_cli("validate", "--metadata", str(metadata_path))
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("missing field", result.stderr)
+
+    def test_config_binds_canonical_metadata_and_explicit_arguments_override_it(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            canonical_path = temp / "canonical" / "metadata.json"
+            explicit_path = temp / "explicit" / "metadata.json"
+            local_root = temp / "案例库"
+            local_view = temp / "开始这里.md"
+            config_path = temp / "local-config.json"
+
+            canonical = valid_metadata()
+            canonical["cases"][0]["title"] = "Canonical title"
+            explicit = valid_metadata()
+            explicit["cases"][0]["title"] = "Explicit title"
+            self.write_json(canonical_path, canonical)
+            self.write_json(explicit_path, explicit)
+            self.write_prompt(local_root, canonical["cases"][0], "third-party prompt body")
+            self.write_config(config_path, canonical_path, local_root, local_view)
+
+            result = self.run_cli("build", "--config", str(config_path))
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(
+                "Canonical title",
+                (canonical_path.parent / "README.md").read_text(encoding="utf-8"),
+            )
+            self.assertIn("Canonical title", local_view.read_text(encoding="utf-8"))
+
+            explicit_public = temp / "explicit-public.md"
+            explicit_local = temp / "explicit-local.md"
+            result = self.run_cli(
+                "build",
+                "--config",
+                str(config_path),
+                "--metadata",
+                str(explicit_path),
+                "--public-view",
+                str(explicit_public),
+                "--local-view",
+                str(explicit_local),
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("Explicit title", explicit_public.read_text(encoding="utf-8"))
+            self.assertIn("Explicit title", explicit_local.read_text(encoding="utf-8"))
+
+    def test_broken_canonical_binding_fails_without_falling_back_to_packaged_snapshot(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            missing_metadata = temp / "missing" / "metadata.json"
+            local_root = temp / "案例库"
+            local_view = temp / "开始这里.md"
+            config_path = temp / "local-config.json"
+            self.write_config(config_path, missing_metadata, local_root, local_view)
+
+            result = self.run_cli("validate", "--config", str(config_path))
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn(str(missing_metadata), result.stderr)
+            self.assertIn("cannot read JSON", result.stderr)
+
+    def test_add_accepts_new_author_validates_local_files_and_refreshes_both_views(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            metadata_path = temp / "canonical" / "metadata.json"
+            public_view = metadata_path.parent / "README.md"
+            local_root = temp / "案例库"
+            local_view = local_root / "开始这里.md"
+            config_path = temp / "local-config.json"
+            record_path = temp / "case.json"
+            author_path = temp / "author.json"
+
+            metadata = valid_metadata()
+            self.write_json(metadata_path, metadata)
+            self.write_prompt(local_root, metadata["cases"][0], "third-party prompt body")
+            self.write_config(config_path, metadata_path, local_root, local_view)
+
+            new_case = copy.deepcopy(metadata["cases"][0])
+            new_case.update(
+                {
+                    "id": "CAM-002",
+                    "title": "New author camera case",
+                    "category": "镜头与空间运动",
+                    "author_id": "author-new",
+                    "task_tags": ["camera", "tracking"],
+                }
+            )
+            new_case["source"] = {
+                "post_url": "https://example.com/post/new",
+                "attribution_status": "author_post_unverified",
+                "attribution_note": "author supplied",
+                "status_note": "media not reviewed",
+                "local_locators": [
+                    {
+                        "label": "来源记录",
+                        "kind": "source",
+                        "relative_path": "来源/CAM-002.md",
+                    }
+                ],
+            }
+            new_case["prompt"] = {
+                **new_case["prompt"],
+                "local_relative_path": "提示词/镜头与空间运动/CAM-002_New.txt",
+                "content_fingerprint": hashlib.sha256(
+                    "newpromptbody".encode("utf-8")
+                ).hexdigest(),
+            }
+            self.write_prompt(local_root, new_case, "new prompt body")
+            source_path = local_root / "来源" / "CAM-002.md"
+            source_path.parent.mkdir(parents=True)
+            source_path.write_text("local source record", encoding="utf-8")
+            self.write_json(record_path, new_case)
+            self.write_json(
+                author_path,
+                {
+                    "id": "author-new",
+                    "display_name": "New Author",
+                    "handle": "@new",
+                    "profile_url": "https://example.com/new",
+                    "public_numeric_id": None,
+                },
+            )
+
+            result = self.run_cli(
+                "add",
+                "--config",
+                str(config_path),
+                "--record",
+                str(record_path),
+                "--author-record",
+                str(author_path),
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            updated = json.loads(metadata_path.read_text(encoding="utf-8"))
+            self.assertEqual(updated["authors"][-1]["id"], "author-new")
+            self.assertEqual(updated["cases"][-1]["id"], "CAM-002")
+            self.assertIn("New author camera case", public_view.read_text(encoding="utf-8"))
+            local_text = local_view.read_text(encoding="utf-8")
+            self.assertIn("## 镜头与空间运动", local_text)
+            self.assertIn(str(source_path), local_text)
+
+    def test_add_validation_failure_leaves_metadata_and_views_byte_identical(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            metadata_path = temp / "canonical" / "metadata.json"
+            public_view = metadata_path.parent / "README.md"
+            local_root = temp / "案例库"
+            local_view = local_root / "开始这里.md"
+            config_path = temp / "local-config.json"
+            record_path = temp / "case.json"
+
+            metadata = valid_metadata()
+            self.write_json(metadata_path, metadata)
+            self.write_prompt(local_root, metadata["cases"][0], "third-party prompt body")
+            self.write_config(config_path, metadata_path, local_root, local_view)
+            built = self.run_cli("build", "--config", str(config_path))
+            self.assertEqual(built.returncode, 0, built.stderr)
+            before = {
+                path: path.read_bytes()
+                for path in (metadata_path, public_view, local_view)
+            }
+
+            missing_case = copy.deepcopy(metadata["cases"][0])
+            missing_case["id"] = "CAM-003"
+            missing_case["title"] = "Missing local TXT"
+            missing_case["prompt"] = {
+                **missing_case["prompt"],
+                "local_relative_path": "提示词/镜头与空间运动/CAM-003_Missing.txt",
+                "content_fingerprint": hashlib.sha256(b"missing").hexdigest(),
+            }
+            self.write_json(record_path, missing_case)
+
+            result = self.run_cli(
+                "add",
+                "--config",
+                str(config_path),
+                "--record",
+                str(record_path),
+            )
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("missing local TXT", result.stderr)
+            for path, content in before.items():
+                self.assertEqual(path.read_bytes(), content)
+
+    def test_add_fills_only_empty_values_and_rejects_nonempty_conflicts(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            metadata_path = temp / "metadata.json"
+            public_view = temp / "README.md"
+            local_root = temp / "案例库"
+            local_view = temp / "开始这里.md"
+            record_path = temp / "patch.json"
+            metadata = valid_metadata()
+            metadata["cases"][0]["source"]["post_url"] = None
+            self.write_json(metadata_path, metadata)
+            self.write_prompt(local_root, metadata["cases"][0], "third-party prompt body")
+
+            patch = {"id": "ACT-001", "source": {"post_url": "https://example.com/post/filled"}}
+            self.write_json(record_path, patch)
+            args = (
+                "add",
+                "--metadata",
+                str(metadata_path),
+                "--record",
+                str(record_path),
+                "--local-root",
+                str(local_root),
+                "--local-view",
+                str(local_view),
+                "--public-view",
+                str(public_view),
+            )
+            result = self.run_cli(*args)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(
+                json.loads(metadata_path.read_text(encoding="utf-8"))["cases"][0]["source"]["post_url"],
+                "https://example.com/post/filled",
+            )
+            first_bytes = metadata_path.read_bytes()
+            result = self.run_cli(*args)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(metadata_path.read_bytes(), first_bytes)
+
+            self.write_json(
+                record_path,
+                {"id": "ACT-001", "source": {"post_url": "https://example.com/post/conflict"}},
+            )
+            result = self.run_cli(*args)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("conflicting non-empty value", result.stderr)
+            self.assertEqual(metadata_path.read_bytes(), first_bytes)
+
+    def test_validation_rejects_unknown_fields_empty_tags_and_bad_array_members(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            metadata_path = temp / "metadata.json"
+            base = valid_metadata()
+            base["cases"][0]["source"].update(
+                {"attribution_note": "allowed note", "status_note": "allowed status"}
+            )
+            base["cases"][0]["source"]["local_locators"] = [
+                {"label": "source", "kind": "source", "relative_path": "来源/ACT-001.md"}
+            ]
+            base["aliases"] = [{"legacy_id": "OLD-ACT-001", "case_id": "ACT-001"}]
+            self.write_json(metadata_path, base)
+            allowed = self.run_cli("validate", "--metadata", str(metadata_path))
+            self.assertEqual(allowed.returncode, 0, allowed.stderr)
+
+            mutations = [
+                ("top-level", lambda value: value.update({"prompt_body": "private"})),
+                ("snapshot", lambda value: value["snapshot"].update({"qa": {}})),
+                ("author", lambda value: value["authors"][0].update({"raw_response": {}})),
+                ("case", lambda value: value["cases"][0].update({"qa": {}})),
+                ("model", lambda value: value["cases"][0]["model_claim"].update({"raw": {}})),
+                ("source", lambda value: value["cases"][0]["source"].update({"raw_response": {}})),
+                ("locator", lambda value: value["cases"][0]["source"]["local_locators"][0].update({"absolute_path": "private"})),
+                ("prompt", lambda value: value["cases"][0]["prompt"].update({"prompt_body": "private"})),
+                ("license", lambda value: value["cases"][0]["license"].update({"qa": {}})),
+                ("alias", lambda value: value["aliases"][0].update({"note": "private"})),
+                ("empty tags", lambda value: value["cases"][0].update({"task_tags": []})),
+                ("bad missing input", lambda value: value["cases"][0]["prompt"].update({"missing_inputs": [1]})),
+                ("bad author member", lambda value: value.update({"authors": ["bad"]})),
+                ("bad case member", lambda value: value.update({"cases": ["bad"]})),
+                ("bad alias member", lambda value: value.update({"aliases": ["bad"]})),
+            ]
+            for name, mutate in mutations:
+                with self.subTest(name=name):
+                    value = copy.deepcopy(base)
+                    mutate(value)
+                    self.write_json(metadata_path, value)
+                    result = self.run_cli("validate", "--metadata", str(metadata_path))
+                    self.assertNotEqual(result.returncode, 0, name)
+
+    def test_validation_rejects_boolean_schema_version_and_untyped_author_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            metadata_path = Path(temp_dir) / "metadata.json"
+
+            boolean_version = valid_metadata()
+            boolean_version["schema_version"] = True
+            self.write_json(metadata_path, boolean_version)
+            result = self.run_cli("validate", "--metadata", str(metadata_path))
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("metadata.schema_version: expected integer 1", result.stderr)
+
+            untyped_author = valid_metadata()
+            untyped_author["cases"][0]["author_id"] = []
+            self.write_json(metadata_path, untyped_author)
+            result = self.run_cli("validate", "--metadata", str(metadata_path))
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("author_id: expected non-empty text", result.stderr)
+            self.assertNotIn("Traceback", result.stderr)
 
     def test_repository_snapshot_has_original_inventory_and_aliases_without_public_prompts(self) -> None:
         result = self.run_cli("validate", "--metadata", str(REPO_METADATA))

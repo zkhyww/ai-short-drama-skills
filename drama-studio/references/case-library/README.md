@@ -4,19 +4,20 @@
 
 使用时按当前创作、对白或制作问题匹配用途标签，只读命中单条。需要原提示词时，必须在获准且已绑定的本地案例根中读取；本页没有本地原文时，使用现有规则做原创设计，不伪称读过案例。
 
-逐条缺输入、归属提醒与原始状态说明保存在唯一真源 [metadata.json](metadata.json) 的同 ID 记录中。公开可读不等于取得原文再发布许可。
+逐条缺输入、归属提醒与原始状态说明保存在生成本页所用的 [metadata.json](metadata.json) 同 ID 记录中；私有绑定可把维护命令指向唯一 canonical metadata，包内文件只作发布快照。公开可读不等于取得原文再发布许可。
 
 ## 本地绑定与维护
 
-本地根只通过调用参数传入，不写进 Skill。示例：
+私有绑定写入同目录且已被 Git 忽略的 `local-config.json`，只含 `canonical_metadata`、`local_root`、`local_view`。安装副本中的 metadata 是发布快照；存在绑定时，`validate`、`build`、`add` 都使用 canonical metadata，绑定失效会明确失败，不会静默回退快照。没有绑定时仍可读取和生成包内公共视图。可用 `--config` 显式选择配置；同次调用中的路径参数逐项覆盖该配置。只显式传 `--metadata` 而不传 `--config` 时视为独立上下文，不自动混用私有绑定。
 
 ```powershell
-python drama-studio/scripts/case_library.py validate --metadata drama-studio/references/case-library/metadata.json
-python drama-studio/scripts/case_library.py build --metadata drama-studio/references/case-library/metadata.json --public-view drama-studio/references/case-library/README.md --local-root '<本地案例根>' --local-view '<忽略的本地阅读索引.md>'
-python drama-studio/scripts/case_library.py add --metadata drama-studio/references/case-library/metadata.json --record '<新增或补缺记录.json>'
+python drama-studio/scripts/case_library.py validate
+python drama-studio/scripts/case_library.py build
+python drama-studio/scripts/case_library.py add --record '<新增或补缺记录.json>' --author-record '<可选的新作者记录.json>'
+python drama-studio/scripts/case_library.py build --metadata '<显式metadata.json>' --public-view '<显式公共README.md>' --local-root '<显式本地案例根>' --local-view '<显式本地入口.md>'
 ```
 
-`add` 遇到新 ID 才追加；同 ID 按字段补缺并保持原位置。标准化原文 SHA-256 相同却另分配新 ID 时拒绝；同一帖子含多段不同原文时按不同指纹保留。每次写入后都执行完整 schema、重复 ID/原文指纹、别名目标与相对路径校验。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。
+`add` 可在同一事务加入一个新作者与一个案例：先核作者、真实 TXT/locator、标准化 SHA-256、完整 schema、重复 ID/指纹及别名，再一起刷新 metadata、公共视图和本地 `开始这里.md`；任一步失败都不改这三份文件。新 ID 才追加；同 ID 只填 `null`、空字符串/数组/对象，完全相同的值幂等，非空冲突拒绝。真实更正不走通用覆盖接口：须经批准后直接编辑 canonical metadata，保留可审查 diff，再运行 `validate` 与 `build`。同一帖子含多段不同原文时按不同指纹保留。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。
 
 ## 动作与打斗
 

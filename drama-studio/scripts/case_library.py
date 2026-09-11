@@ -23,6 +23,7 @@ TOP_LEVEL_FIELDS = {
     "cases",
     "aliases",
 }
+CONFIG_FIELDS = {"canonical_metadata", "local_root", "local_view"}
 SNAPSHOT_FIELDS = {"as_of", "original_case_count", "prompt_policy"}
 AUTHOR_FIELDS = {
     "id",
@@ -45,7 +46,8 @@ CASE_FIELDS = {
     "license",
 }
 MODEL_FIELDS = {"name", "basis"}
-SOURCE_FIELDS = {"post_url", "attribution_status", "local_locators"}
+SOURCE_REQUIRED_FIELDS = {"post_url", "attribution_status", "local_locators"}
+SOURCE_FIELDS = SOURCE_REQUIRED_FIELDS | {"attribution_note", "status_note"}
 LOCAL_LOCATOR_FIELDS = {"label", "kind", "relative_path"}
 PROMPT_FIELDS = {
     "completeness",
@@ -91,6 +93,13 @@ LEGACY_ALIASES = {
     "P03双角色替换": "EDT-005",
     "P03庭院人物场景": "ART-002",
 }
+PACKAGED_METADATA = (
+    Path(__file__).resolve().parents[1]
+    / "references"
+    / "case-library"
+    / "metadata.json"
+)
+PACKAGED_CONFIG = PACKAGED_METADATA.parent / "local-config.json"
 
 
 class ValidationError(ValueError):
@@ -104,13 +113,64 @@ def read_json(path: Path) -> Any:
         raise ValidationError(f"cannot read JSON {path}: {exc}") from exc
 
 
-def require_fields(value: Any, fields: set[str], location: str) -> None:
+def config_path_value(value: Any, key: str, config_path: Path) -> Path:
+    require_text(value, f"config.{key}")
+    path = Path(value)
+    if not path.is_absolute():
+        path = config_path.parent / path
+    return path
+
+
+def resolve_bindings(args: argparse.Namespace) -> tuple[Path, Path, Path | None, Path | None]:
+    config_path = getattr(args, "config", None)
+    if config_path is None and getattr(args, "metadata", None) is None:
+        if PACKAGED_CONFIG.is_file():
+            config_path = PACKAGED_CONFIG
+
+    config: dict[str, Any] | None = None
+    if config_path is not None:
+        config = read_json(config_path)
+        require_fields(config, CONFIG_FIELDS, "config")
+
+    metadata = getattr(args, "metadata", None)
+    if metadata is None:
+        metadata = (
+            config_path_value(config["canonical_metadata"], "canonical_metadata", config_path)
+            if config is not None
+            else PACKAGED_METADATA
+        )
+
+    local_root = getattr(args, "local_root", None)
+    if local_root is None and config is not None:
+        local_root = config_path_value(config["local_root"], "local_root", config_path)
+
+    local_view = getattr(args, "local_view", None)
+    if local_view is None and config is not None:
+        local_view = config_path_value(config["local_view"], "local_view", config_path)
+
+    public_view = getattr(args, "public_view", None)
+    if public_view is None:
+        public_view = metadata.parent / "README.md"
+    return metadata, public_view, local_root, local_view
+
+
+def require_fields(
+    value: Any,
+    fields: set[str],
+    location: str,
+    allowed_fields: set[str] | None = None,
+) -> None:
     if not isinstance(value, dict):
         raise ValidationError(f"{location}: expected object")
     missing = fields - value.keys()
     if missing:
         raise ValidationError(
             f"{location}: missing field(s): {', '.join(sorted(missing))}"
+        )
+    unexpected = value.keys() - (allowed_fields or fields)
+    if unexpected:
+        raise ValidationError(
+            f"{location}: unknown field(s): {', '.join(sorted(unexpected))}"
         )
 
 
@@ -141,7 +201,7 @@ def validate_relative_path(value: Any, location: str) -> None:
 def validate_local_locator(value: Any, location: str) -> None:
     require_fields(value, LOCAL_LOCATOR_FIELDS, location)
     require_text(value["label"], f"{location}.label")
-    if value["kind"] not in {"media", "source"}:
+    if not isinstance(value["kind"], str) or value["kind"] not in {"media", "source"}:
         raise ValidationError(f"{location}.kind: expected media or source")
     relative_path = value["relative_path"]
     require_text(relative_path, f"{location}.relative_path")
@@ -171,11 +231,17 @@ def reject_embedded_absolute_paths(value: Any, location: str = "metadata") -> No
 
 def validate_metadata(metadata: Any, local_root: Path | None = None) -> dict[str, Any]:
     require_fields(metadata, TOP_LEVEL_FIELDS, "metadata")
-    if metadata["schema_version"] != 1:
-        raise ValidationError("metadata.schema_version: expected 1")
+    if type(metadata["schema_version"]) is not int or metadata["schema_version"] != 1:
+        raise ValidationError("metadata.schema_version: expected integer 1")
     require_text(metadata["library_id"], "metadata.library_id")
     require_fields(metadata["snapshot"], SNAPSHOT_FIELDS, "metadata.snapshot")
-    if not isinstance(metadata["snapshot"]["original_case_count"], int):
+    require_text(metadata["snapshot"]["as_of"], "metadata.snapshot.as_of")
+    require_text(
+        metadata["snapshot"]["prompt_policy"], "metadata.snapshot.prompt_policy"
+    )
+    if isinstance(metadata["snapshot"]["original_case_count"], bool) or not isinstance(
+        metadata["snapshot"]["original_case_count"], int
+    ):
         raise ValidationError("metadata.snapshot.original_case_count: expected integer")
     reject_embedded_absolute_paths(metadata)
 
@@ -188,7 +254,11 @@ def validate_metadata(metadata: Any, local_root: Path | None = None) -> dict[str
         require_fields(author, AUTHOR_FIELDS, location)
         require_text(author["id"], f"{location}.id")
         require_text(author["display_name"], f"{location}.display_name")
+        if author["handle"] is not None:
+            require_text(author["handle"], f"{location}.handle")
         validate_url(author["profile_url"], f"{location}.profile_url")
+        if author["public_numeric_id"] is not None:
+            require_text(author["public_numeric_id"], f"{location}.public_numeric_id")
         if author["id"] in author_ids:
             raise ValidationError(f"duplicate author id: {author['id']}")
         author_ids.add(author["id"])
@@ -211,19 +281,31 @@ def validate_metadata(metadata: Any, local_root: Path | None = None) -> dict[str
         require_fields(case["model_claim"], MODEL_FIELDS, f"{location}.model_claim")
         require_text(case["model_claim"]["name"], f"{location}.model_claim.name")
         require_text(case["model_claim"]["basis"], f"{location}.model_claim.basis")
-        if not isinstance(case["task_tags"], list) or not all(
+        if not isinstance(case["task_tags"], list) or not case["task_tags"] or not all(
             isinstance(tag, str) and tag.strip() for tag in case["task_tags"]
         ):
             raise ValidationError(f"{location}.task_tags: expected non-empty text array")
+        require_text(case["author_id"], f"{location}.author_id")
         if case["author_id"] not in author_ids:
             raise ValidationError(f"{location}.author_id: unknown author id")
 
-        require_fields(case["source"], SOURCE_FIELDS, f"{location}.source")
+        require_fields(
+            case["source"],
+            SOURCE_REQUIRED_FIELDS,
+            f"{location}.source",
+            SOURCE_FIELDS,
+        )
         validate_url(case["source"]["post_url"], f"{location}.source.post_url")
         require_text(
             case["source"]["attribution_status"],
             f"{location}.source.attribution_status",
         )
+        for optional_note in ("attribution_note", "status_note"):
+            if optional_note in case["source"]:
+                require_text(
+                    case["source"][optional_note],
+                    f"{location}.source.{optional_note}",
+                )
         local_locators = case["source"]["local_locators"]
         if not isinstance(local_locators, list):
             raise ValidationError(f"{location}.source.local_locators: expected array")
@@ -240,8 +322,13 @@ def validate_metadata(metadata: Any, local_root: Path | None = None) -> dict[str
                     )
         require_fields(case["prompt"], PROMPT_FIELDS, f"{location}.prompt")
         require_text(case["prompt"]["completeness"], f"{location}.prompt.completeness")
-        if not isinstance(case["prompt"]["missing_inputs"], list):
-            raise ValidationError(f"{location}.prompt.missing_inputs: expected array")
+        if not isinstance(case["prompt"]["missing_inputs"], list) or not all(
+            isinstance(item, str) and item.strip()
+            for item in case["prompt"]["missing_inputs"]
+        ):
+            raise ValidationError(
+                f"{location}.prompt.missing_inputs: expected text array"
+            )
         validate_relative_path(
             case["prompt"]["local_relative_path"],
             f"{location}.prompt.local_relative_path",
@@ -319,19 +406,20 @@ def render_public(metadata: dict[str, Any]) -> str:
         "",
         "使用时按当前创作、对白或制作问题匹配用途标签，只读命中单条。需要原提示词时，必须在获准且已绑定的本地案例根中读取；本页没有本地原文时，使用现有规则做原创设计，不伪称读过案例。",
         "",
-        "逐条缺输入、归属提醒与原始状态说明保存在唯一真源 [metadata.json](metadata.json) 的同 ID 记录中。公开可读不等于取得原文再发布许可。",
+        "逐条缺输入、归属提醒与原始状态说明保存在生成本页所用的 [metadata.json](metadata.json) 同 ID 记录中；私有绑定可把维护命令指向唯一 canonical metadata，包内文件只作发布快照。公开可读不等于取得原文再发布许可。",
         "",
         "## 本地绑定与维护",
         "",
-        "本地根只通过调用参数传入，不写进 Skill。示例：",
+        "私有绑定写入同目录且已被 Git 忽略的 `local-config.json`，只含 `canonical_metadata`、`local_root`、`local_view`。安装副本中的 metadata 是发布快照；存在绑定时，`validate`、`build`、`add` 都使用 canonical metadata，绑定失效会明确失败，不会静默回退快照。没有绑定时仍可读取和生成包内公共视图。可用 `--config` 显式选择配置；同次调用中的路径参数逐项覆盖该配置。只显式传 `--metadata` 而不传 `--config` 时视为独立上下文，不自动混用私有绑定。",
         "",
         "```powershell",
-        "python drama-studio/scripts/case_library.py validate --metadata drama-studio/references/case-library/metadata.json",
-        "python drama-studio/scripts/case_library.py build --metadata drama-studio/references/case-library/metadata.json --public-view drama-studio/references/case-library/README.md --local-root '<本地案例根>' --local-view '<忽略的本地阅读索引.md>'",
-        "python drama-studio/scripts/case_library.py add --metadata drama-studio/references/case-library/metadata.json --record '<新增或补缺记录.json>'",
+        "python drama-studio/scripts/case_library.py validate",
+        "python drama-studio/scripts/case_library.py build",
+        "python drama-studio/scripts/case_library.py add --record '<新增或补缺记录.json>' --author-record '<可选的新作者记录.json>'",
+        "python drama-studio/scripts/case_library.py build --metadata '<显式metadata.json>' --public-view '<显式公共README.md>' --local-root '<显式本地案例根>' --local-view '<显式本地入口.md>'",
         "```",
         "",
-        "`add` 遇到新 ID 才追加；同 ID 按字段补缺并保持原位置。标准化原文 SHA-256 相同却另分配新 ID 时拒绝；同一帖子含多段不同原文时按不同指纹保留。每次写入后都执行完整 schema、重复 ID/原文指纹、别名目标与相对路径校验。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。",
+        "`add` 可在同一事务加入一个新作者与一个案例：先核作者、真实 TXT/locator、标准化 SHA-256、完整 schema、重复 ID/指纹及别名，再一起刷新 metadata、公共视图和本地 `开始这里.md`；任一步失败都不改这三份文件。新 ID 才追加；同 ID 只填 `null`、空字符串/数组/对象，完全相同的值幂等，非空冲突拒绝。真实更正不走通用覆盖接口：须经批准后直接编辑 canonical metadata，保留可审查 diff，再运行 `validate` 与 `build`。同一帖子含多段不同原文时按不同指纹保留。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。",
         "",
     ]
     categories: dict[str, list[dict[str, Any]]] = {}
@@ -388,20 +476,48 @@ def render_public(metadata: dict[str, Any]) -> str:
 
 
 def render_local(metadata: dict[str, Any], local_root: Path) -> str:
+    authors = {author["id"]: author for author in metadata["authors"]}
     lines = [
         "# 本地案例阅读索引",
         "",
-        "> 本页由公共 metadata 真源与调用时提供的本地根机械生成，不应提交到 Git。原文与媒体仍留在本地，读取不改变授权状态。",
+        "> 本页由 canonical metadata（未绑定时为包内发布快照）与本地根机械生成，不应提交到 Git。原文与媒体仍留在本地，读取不改变授权状态。",
         "",
     ]
+    categories: dict[str, list[dict[str, Any]]] = {}
     for case in metadata["cases"]:
-        prompt_path = local_root / Path(case["prompt"]["local_relative_path"])
-        lines.append(f"- {case['id']} {case['title']} — [{prompt_path.name}]({prompt_path})")
-        for locator in case["source"]["local_locators"]:
-            locator_path = local_root / Path(locator["relative_path"])
-            lines.append(
-                f"  - {locator['kind']}：[{locator['label']}]({locator_path})"
+        categories.setdefault(case["category"], []).append(case)
+    for category, cases in categories.items():
+        lines.extend([f"## {category}", ""])
+        for case in cases:
+            prompt_path = local_root / Path(case["prompt"]["local_relative_path"])
+            author = author_label(authors[case["author_id"]])
+            if case["source"]["post_url"]:
+                author += f" / [原帖]({case['source']['post_url']})"
+            missing = " / ".join(case["prompt"]["missing_inputs"]) or "未记录缺项（非输入齐备证明）"
+            attribution = case["source"]["attribution_status"]
+            if case["source"].get("attribution_note"):
+                attribution += f"；{case['source']['attribution_note']}"
+            if case["source"].get("status_note"):
+                attribution += f"；{case['source']['status_note']}"
+            lines.extend(
+                [
+                    f"### {case['id']} {case['title']}",
+                    "",
+                    f"- 用途标签：{' / '.join(case['task_tags'])}",
+                    f"- 作者/来源：{author}",
+                    f"- 模型声称：{case['model_claim']['name']}（{case['model_claim']['basis']}）",
+                    f"- 完整性：{case['prompt']['completeness']}；缺输入：{missing}",
+                    f"- 归属/状态：{attribution}",
+                    f"- 验证/许可：媒体 {case['media_verification']}；许可 {case['license']['status']}；提示词再发布 {case['license']['prompt_redistribution']}",
+                    f"- 本地提示词：[{prompt_path.name}]({prompt_path})",
+                ]
             )
+            for locator in case["source"]["local_locators"]:
+                locator_path = local_root / Path(locator["relative_path"])
+                lines.append(
+                    f"  - {locator['kind']}：[{locator['label']}]({locator_path})"
+                )
+            lines.append("")
     lines.extend(["", "## 历史别名", ""])
     lines.extend(
         f"- {alias['legacy_id']} → {alias['case_id']}" for alias in metadata["aliases"]
@@ -431,14 +547,78 @@ def write_json_atomic(path: Path, value: Any) -> None:
             temporary_path.unlink()
 
 
-def deep_merge(original: dict[str, Any], patch: dict[str, Any]) -> dict[str, Any]:
-    merged = copy.deepcopy(original)
-    for key, value in patch.items():
-        if isinstance(value, dict) and isinstance(merged.get(key), dict):
-            merged[key] = deep_merge(merged[key], value)
-        else:
-            merged[key] = copy.deepcopy(value)
-    return merged
+def json_text(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, indent=2) + "\n"
+
+
+def stage_bytes(path: Path, content: bytes) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle, temporary_name = tempfile.mkstemp(
+        prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
+    )
+    try:
+        with os.fdopen(handle, "wb") as stream:
+            stream.write(content)
+    except Exception:
+        Path(temporary_name).unlink(missing_ok=True)
+        raise
+    return Path(temporary_name)
+
+
+def write_bundle_atomic(payloads: list[tuple[Path, str]]) -> None:
+    paths = [path for path, _ in payloads]
+    if len(paths) != len(set(paths)):
+        raise ValidationError("metadata and derived view paths must be distinct")
+    originals: dict[Path, bytes | None] = {}
+    staged: dict[Path, Path] = {}
+    try:
+        for path, text in payloads:
+            originals[path] = path.read_bytes() if path.exists() else None
+            staged[path] = stage_bytes(path, text.encode("utf-8"))
+        for path in paths:
+            os.replace(staged.pop(path), path)
+    except OSError as exc:
+        rollback_errors: list[str] = []
+        for path, original in originals.items():
+            try:
+                if original is None:
+                    if path.exists():
+                        path.unlink()
+                else:
+                    rollback = stage_bytes(path, original)
+                    os.replace(rollback, path)
+            except OSError as rollback_exc:
+                rollback_errors.append(f"{path}: {rollback_exc}")
+        detail = f"; rollback failed for {', '.join(rollback_errors)}" if rollback_errors else ""
+        raise ValidationError(f"cannot update case library transaction: {exc}{detail}") from exc
+    finally:
+        for temporary_path in staged.values():
+            temporary_path.unlink(missing_ok=True)
+
+
+def is_empty_value(value: Any) -> bool:
+    return value is None or value == "" or value == [] or value == {}
+
+
+def fill_missing(original: Any, patch: Any, location: str) -> Any:
+    if isinstance(original, dict) and isinstance(patch, dict):
+        merged = copy.deepcopy(original)
+        for key, value in patch.items():
+            child_location = f"{location}.{key}"
+            if key not in merged or is_empty_value(merged[key]):
+                merged[key] = copy.deepcopy(value)
+            elif isinstance(merged[key], dict) and isinstance(value, dict):
+                merged[key] = fill_missing(merged[key], value, child_location)
+            elif merged[key] != value:
+                raise ValidationError(
+                    f"{child_location}: conflicting non-empty value"
+                )
+        return merged
+    if is_empty_value(original):
+        return copy.deepcopy(patch)
+    if original != patch:
+        raise ValidationError(f"{location}: conflicting non-empty value")
+    return copy.deepcopy(original)
 
 
 def markdown_cells(line: str) -> list[str]:
@@ -715,25 +895,46 @@ def command_migrate(args: argparse.Namespace) -> None:
 
 
 def command_validate(args: argparse.Namespace) -> None:
-    metadata = read_json(args.metadata)
-    validate_metadata(metadata, args.local_root)
+    metadata_path, _, local_root, _ = resolve_bindings(args)
+    metadata = read_json(metadata_path)
+    validate_metadata(metadata, local_root)
     print(f"valid: {len(metadata['cases'])} cases, {len(metadata['aliases'])} aliases")
 
 
 def command_build(args: argparse.Namespace) -> None:
-    if (args.local_root is None) != (args.local_view is None):
+    metadata_path, public_view, local_root, local_view = resolve_bindings(args)
+    if (local_root is None) != (local_view is None):
         raise ValidationError("--local-root and --local-view must be provided together")
-    metadata = read_json(args.metadata)
-    validate_metadata(metadata, args.local_root)
-    write_text(args.public_view, render_public(metadata))
-    if args.local_root is not None:
-        write_text(args.local_view, render_local(metadata, args.local_root))
+    metadata = read_json(metadata_path)
+    validate_metadata(metadata, local_root)
+    write_text(public_view, render_public(metadata))
+    if local_root is not None:
+        write_text(local_view, render_local(metadata, local_root))
     print(f"built: {len(metadata['cases'])} cases")
 
 
 def command_add(args: argparse.Namespace) -> None:
-    metadata = read_json(args.metadata)
-    validate_metadata(metadata)
+    metadata_path, public_view, local_root, local_view = resolve_bindings(args)
+    if local_root is None or local_view is None:
+        raise ValidationError(
+            "add requires --local-root and --local-view or a complete local binding"
+        )
+    metadata = read_json(metadata_path)
+    validate_metadata(metadata, local_root)
+
+    if args.author_record is not None:
+        author_record = read_json(args.author_record)
+        require_fields(author_record, AUTHOR_FIELDS, "author record")
+        require_text(author_record["id"], "author record.id")
+        author_ids = [author["id"] for author in metadata["authors"]]
+        if author_record["id"] in author_ids:
+            index = author_ids.index(author_record["id"])
+            metadata["authors"][index] = fill_missing(
+                metadata["authors"][index], author_record, "author record"
+            )
+        else:
+            metadata["authors"].append(author_record)
+
     record = read_json(args.record)
     if not isinstance(record, dict):
         raise ValidationError("record: expected object")
@@ -741,13 +942,23 @@ def command_add(args: argparse.Namespace) -> None:
     case_ids = [case["id"] for case in metadata["cases"]]
     if record["id"] in case_ids:
         index = case_ids.index(record["id"])
-        metadata["cases"][index] = deep_merge(metadata["cases"][index], record)
+        metadata["cases"][index] = fill_missing(
+            metadata["cases"][index], record, "record"
+        )
         action = "updated"
     else:
         metadata["cases"].append(record)
         action = "added"
-    validate_metadata(metadata)
-    write_json_atomic(args.metadata, metadata)
+    validate_metadata(metadata, local_root)
+    public_text = render_public(metadata)
+    local_text = render_local(metadata, local_root)
+    write_bundle_atomic(
+        [
+            (metadata_path, json_text(metadata)),
+            (public_view, public_text),
+            (local_view, local_text),
+        ]
+    )
     print(f"{action}: {record['id']}")
 
 
@@ -756,20 +967,27 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     validate = subparsers.add_parser("validate")
-    validate.add_argument("--metadata", type=Path, required=True)
+    validate.add_argument("--config", type=Path)
+    validate.add_argument("--metadata", type=Path)
     validate.add_argument("--local-root", type=Path)
     validate.set_defaults(handler=command_validate)
 
     build = subparsers.add_parser("build")
-    build.add_argument("--metadata", type=Path, required=True)
-    build.add_argument("--public-view", type=Path, required=True)
+    build.add_argument("--config", type=Path)
+    build.add_argument("--metadata", type=Path)
+    build.add_argument("--public-view", type=Path)
     build.add_argument("--local-root", type=Path)
     build.add_argument("--local-view", type=Path)
     build.set_defaults(handler=command_build)
 
     add = subparsers.add_parser("add")
-    add.add_argument("--metadata", type=Path, required=True)
+    add.add_argument("--config", type=Path)
+    add.add_argument("--metadata", type=Path)
     add.add_argument("--record", type=Path, required=True)
+    add.add_argument("--author-record", type=Path)
+    add.add_argument("--public-view", type=Path)
+    add.add_argument("--local-root", type=Path)
+    add.add_argument("--local-view", type=Path)
     add.set_defaults(handler=command_add)
 
     migrate = subparsers.add_parser("migrate")
