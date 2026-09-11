@@ -58,7 +58,13 @@ PROMPT_FIELDS = {
 }
 LICENSE_FIELDS = {"status", "prompt_redistribution"}
 ALIAS_FIELDS = {"legacy_id", "case_id"}
-WINDOWS_ABSOLUTE_RE = re.compile(r"^[A-Za-z]:[\\/]")
+WINDOWS_DRIVE_RE = re.compile(r"^[A-Za-z]:")
+EMBEDDED_WINDOWS_PATH_RE = re.compile(
+    r"(?<![A-Za-z0-9])(?:[A-Za-z]:[\\/]|\\\\[^\\/\s]+[\\/][^\\/\s]+)"
+)
+EMBEDDED_UNC_PATH_RE = re.compile(r"(?:^|[\s(\[{'\"=：:])//[^/\s]+/[^/\s]+")
+EMBEDDED_POSIX_PATH_RE = re.compile(r"(?:^|(?<=[\s(\[{'\"=：:]))/(?![/\s])")
+HTTP_URL_RE = re.compile(r"https?://[^\s<>\[\]()\"']+")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 CASE_LINK_RE = re.compile(
     r"^\[(?P<id>[A-Z]+-\d+) (?P<title>[^\]]+)\]\((?P<path>[^)]+)\)$"
@@ -189,7 +195,7 @@ def validate_url(value: Any, location: str) -> None:
 
 def validate_relative_path(value: Any, location: str) -> None:
     require_text(value, location)
-    if WINDOWS_ABSOLUTE_RE.match(value) or "\\" in value:
+    if WINDOWS_DRIVE_RE.match(value) or "\\" in value:
         raise ValidationError(f"{location}: expected safe POSIX relative path")
     path = PurePosixPath(value)
     if path.is_absolute() or ".." in path.parts or "." in path.parts:
@@ -205,7 +211,7 @@ def validate_local_locator(value: Any, location: str) -> None:
         raise ValidationError(f"{location}.kind: expected media or source")
     relative_path = value["relative_path"]
     require_text(relative_path, f"{location}.relative_path")
-    if WINDOWS_ABSOLUTE_RE.match(relative_path) or "\\" in relative_path:
+    if WINDOWS_DRIVE_RE.match(relative_path) or "\\" in relative_path:
         raise ValidationError(f"{location}.relative_path: expected safe POSIX relative path")
     path = PurePosixPath(relative_path)
     if path.is_absolute() or ".." in path.parts or "." in path.parts:
@@ -218,6 +224,16 @@ def normalized_prompt_fingerprint(path: Path) -> str:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
+def resolve_local_path(local_root: Path, relative_path: str, location: str) -> Path:
+    approved_root = local_root.resolve()
+    resolved_path = (approved_root / Path(relative_path)).resolve()
+    try:
+        resolved_path.relative_to(approved_root)
+    except ValueError as exc:
+        raise ValidationError(f"{location}: resolved path is outside local root") from exc
+    return resolved_path
+
+
 def reject_embedded_absolute_paths(value: Any, location: str = "metadata") -> None:
     if isinstance(value, dict):
         for key, child in value.items():
@@ -225,8 +241,14 @@ def reject_embedded_absolute_paths(value: Any, location: str = "metadata") -> No
     elif isinstance(value, list):
         for index, child in enumerate(value):
             reject_embedded_absolute_paths(child, f"{location}[{index}]")
-    elif isinstance(value, str) and WINDOWS_ABSOLUTE_RE.match(value):
-        raise ValidationError(f"{location}: absolute machine path is not publishable")
+    elif isinstance(value, str):
+        publishable_text = HTTP_URL_RE.sub("", value)
+        if (
+            EMBEDDED_WINDOWS_PATH_RE.search(publishable_text)
+            or EMBEDDED_UNC_PATH_RE.search(publishable_text)
+            or EMBEDDED_POSIX_PATH_RE.search(publishable_text)
+        ):
+            raise ValidationError(f"{location}: absolute machine path is not publishable")
 
 
 def validate_metadata(metadata: Any, local_root: Path | None = None) -> dict[str, Any]:
@@ -315,7 +337,9 @@ def validate_metadata(metadata: Any, local_root: Path | None = None) -> dict[str
             )
             validate_local_locator(locator, locator_location)
             if local_root is not None:
-                locator_path = local_root / Path(locator["relative_path"])
+                locator_path = resolve_local_path(
+                    local_root, locator["relative_path"], f"{locator_location}.relative_path"
+                )
                 if not locator_path.exists():
                     raise ValidationError(
                         f"{locator_location}.relative_path: missing local item {locator_path}"
@@ -359,7 +383,11 @@ def validate_metadata(metadata: Any, local_root: Path | None = None) -> dict[str
             )
 
         if local_root is not None:
-            prompt_path = local_root / Path(case["prompt"]["local_relative_path"])
+            prompt_path = resolve_local_path(
+                local_root,
+                case["prompt"]["local_relative_path"],
+                f"{location}.prompt.local_relative_path",
+            )
             if not prompt_path.is_file():
                 raise ValidationError(
                     f"{location}.prompt.local_relative_path: missing local TXT {prompt_path}"
@@ -419,7 +447,7 @@ def render_public(metadata: dict[str, Any]) -> str:
         "python drama-studio/scripts/case_library.py build --metadata '<显式metadata.json>' --public-view '<显式公共README.md>' --local-root '<显式本地案例根>' --local-view '<显式本地入口.md>'",
         "```",
         "",
-        "`add` 可在同一事务加入一个新作者与一个案例：先核作者、真实 TXT/locator、标准化 SHA-256、完整 schema、重复 ID/指纹及别名，再一起刷新 metadata、公共视图和本地 `开始这里.md`；任一步失败都不改这三份文件。新 ID 才追加；同 ID 只填 `null`、空字符串/数组/对象，完全相同的值幂等，非空冲突拒绝。真实更正不走通用覆盖接口：须经批准后直接编辑 canonical metadata，保留可审查 diff，再运行 `validate` 与 `build`。同一帖子含多段不同原文时按不同指纹保留。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。",
+        "正常新增或同 ID 补缺必须走 `add`，不得改历史 `snapshot.original_case_count`。`add` 可在同一事务加入一个新作者与一个案例：先核作者、真实 TXT/locator、标准化 SHA-256、完整 schema、重复 ID/指纹及别名，再一起刷新 metadata、公共视图和本地 `开始这里.md`；任一步失败都不改这三份文件。新 ID 才追加；同 ID 只填 `null`、空字符串/数组/对象，完全相同的值幂等，非空冲突拒绝。只有经批准的非空事实更正才直接编辑 canonical metadata，保留可审查 diff，再运行 `validate` 与 `build`。每条取得的第三方原文独立保存为纯原文 TXT，只保留真实原文；来源、授权与取得状态写对应 metadata，现有字段不足时写同 ID 本地来源旁档；我方归纳另存并标明，成果以稳定 ID 与 locator 回指唯一原文，不造第二份混合真源。同一帖子含多段不同原文时按不同指纹保留。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。",
         "",
     ]
     categories: dict[str, list[dict[str, Any]]] = {}
@@ -567,8 +595,7 @@ def stage_bytes(path: Path, content: bytes) -> Path:
 
 def write_bundle_atomic(payloads: list[tuple[Path, str]]) -> None:
     paths = [path for path, _ in payloads]
-    if len(paths) != len(set(paths)):
-        raise ValidationError("metadata and derived view paths must be distinct")
+    require_distinct_file_paths(paths)
     originals: dict[Path, bytes | None] = {}
     staged: dict[Path, Path] = {}
     try:
@@ -594,6 +621,21 @@ def write_bundle_atomic(payloads: list[tuple[Path, str]]) -> None:
     finally:
         for temporary_path in staged.values():
             temporary_path.unlink(missing_ok=True)
+
+
+def require_distinct_file_paths(paths: list[Path]) -> None:
+    resolved_paths = [path.resolve() for path in paths]
+    for index, path in enumerate(paths):
+        for other_index in range(index):
+            other = paths[other_index]
+            same_identity = resolved_paths[index] == resolved_paths[other_index]
+            if not same_identity and path.exists() and other.exists():
+                try:
+                    same_identity = path.samefile(other)
+                except OSError:
+                    same_identity = False
+            if same_identity:
+                raise ValidationError("metadata and derived view paths must be distinct")
 
 
 def is_empty_value(value: Any) -> bool:
@@ -682,14 +724,16 @@ def local_locators_from_cell(
     source_cell: str, local_root: Path, source_index: Path
 ) -> list[dict[str, str]]:
     locators: list[dict[str, str]] = []
+    approved_root = local_root.resolve()
     for label, target in MARKDOWN_LINK_RE.findall(source_cell):
         if target.startswith(("http://", "https://")):
             continue
         target_path = Path(target)
         if not target_path.is_absolute():
-            target_path = (source_index.parent / target_path).resolve()
+            target_path = source_index.parent / target_path
+        target_path = target_path.resolve()
         try:
-            relative_path = target_path.relative_to(local_root).as_posix()
+            relative_path = target_path.relative_to(approved_root).as_posix()
         except ValueError as exc:
             raise ValidationError(
                 f"source locator is outside local root: {target_path}"
@@ -733,7 +777,9 @@ def discover_post_url(
     for locator in local_locators:
         if locator["kind"] != "source":
             continue
-        source_path = local_root / Path(locator["relative_path"])
+        source_path = resolve_local_path(
+            local_root, locator["relative_path"], "source locator.relative_path"
+        )
         if source_path.suffix.lower() not in TEXT_SOURCE_SUFFIXES or not source_path.is_file():
             continue
         try:
@@ -818,9 +864,10 @@ def command_migrate(args: argparse.Namespace) -> None:
                 "public_numeric_id": None,
             },
         )
-        source_path = Path(case_match.group("path"))
+        approved_root = args.local_root.resolve()
+        source_path = Path(case_match.group("path")).resolve()
         try:
-            relative_path = source_path.relative_to(args.local_root).as_posix()
+            relative_path = source_path.relative_to(approved_root).as_posix()
         except ValueError as exc:
             raise ValidationError(
                 f"case {case_match.group('id')}: prompt path is outside local root"
@@ -905,6 +952,9 @@ def command_build(args: argparse.Namespace) -> None:
     metadata_path, public_view, local_root, local_view = resolve_bindings(args)
     if (local_root is None) != (local_view is None):
         raise ValidationError("--local-root and --local-view must be provided together")
+    require_distinct_file_paths(
+        [metadata_path, public_view] + ([local_view] if local_view is not None else [])
+    )
     metadata = read_json(metadata_path)
     validate_metadata(metadata, local_root)
     write_text(public_view, render_public(metadata))
@@ -919,6 +969,7 @@ def command_add(args: argparse.Namespace) -> None:
         raise ValidationError(
             "add requires --local-root and --local-view or a complete local binding"
         )
+    require_distinct_file_paths([metadata_path, public_view, local_view])
     metadata = read_json(metadata_path)
     validate_metadata(metadata, local_root)
 

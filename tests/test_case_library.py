@@ -1,6 +1,7 @@
 import copy
 import json
 import hashlib
+import os
 import subprocess
 import sys
 import tempfile
@@ -158,6 +159,95 @@ class CaseLibraryCliTests(unittest.TestCase):
             self.assertIn("author_post_unverified", local_text)
             self.assertIn("媒体 not_reviewed；许可 unknown", local_text)
 
+    def test_build_rejects_overlapping_file_identities_without_modifying_files(self) -> None:
+        scenarios = ("same_metadata", "dotdot_alias", "shared_views", "hardlink_alias")
+        for scenario in scenarios:
+            with self.subTest(scenario=scenario), tempfile.TemporaryDirectory() as temp_dir:
+                temp = Path(temp_dir)
+                metadata_path = temp / "canonical" / "metadata.json"
+                public_view = temp / "README.md"
+                local_view = temp / "开始这里.md"
+                local_root = temp / "案例库"
+                metadata = valid_metadata()
+                self.write_json(metadata_path, metadata)
+                self.write_prompt(local_root, metadata["cases"][0], "third-party prompt body")
+                public_view.write_text("public sentinel\n", encoding="utf-8")
+                local_view.write_text("local sentinel\n", encoding="utf-8")
+
+                if scenario == "same_metadata":
+                    public_argument = metadata_path
+                    local_argument = local_view
+                elif scenario == "dotdot_alias":
+                    (metadata_path.parent / "child").mkdir()
+                    public_argument = metadata_path.parent / "child" / ".." / "metadata.json"
+                    local_argument = local_view
+                elif scenario == "shared_views":
+                    public_argument = public_view
+                    local_argument = public_view
+                else:
+                    public_view.unlink()
+                    os.link(metadata_path, public_view)
+                    public_argument = public_view
+                    local_argument = local_view
+
+                protected = {
+                    metadata_path: metadata_path.read_bytes(),
+                    public_view: public_view.read_bytes(),
+                    local_view: local_view.read_bytes(),
+                }
+                result = self.run_cli(
+                    "build",
+                    "--metadata",
+                    str(metadata_path),
+                    "--public-view",
+                    str(public_argument),
+                    "--local-root",
+                    str(local_root),
+                    "--local-view",
+                    str(local_argument),
+                )
+
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("must be distinct", result.stderr)
+                for path, content in protected.items():
+                    self.assertEqual(path.read_bytes(), content)
+
+    def test_add_rejects_dotdot_output_alias_without_modifying_bundle(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            metadata_path = temp / "canonical" / "metadata.json"
+            (metadata_path.parent / "child").mkdir(parents=True)
+            public_alias = metadata_path.parent / "child" / ".." / "metadata.json"
+            local_root = temp / "案例库"
+            local_view = temp / "开始这里.md"
+            record_path = temp / "record.json"
+            metadata = valid_metadata()
+            self.write_json(metadata_path, metadata)
+            self.write_prompt(local_root, metadata["cases"][0], "third-party prompt body")
+            local_view.write_text("local sentinel\n", encoding="utf-8")
+            self.write_json(record_path, {"id": "ACT-001"})
+            before_metadata = metadata_path.read_bytes()
+            before_local = local_view.read_bytes()
+
+            result = self.run_cli(
+                "add",
+                "--metadata",
+                str(metadata_path),
+                "--record",
+                str(record_path),
+                "--public-view",
+                str(public_alias),
+                "--local-root",
+                str(local_root),
+                "--local-view",
+                str(local_view),
+            )
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("must be distinct", result.stderr)
+            self.assertEqual(metadata_path.read_bytes(), before_metadata)
+            self.assertEqual(local_view.read_bytes(), before_local)
+
     def test_add_keeps_distinct_ids_on_same_post_and_fill_only_patch_is_idempotent(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             temp = Path(temp_dir)
@@ -202,6 +292,7 @@ class CaseLibraryCliTests(unittest.TestCase):
                 [item["id"] for item in after_add["cases"]],
                 ["ACT-001", "CAM-002"],
             )
+            self.assertEqual(after_add["snapshot"]["original_case_count"], 1)
             self.assertEqual(
                 after_add["cases"][0]["source"]["post_url"],
                 after_add["cases"][1]["source"]["post_url"],
@@ -231,6 +322,7 @@ class CaseLibraryCliTests(unittest.TestCase):
 
             updated = json.loads(metadata_path.read_text(encoding="utf-8"))
             self.assertEqual([item["id"] for item in updated["cases"]], ["ACT-001", "CAM-002"])
+            self.assertEqual(updated["snapshot"]["original_case_count"], 1)
             self.assertEqual(updated["cases"][1]["source"]["post_url"], "https://example.com/post/1")
 
             self.write_json(
@@ -320,6 +412,146 @@ class CaseLibraryCliTests(unittest.TestCase):
             result = self.run_cli("validate", "--metadata", str(metadata_path))
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("missing field", result.stderr)
+
+    def test_validation_rejects_windows_drive_relative_and_unc_local_paths(self) -> None:
+        mutations = (
+            (
+                "prompt drive relative",
+                lambda value: value["cases"][0]["prompt"].update(
+                    {"local_relative_path": "C:example.txt"}
+                ),
+            ),
+            (
+                "locator drive relative",
+                lambda value: value["cases"][0]["source"].update(
+                    {
+                        "local_locators": [
+                            {
+                                "label": "source",
+                                "kind": "source",
+                                "relative_path": "C:example.txt",
+                            }
+                        ]
+                    }
+                ),
+            ),
+            (
+                "locator UNC",
+                lambda value: value["cases"][0]["source"].update(
+                    {
+                        "local_locators": [
+                            {
+                                "label": "source",
+                                "kind": "source",
+                                "relative_path": "//server/share/example.txt",
+                            }
+                        ]
+                    }
+                ),
+            ),
+        )
+        for name, mutate in mutations:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as temp_dir:
+                metadata_path = Path(temp_dir) / "metadata.json"
+                metadata = valid_metadata()
+                mutate(metadata)
+                self.write_json(metadata_path, metadata)
+
+                result = self.run_cli("validate", "--metadata", str(metadata_path))
+
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("relative_path:", result.stderr)
+
+    def test_build_rejects_embedded_machine_paths_but_keeps_urls_and_relative_text(self) -> None:
+        for embedded_path in (
+            "Evidence at C:/synthetic-private/example.txt",
+            "Evidence at /home/synthetic-private/example.txt",
+        ):
+            with self.subTest(embedded_path=embedded_path), tempfile.TemporaryDirectory() as temp_dir:
+                temp = Path(temp_dir)
+                metadata_path = temp / "metadata.json"
+                public_view = temp / "README.md"
+                metadata = valid_metadata()
+                metadata["cases"][0]["summary"] = embedded_path
+                self.write_json(metadata_path, metadata)
+                public_view.write_text("public sentinel\n", encoding="utf-8")
+                before = public_view.read_bytes()
+
+                result = self.run_cli(
+                    "build",
+                    "--metadata",
+                    str(metadata_path),
+                    "--public-view",
+                    str(public_view),
+                )
+
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("not publishable", result.stderr)
+                self.assertEqual(public_view.read_bytes(), before)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            metadata_path = temp / "metadata.json"
+            public_view = temp / "README.md"
+            metadata = valid_metadata()
+            metadata["cases"][0]["summary"] = (
+                "参见 https://example.com/reference 与 提示词/中文原文.txt。"
+            )
+            self.write_json(metadata_path, metadata)
+
+            result = self.run_cli(
+                "build",
+                "--metadata",
+                str(metadata_path),
+                "--public-view",
+                str(public_view),
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(metadata["cases"][0]["summary"], public_view.read_text(encoding="utf-8"))
+
+    def test_validation_rejects_local_symlink_that_resolves_outside_approved_root(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            local_root = temp / "案例库"
+            outside_root = temp / "outside"
+            outside_root.mkdir()
+            (outside_root / "source.md").write_text("outside source", encoding="utf-8")
+            (outside_root / "prompt.txt").write_text("third-party prompt body", encoding="utf-8")
+            local_root.mkdir()
+            escape = local_root / "escape"
+            if os.name == "nt":
+                junction = subprocess.run(
+                    ["cmd", "/c", "mklink", "/J", str(escape), str(outside_root)],
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    capture_output=True,
+                    check=False,
+                )
+                self.assertEqual(junction.returncode, 0, junction.stderr)
+            else:
+                escape.symlink_to(outside_root, target_is_directory=True)
+            metadata_path = temp / "metadata.json"
+            metadata = valid_metadata()
+            metadata["cases"][0]["source"]["local_locators"] = [
+                {"label": "source", "kind": "source", "relative_path": "escape/source.md"}
+            ]
+            metadata["cases"][0]["prompt"].update(
+                {"local_relative_path": "escape/prompt.txt"}
+            )
+            self.write_json(metadata_path, metadata)
+
+            result = self.run_cli(
+                "validate",
+                "--metadata",
+                str(metadata_path),
+                "--local-root",
+                str(local_root),
+            )
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("outside local root", result.stderr)
 
     def test_config_binds_canonical_metadata_and_explicit_arguments_override_it(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

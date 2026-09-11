@@ -17,7 +17,7 @@ python drama-studio/scripts/case_library.py add --record '<新增或补缺记录
 python drama-studio/scripts/case_library.py build --metadata '<显式metadata.json>' --public-view '<显式公共README.md>' --local-root '<显式本地案例根>' --local-view '<显式本地入口.md>'
 ```
 
-`add` 可在同一事务加入一个新作者与一个案例：先核作者、真实 TXT/locator、标准化 SHA-256、完整 schema、重复 ID/指纹及别名，再一起刷新 metadata、公共视图和本地 `开始这里.md`；任一步失败都不改这三份文件。新 ID 才追加；同 ID 只填 `null`、空字符串/数组/对象，完全相同的值幂等，非空冲突拒绝。真实更正不走通用覆盖接口：须经批准后直接编辑 canonical metadata，保留可审查 diff，再运行 `validate` 与 `build`。同一帖子含多段不同原文时按不同指纹保留。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。
+正常新增或同 ID 补缺必须走 `add`，不得改历史 `snapshot.original_case_count`。`add` 可在同一事务加入一个新作者与一个案例：先核作者、真实 TXT/locator、标准化 SHA-256、完整 schema、重复 ID/指纹及别名，再一起刷新 metadata、公共视图和本地 `开始这里.md`；任一步失败都不改这三份文件。新 ID 才追加；同 ID 只填 `null`、空字符串/数组/对象，完全相同的值幂等，非空冲突拒绝。只有经批准的非空事实更正才直接编辑 canonical metadata，保留可审查 diff，再运行 `validate` 与 `build`。每条取得的第三方原文独立保存为纯原文 TXT，只保留真实原文；来源、授权与取得状态写对应 metadata，现有字段不足时写同 ID 本地来源旁档；我方归纳另存并标明，成果以稳定 ID 与 locator 回指唯一原文，不造第二份混合真源。同一帖子含多段不同原文时按不同指纹保留。新增外部材料先是入库候选；经过项目适配、相称核验并获得持久化/升格授权后，才可能进入正式规则。
 
 ## 动作与打斗
 
