@@ -64,7 +64,10 @@ EMBEDDED_WINDOWS_PATH_RE = re.compile(
 )
 EMBEDDED_UNC_PATH_RE = re.compile(r"(?:^|[\s(\[{'\"=：:])//[^/\s]+/[^/\s]+")
 EMBEDDED_POSIX_PATH_RE = re.compile(r"(?:^|(?<=[\s(\[{'\"=：:]))/(?![/\s])")
-HTTP_URL_RE = re.compile(r"https?://[^\s<>\[\]()\"']+")
+EMBEDDED_POSIX_ROOT_RE = re.compile(
+    r"/(?:bin|boot|dev|etc|home|lib(?:64)?|media|mnt|opt|private|proc|root|run|sbin|srv|sys|tmp|usr|var|Users|Volumes)(?:/|$)"
+)
+HTTP_URL_RE = re.compile(r"https?://[A-Za-z0-9._~:/?#\[\]@!$&'()*+,;=%-]+")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 CASE_LINK_RE = re.compile(
     r"^\[(?P<id>[A-Z]+-\d+) (?P<title>[^\]]+)\]\((?P<path>[^)]+)\)$"
@@ -247,6 +250,7 @@ def reject_embedded_absolute_paths(value: Any, location: str = "metadata") -> No
             EMBEDDED_WINDOWS_PATH_RE.search(publishable_text)
             or EMBEDDED_UNC_PATH_RE.search(publishable_text)
             or EMBEDDED_POSIX_PATH_RE.search(publishable_text)
+            or EMBEDDED_POSIX_ROOT_RE.search(publishable_text)
         ):
             raise ValidationError(f"{location}: absolute machine path is not publishable")
 

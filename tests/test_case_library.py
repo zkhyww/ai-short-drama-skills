@@ -510,6 +510,65 @@ class CaseLibraryCliTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn(metadata["cases"][0]["summary"], public_view.read_text(encoding="utf-8"))
 
+    def test_build_scans_machine_paths_after_url_boundaries(self) -> None:
+        unsafe_summaries = (
+            "参见 https://example.com/reference，证据在/home/private/example.txt",
+            "参见 https://example.com/reference，证据在C:/private/example.txt",
+            r"参见 https://example.com/reference，证据在\\server\share\example.txt",
+            "参见 https://example.com/reference,证据在/home/private/example.txt",
+            "参见 https://example.com/reference:证据在C:/private/example.txt",
+            r"参见 https://example.com/reference证据在\\server\share\example.txt",
+            "参见 https://example.com/reference证据在/home/private/example.txt",
+        )
+        for summary in unsafe_summaries:
+            with self.subTest(summary=summary), tempfile.TemporaryDirectory() as temp_dir:
+                temp = Path(temp_dir)
+                metadata_path = temp / "metadata.json"
+                public_view = temp / "README.md"
+                metadata = valid_metadata()
+                metadata["cases"][0]["summary"] = summary
+                self.write_json(metadata_path, metadata)
+                public_view.write_text("public sentinel\n", encoding="utf-8")
+                before = public_view.read_bytes()
+
+                result = self.run_cli(
+                    "build",
+                    "--metadata",
+                    str(metadata_path),
+                    "--public-view",
+                    str(public_view),
+                )
+
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("not publishable", result.stderr)
+                self.assertEqual(public_view.read_bytes(), before)
+
+        safe_summaries = (
+            "参见 https://example.com/reference",
+            "参见 https://example.com/a/b?next=/home/private&win=C:/private#part-1",
+            "参见 https://example.com/a/b?next=%2Fhome%2Fprivate&label=C%3A%2Fprivate#part-1",
+            "参见 https://example.com/reference，另见提示词/中文原文.txt",
+        )
+        for summary in safe_summaries:
+            with self.subTest(summary=summary), tempfile.TemporaryDirectory() as temp_dir:
+                temp = Path(temp_dir)
+                metadata_path = temp / "metadata.json"
+                public_view = temp / "README.md"
+                metadata = valid_metadata()
+                metadata["cases"][0]["summary"] = summary
+                self.write_json(metadata_path, metadata)
+
+                result = self.run_cli(
+                    "build",
+                    "--metadata",
+                    str(metadata_path),
+                    "--public-view",
+                    str(public_view),
+                )
+
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn(summary, public_view.read_text(encoding="utf-8"))
+
     def test_validation_rejects_local_symlink_that_resolves_outside_approved_root(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             temp = Path(temp_dir)
