@@ -32,6 +32,7 @@
 | commercial-craft §3/§5 | 长期无反转才查、三集小爆/五集大爆与短集要求混淆；场景≤2硬帽 | 引用单集要求，阶段大回报不能代替本集，小景数量只按调度/批准预算控制 |
 | story-structure §2/§5/§6.1 | 呼吸与延迟满足易变多集空转；另开呼吸列、活跃支线≤2与动态容量冲突 | 宏观蓄势保留单集体验，合并既有事件列，支线按容量和功能判断 |
 | role-cards 文茵/季衡与 SKILL 对应注入 | 旧五件套、30秒软参考再注入；模板只有作者确认摘要 | 派单/交付/验收同步，原需求定位复用既有 source_locator 行，不增字段 |
+| canon-ledger §5 续写模板 | 仅传“选题方案要点”，未承接原始需求与单集要求 | 在既有硬设定、任务行中继承原需求与确认承诺及来源，续写同样遵守单集要求，不新建模板 |
 | review-scorecard §1/§7/§9及关联红线 | 可见结果即可高分；普通进展即可过单集 | 节奏/人物/情绪/商业用相同语义；举正文依据，不按数字或标签代判；缺陷成立仍阻塞 |
 | submission-format 两处人物档案 | 重注入主角十二/配角五；正文只交首集易只归档首集人物 | 完整母稿保留全季确定档案，投稿只是阅读派生摘要 |
 | dialogue-craft §4、topic-selection §4.5、hit-craft 函数 | 情绪锚可能仅是物名或资料；“非每集函数”可能误解无回报 | 只修与本轮承诺直接相连的原段：具体关切须进入戏，函数名不必齐全但短集要求仍在 |
@@ -39,7 +40,7 @@
 ## Task 1: 原位统一正式 Crew 规则与接口
 
 **Files:**
-- Modify: drama-crew/SKILL.md; references/writing-craft.md, character-bible.md, commercial-craft.md, story-structure.md, role-cards.md, review-scorecard.md, submission-format.md, dialogue-craft.md, topic-selection.md, hit-craft.md（references 均属 drama-crew）。
+- Modify: drama-crew/SKILL.md; references/writing-craft.md, character-bible.md, commercial-craft.md, story-structure.md, role-cards.md, canon-ledger.md, review-scorecard.md, submission-format.md, dialogue-craft.md, topic-selection.md, hit-craft.md（references 均属 drama-crew）。
 - Modify: README.md、CHANGELOG.md、docs/使用说明.md、docs/特点与架构.md 中仅直接受版本/行为影响的说明。
 - Test: tests/test_drama_crew_dialogue_submission_contracts.py 仅版本或被明确取代的旧合同断言；不新增“包含一句新规则”的假行为测试，不降低现存未变合同。
 - Create: behavior-tests/2026-09-12/payoff-cast-cases.md（仅复制控制器固定输入的中性合成案例，不含本机路径）；docs/validation/2026-09-12-crew-payoff-cast.md（规则变更与其他板块检查记录，不伪称未完成行为验证）。
