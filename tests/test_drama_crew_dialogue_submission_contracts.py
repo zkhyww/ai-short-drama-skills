@@ -42,7 +42,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         )
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.20.3", self.skill)
+        self.assertIn("version: 6.21.0", self.skill)
         self.assertIn("version: 1.15.1", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
@@ -652,9 +652,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.20.3 | 19 |", readme)
+        self.assertIn("| `drama-crew` | 6.21.0 | 19 |", readme)
         self.assertIn("| `drama-studio` | 1.15.1 | 33 |", readme)
-        self.assertIn("`drama-crew` v6.20.3", changelog)
+        self.assertIn("`drama-crew` v6.21.0", changelog)
         self.assertIn("`drama-studio` v1.15.1", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
