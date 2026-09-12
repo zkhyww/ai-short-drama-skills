@@ -432,8 +432,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
 
     def test_self_evolution_engineering_and_language_assets_are_wired(self) -> None:
         # v6.17.6：自进化工程化（CI/复盘仪式）+ 语言资产库 + 对标解剖工序
-        # 1. 复盘仪式：作者分流（v6.17.9 按账号身份）+ CI 引用
-        for required in ("项目复盘仪式", "仓库所有者（zkhyww，本机本账号）", "其他设备/其他账号（协作者）", "一律 **PR**", "contract-tests.yml", "squash"):
+        # 1. 复盘仪式：保留 CI 与仓库协作流程引用；发布授权不再按账号身份决定
+        for required in ("项目复盘仪式", "contract-tests.yml", "squash"):
             with self.subTest(required=required):
                 self.assertIn(required, self.learnings)
         # 2. 升格表有语料去向
@@ -451,14 +451,14 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         # 6. 望舒卡交付物含解剖报告
         self.assertIn("解剖报告", self.roles)
 
-    def test_owner_push_policy_and_physical_wording_discipline_are_wired(self) -> None:
-        # v6.17.9 / studio v1.13.3：作者分流按账号身份（所有者直推 main）+ 物理措辞纪律 + 外部素材索引
-        # 1. crew：所有者直推 main、协作者一律 PR、CI 红双通道
-        for required in ("仓库所有者（zkhyww，本机本账号）", "直推 main", "其他设备/其他账号（协作者）", "一律 **PR**", "CI 红处置", "squash"):
+    def test_publication_checks_and_physical_wording_discipline_are_wired(self) -> None:
+        # 发布检查与仓库协作流程 + 物理措辞纪律 + 外部素材索引
+        # 1. crew：保留 CI 引用与仓库协作方式
+        for required in ("contract-tests.yml", "squash"):
             with self.subTest(required=required):
                 self.assertIn(required, self.learnings)
-        # 2. studio：复盘仪式同构 + 作者分流同口径
-        for required in ("项目复盘仪式", "作者分流", "直推 main", "contract-tests.yml"):
+        # 2. studio：复盘仪式同构 + CI 与仓库协作方式
+        for required in ("项目复盘仪式", "contract-tests.yml", "squash"):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_learnings)
         # 3. 画面措辞纪律不能误伤逐字台词、时间码与实际接口参数。
@@ -554,8 +554,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
                 self.assertIn(required, ext)
         self.assertIn("服化道极繁纪律逐层扩写", self.studio_roles)
 
-    def test_setting_sheet_13_modules_realism_anchor_and_owner_push(self) -> None:
-        # v1.13.5 / v6.17.9：设定板分流 + 条件化真实感 + 可执行 ffmpeg + 作者分流
+    def test_setting_sheet_13_modules_realism_anchor(self) -> None:
+        # v1.13.5：设定板分流 + 条件化真实感 + 可执行 ffmpeg
         assets = read("drama-studio/references/asset-library.md")
         for required in ("角色综合设定板 13 模块清单", "构图行规范", "画面结构行", "面部细项扩展", "姿态与动作行", "配饰与武器行", "负面提示词基线",
                          "定妆照", "肖像特写", "纯三视图", "细节板", "写实摄影/写实 3D", "2D/水墨/水彩/像素", "不强制毛孔",
@@ -567,11 +567,6 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for required in ("scripts/assemble_timeline.py", "先统一编码、帧率、分辨率与时基", "ffprobe", "外部 WAV/TTS"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
-        # 作者分流：所有者直推 main，其他设备/账号 PR
-        for required in ("仓库所有者（zkhyww，本机本账号）", "直推 main", "其他设备/其他账号（协作者）", "一律 **PR**"):
-            with self.subTest(required=required):
-                self.assertIn(required, self.learnings)
-        self.assertIn("仓库所有者（zkhyww）本机**直推 main**", self.studio_learnings)
         self.assertIn("§2.6 真实感锚定", self.studio_roles)
 
     def test_native_audio_replaces_dubbing_step(self) -> None:
