@@ -111,6 +111,13 @@
       "handle": null,
       "profile_url": "https://seed.bytedance.com/en/",
       "public_numeric_id": null
+    },
+    {
+      "id": "unattributed_user_submission",
+      "display_name": "用户提供（原作者未核）",
+      "handle": null,
+      "profile_url": null,
+      "public_numeric_id": null
     }
   ],
   "cases": [
@@ -3666,6 +3673,111 @@
         "publication": "metadata_only"
       },
       "media_verification": "not_independently_verified",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-009",
+      "title": "石院近身肉搏与累积破坏",
+      "category": "动作与打斗",
+      "summary": "研究双人近身攻防中接触、受力、位移与环境破坏的连续关系，以及摄影如何显现打击点；强化物理风格候选，不作为所有打斗的强度模板。",
+      "model_claim": {
+        "name": "模型未核明 · 视频",
+        "basis": "not_stated_in_retrieved_post"
+      },
+      "task_tags": [
+        "打斗",
+        "近身武侠",
+        "连续攻防",
+        "接触与受力",
+        "累积破坏",
+        "身份连续",
+        "攻击轴线",
+        "命中点",
+        "强化物理特效"
+      ],
+      "author_id": "lansenai",
+      "source": {
+        "post_url": "https://x.com/lansenai/status/2098529517736476962",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核发布者 @lansenai 及公开账号 ID；不等于原创归属或再发布许可已核。",
+        "status_note": "主帖全文与用户附件去除空白后逐字一致；后端返回主帖及3条回复，页面计数4条，不宣称评论全量。原帖未明确模型版本；附片已本地留档，未完整观看或生成复现。迁移条件见同 ID 来源旁档。",
+        "local_locators": [
+          {
+            "label": "原帖视频（已下载，未实看验收）",
+            "kind": "media",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/素材/2098529517736476962_1.mp4"
+          },
+          {
+            "label": "来源与适用条件（不属于提示词）",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/01_动作与特效/来源/ACT-009_来源.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "原文依赖的独立首帧参考图未取得",
+          "生成模型、具体版本、参数及分段和后期条件未提供"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-009_石院近身肉搏与累积破坏.txt",
+        "content_fingerprint": "87794bfd3eec5bf17cf172fa17c55fc633943832bd5715bc32469dce59a9bc2a",
+        "publication": "metadata_only"
+      },
+      "media_verification": "downloaded_technical_metadata_checked_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-012",
+      "title": "高速打斗运镜手册",
+      "category": "镜头与空间运动",
+      "summary": "按冲刺、错位、扫腿、腾空、命中和击退等动作任务选择摄影轨迹、景别与焦点的参考手册；分条选用，不把一镜到底或固定停顿作为通用要求。",
+      "model_claim": {
+        "name": "Seedance（具体版本未提供）",
+        "basis": "user_label_not_independently_verified"
+      },
+      "task_tags": [
+        "打斗",
+        "运镜参考手册",
+        "动作轨迹",
+        "攻击方向",
+        "攻防换位",
+        "命中点",
+        "击退距离",
+        "景别",
+        "焦点切换"
+      ],
+      "author_id": "unattributed_user_submission",
+      "source": {
+        "post_url": null,
+        "attribution_status": "user_supplied_original_author_unknown",
+        "attribution_note": "用户粘贴提供，原作者与来源网址未提供；不归为澜森作品。",
+        "status_note": "按用户消息完整保存，十类调度、四档速度、景别表与六个模板均保留；属于方法手册，不是已验证的成品案例。按动作任务选段，条件与冲突提醒单独存放。",
+        "local_locators": [
+          {
+            "label": "来源与选用边界（不属于提示词）",
+            "kind": "source",
+            "relative_path": "近期补充_20260813-20260912/02_镜头光影与场景/来源/CAM-012_来源.md"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_user_supplied",
+        "missing_inputs": [
+          "原始来源网址与作者未提供",
+          "具体模型版本、生成条件及配套验证视频未提供"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-012_高速打斗运镜手册.txt",
+        "content_fingerprint": "4f78e2decd356b536071e788e6d0632464d2668e7fa71d6246d9b504d9737355",
+        "publication": "metadata_only"
+      },
+      "media_verification": "no_media_provided_not_reproduced",
       "license": {
         "status": "unknown",
         "prompt_redistribution": "not_permitted"

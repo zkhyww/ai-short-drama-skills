@@ -31,6 +31,7 @@ python drama-studio/scripts/case_library.py build --metadata '<显式metadata.js
 | ACT-004 | 玄幻双人重击：用于研究打斗、玄幻、双人重击。 | 打斗 / 玄幻 / 双人重击 | 模型未核明 · 视频（author_or_source_claim_unverified） | [@lansenai](https://x.com/lansenai) / [原帖](https://x.com/lansenai/status/2097629748805484837) | metadata_only；complete_as_recorded；媒体 not_independently_verified；许可 unknown |
 | ACT-005 | 纯剑术高速近战：用于研究双人剑术、高速近战、伪一镜到底。 | 双人剑术 / 高速近战 / 伪一镜到底 | Seedance 2.0 · 视频（author_or_source_claim_unverified） | [@Arvin010717](https://x.com/Arvin010717) / [原帖](https://x.com/Arvin010717/status/2098282939796905997) | metadata_only；complete_as_recorded；媒体 not_independently_verified；许可 unknown |
 | ACT-008 | GTA恋人争执与托盘反弹：用于研究连续攻防、只闪避不反击、亲吻打断、托盘接触、子弹时间、实体环绕。 | 连续攻防 / 只闪避不反击 / 亲吻打断 / 托盘接触 / 子弹时间 / 实体环绕 | 模型未注明（不能确认为2.5） · 视频（author_or_source_claim_unverified） | [@yura_elkin](https://x.com/yura_elkin) / [原帖](https://x.com/yura_elkin/status/2098370471414677906) | metadata_only；complete_as_recorded；媒体 not_reviewed_or_reproduced；许可 unknown |
+| ACT-009 | 石院近身肉搏与累积破坏：研究双人近身攻防中接触、受力、位移与环境破坏的连续关系，以及摄影如何显现打击点；强化物理风格候选，不作为所有打斗的强度模板。 | 打斗 / 近身武侠 / 连续攻防 / 接触与受力 / 累积破坏 / 身份连续 / 攻击轴线 / 命中点 / 强化物理特效 | 模型未核明 · 视频（not_stated_in_retrieved_post） | [@lansenai](https://x.com/lansenai) / [原帖](https://x.com/lansenai/status/2098529517736476962) | metadata_only；complete_as_recorded；媒体 downloaded_technical_metadata_checked_not_viewed_not_reproduced；许可 unknown |
 
 ## 玄幻特效与巨物
 
@@ -86,6 +87,7 @@ python drama-studio/scripts/case_library.py build --metadata '<显式metadata.js
 | CAM-008 | 稳定俯视体育场制作：用于研究稳定机位、前三分之四俯视、手工制作、缩时、体育场空间结构。 | 稳定机位 / 前三分之四俯视 / 手工制作 / 缩时 / 体育场空间结构 | MiniMax H3 · 视频（author_or_source_claim_unverified） | [@aimikoda](https://x.com/aimikoda) / [原帖](https://x.com/aimikoda/status/2095141166962311555) | metadata_only；complete_as_recorded；媒体 not_independently_verified；许可 unknown |
 | CAM-009 | 霓虹摩托连续跟拍：用于研究长镜头、侧后跟拍接续、人物轮廓连续。 | 长镜头 / 侧后跟拍接续 / 人物轮廓连续 | MiniMax H3／Hailuo · 视频（author_or_source_claim_unverified） | [@LudovicCreator](https://x.com/LudovicCreator) / [原帖](https://x.com/LudovicCreator/status/2097746917904052662) | metadata_only；complete_as_recorded；媒体 not_independently_verified；许可 unknown |
 | CAM-011 | 门厅楼梯的空间范围与上下位置锁定：用于研究空间建立、场景边界、上下位置、三角色限制、异版本对照。 | 空间建立 / 场景边界 / 上下位置 / 三角色限制 / 异版本对照 | Seedance 2.0 · 视频（author_or_source_claim_unverified） | [@TechieBySA](https://x.com/TechieBySA) / [原帖](https://x.com/TechieBySA/status/2095913793607843990) | metadata_only；unknown；媒体 not_reviewed_or_reproduced；许可 unknown |
+| CAM-012 | 高速打斗运镜手册：按冲刺、错位、扫腿、腾空、命中和击退等动作任务选择摄影轨迹、景别与焦点的参考手册；分条选用，不把一镜到底或固定停顿作为通用要求。 | 打斗 / 运镜参考手册 / 动作轨迹 / 攻击方向 / 攻防换位 / 命中点 / 击退距离 / 景别 / 焦点切换 | Seedance（具体版本未提供）（user_label_not_independently_verified） | 用户提供（原作者未核） | metadata_only；complete_as_user_supplied；媒体 no_media_provided_not_reproduced；许可 unknown |
 
 ## 人物表演与关系
 
