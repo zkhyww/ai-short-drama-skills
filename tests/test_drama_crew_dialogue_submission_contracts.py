@@ -641,7 +641,26 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("连续音频起止秒、覆盖镜号与可见口型区间", roles)
         self.assertIn("逐 Clip 路由后视频提示词", roles)
         self.assertIn("Dialogue/OS/VO", roles)
-        self.assertIn("环境、呼吸、脚步、操作声、拟音与音乐", roles)
+        with self.subTest(consumer="闻笙非对白声层路由"):
+            self.assertTrue(
+                "环境、呼吸、脚步、操作声、拟音与音乐落进通用【声音】/30秒专项 Block 8"
+                in roles,
+                "闻笙必须把普通任务的非对白声层路由到通用【声音】",
+            )
+        failure_atlas = read("drama-studio/references/failure-atlas.md")
+        audio_failure_row = next(
+            line for line in failure_atlas.splitlines() if line.startswith("| 6.5 |")
+        )
+        with self.subTest(consumer="严恪30秒容量失败回退"):
+            self.assertTrue(
+                "30 秒直出专项不足时先重排，仍不足则回剧情层等待裁决，不延长、拆分/分单或加速"
+                in audio_failure_row,
+                "30 秒专项不得回退到延长、拆分/分单或加速",
+            )
+            self.assertTrue(
+                "其他时长按 dim-audio 对应任务分支处理" in audio_failure_row,
+                "通用回退必须限定为其他时长并服从 dim-audio",
+            )
         style = read("drama-studio/references/dimensions/dim-style.md")
         self.assertIn("正文服从项目语言锁", style)
         self.assertNotIn("Vidu=全模块中文", style)
