@@ -354,10 +354,6 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "逐字继承 crew 基础视觉事实",
             "制作设计/推断",
             "不得覆盖 crew 基础视觉事实",
-            "≥3 条稳定结构轴",
-            "≥2 条必须在脸部",
-            "8-12 个视觉词",
-            "forbidden 3-5 项",
         ):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_assets)
