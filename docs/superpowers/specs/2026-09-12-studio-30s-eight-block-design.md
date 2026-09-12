@@ -6,6 +6,7 @@
 
 - 本专项单次固定 `00:00–00:30`；一 Clip 一条八段正文，不与旧四区块双交、不增加团队。其他时长/未启用本专项的任务沿用原通用格式。
 - 八段顺序保持：参考绑定；媒介画风；防错/道具追踪；场景/空间/光影；带起止时码的对白与容量；场内文字；镜头时间线与切点；声音/音效。
+  英文标题逐字使用用户最终稿的 `=== BLOCK 1: MASTER REFERENCE BINDING ===`、`=== BLOCK 2: VISUAL STYLE & MEDIUM MANDATE ===`、`=== BLOCK 3: ANTI-GLITCH & PROP TRACKING RULES ===`、`=== BLOCK 4: SCENE CONTEXT & CONTINUITY LOCK ===`、`=== BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===`、`=== BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===`、`=== BLOCK 7: SHOT BREAKDOWN & SPATIAL LOGIC (30 SECONDS) ===`、`=== BLOCK 8: AUDIO & FOLEY SPECIFICATIONS ===`。第1段含CHARACTERS/HERO PROP/STORYBOARDS/SCENES；第2段含Style/Shader-Texture/Negative Locks；第3段含PROP INVENTORY/PROP LIFECYCLE/ANATOMY & STATE LOCK；第4段含Time of Day & Global Light/Setting/Spatial Vector；第5段含逐句时码/语言/词数与预算；第6段含实际实体时码/Physicality或NONE；第7段每镜含Visual Match/Camera/Action & Blocking及实际切点；第8段含Ambient Track/Foley & Prop Sound/Voice Profile/Music-Score。用户示例的人名、品牌、机场/戒指桥段改为通用变量。
 - 英文剧默认英文 Prompt、英文对白与匹配口音/声线，默认自然美式英语（项目指定其他口音时继承）。中文项目对应中文标题/正文/对白与项目指定的中文语种/口音。只转换语言，控制职责相同；已锁对白无翻译授权不擅改。
 - 单张16:9四区参考总表优先：角色三视图、关键道具、三个关键分镜、纯场景；总表是普通参考，不冒充首帧；实际绑定与 Panel 编号必须来自已可达素材。参考画幅与成片画幅分别继承。三个镜头为本模板起排，已有一镜到底/其他镜数项目按其明确要求编排，仍保留八段。
 - 英文首轮40–55发音词、130–150 WPM；40不是补话下限，无对白写 NONE。中文沿用3–3.5发音字/秒首估，不把40–55变成汉字硬配额。逐句起止、顺序动作、气口和反应共同占用30秒；55/130*60+8≈33.38秒不通过。不足时重排或回剧情层，不在专项里静默延长、分单或加速。
