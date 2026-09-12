@@ -100,8 +100,8 @@ Spatial Vector: [screen direction, eyelines, distances, entrances/exits and came
 
 === BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===
 Language & Accent: [project-locked language/accent]
-Audio Budget: [actual pronunciation count, chosen pace, breath/pause budget and fit result]
-[start-end] [dialogue ID] | [speaker] | [Dialogue/OS/VO] | [delivery change] | [complete verbatim line]
+Audio Budget: [sum of per-line actual pronunciation counts; chosen pace; pure voiced duration; declared breath/pause duration; sum of per-line start-end voice windows; fit result]
+[start-end] [dialogue ID] | [speaker] | [Dialogue/OS/VO] | [actual pronunciation count] | [delivery change] | [complete verbatim line]
 [repeat for actual lines; if there is no dialogue, write NONE]
 
 === BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===
@@ -126,7 +126,7 @@ Music-Score: [actual cue, ducking and exit, or NONE]
 
 Block 2 的媒介由项目锁决定：真人写真人摄影与皮肤/材质约束，3D 写 3D 渲染、shader/texture 约束；二者的 Negative Locks 必须互斥匹配，不能同时要求真人皮肤与纯 3D 表面。Block 3 必须写清承重道具的占手、交接或放置、跨镜持有者/位置；画外不等于消失，背景陈设不逐件编造退场。不能为省事删除已锁道具。
 
-Block 5 是对白、OS、VO **逐字正文唯一位置**。Block 7 只引用台词 ID、声音进度和可见口型区间；Block 8 只写声线、环境、动效与音乐，不复写台词。母音色文字方向不冒充已冻结音频：只有真实资产已试听冻结且本次接口实际绑定时，才写 frozen 资产与引用；否则如实写候选/待选或仅声音指纹。
+Block 5 是对白、OS、VO **逐字正文唯一位置**。每句分别填写实际发音词/字数；逐句计数求和必须等于 `Audio Budget` 总发音量，顺序对白的逐句起止声窗时长求和必须大于或等于“纯发声时长 + 已声明停顿”，三者不一致时不能判定容量通过。Block 7 只引用台词 ID、声音进度和可见口型区间；Block 8 只写声线、环境、动效与音乐，不复写台词。母音色文字方向不冒充已冻结音频：只有真实资产已试听冻结且本次接口实际绑定时，才写 frozen 资产与引用；否则如实写候选/待选或仅声音指纹。
 
 Block 6 不是强制制造文字设备：不用时保留标题并写 `NONE`（中文“无”）；使用时只写剧情中实际存在的实体、原始文字、透视、材质、光影、可读动作与起止时码，不擅改文字事实，也不把字幕/水印当场内设备。
 
@@ -274,7 +274,7 @@ Block 7 的三个镜头是首轮起排，不是硬配额。已有一镜到底时
 - [ ] 专项 Block 6 未启用时明确 `NONE`/`无`，启用时只写实际实体、原文、物理性和时码，未伪造文字设备
 - [ ] 项目语言锁生效：英文项目英文 Prompt/对白与匹配口音，中文项目同结构切中文；无授权未翻译已锁对白
 - [ ] 已选模型与模式匹配时长/多镜/声音能力；未回答走默认 Seedance，两卡实际注入
-- [ ] 完整台词只在路由后的唯一正文位出现一次（通用【声音】/专项 Block 5）；专项 Block 7 只引用台词 ID/口型/声音进度，Block 8 不复写台词；声窗容纳发声与停顿，顺序对白不重复分配同一时间，L-Cut 不凭切镜创造容量
+- [ ] 完整台词只在路由后的唯一正文位出现一次（通用【声音】/专项 Block 5）；专项逐句发音量求和等于 `Audio Budget` 总发音量，顺序对白逐句起止声窗时长求和大于或等于纯发声时长加已声明停顿；Block 7 只引用台词 ID/口型/声音进度，Block 8 不复写台词；顺序对白不重复分配同一时间，L-Cut 不凭切镜创造容量
 - [ ] 专项 Block 8 的 Voice Profile 没有把文字方向冒充已冻结母音色；冻结/绑定、候选或待选状态均与实际证据一致
 - [ ] 专项已有一镜到底时没有强拆三镜；多镜项目写了实际切点，项目明确其他镜数时未被三镜起排覆盖
 - [ ] 跨独立 Clip 的连续声音有实际音轨执行方案或自然意群切分；生成后须实听，未生成不声称口型/音色合格

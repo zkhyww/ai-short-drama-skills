@@ -595,23 +595,43 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             ["【基础设定】", "【氛围与画质】", "【声音】", "【画面内容】"],
             four_block_headings,
         )
-        eight_block_schema = prompt.split("```text", 1)[1].split("```", 1)[0]
+        eight_block_section = prompt.split("### 2B. 30 秒直出专项八段式", 1)[1]
+        heading_map, template_tail = eight_block_section.split("```text", 1)
+        eight_block_schema = template_tail.split("```", 1)[0]
         eight_block_headings = [
             line for line in eight_block_schema.splitlines() if line.startswith("=== BLOCK")
         ]
-        self.assertEqual(
-            [
-                "=== BLOCK 1: MASTER REFERENCE BINDING ===",
-                "=== BLOCK 2: VISUAL STYLE & MEDIUM MANDATE ===",
-                "=== BLOCK 3: ANTI-GLITCH & PROP TRACKING RULES ===",
-                "=== BLOCK 4: SCENE CONTEXT & CONTINUITY LOCK ===",
-                "=== BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===",
-                "=== BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===",
-                "=== BLOCK 7: SHOT BREAKDOWN & SPATIAL LOGIC (30 SECONDS) ===",
-                "=== BLOCK 8: AUDIO & FOLEY SPECIFICATIONS ===",
-            ],
-            eight_block_headings,
-        )
+        expected_english_headings = [
+            "=== BLOCK 1: MASTER REFERENCE BINDING ===",
+            "=== BLOCK 2: VISUAL STYLE & MEDIUM MANDATE ===",
+            "=== BLOCK 3: ANTI-GLITCH & PROP TRACKING RULES ===",
+            "=== BLOCK 4: SCENE CONTEXT & CONTINUITY LOCK ===",
+            "=== BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===",
+            "=== BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===",
+            "=== BLOCK 7: SHOT BREAKDOWN & SPATIAL LOGIC (30 SECONDS) ===",
+            "=== BLOCK 8: AUDIO & FOLEY SPECIFICATIONS ===",
+        ]
+        expected_chinese_headings = [
+            "=== 区块 1：主参考绑定 ===",
+            "=== 区块 2：视觉风格与媒介指令 ===",
+            "=== 区块 3：防错与道具追踪规则 ===",
+            "=== 区块 4：场景语境与连续性锁 ===",
+            "=== 区块 5：带时码对白与音频预算 ===",
+            "=== 区块 6：场内文字载体 ===",
+            "=== 区块 7：镜头拆解与空间逻辑（30 秒） ===",
+            "=== 区块 8：音频与拟音规格 ===",
+        ]
+        self.assertEqual(expected_english_headings, eight_block_headings)
+        for index, (english, chinese) in enumerate(
+            zip(expected_english_headings, expected_chinese_headings), start=1
+        ):
+            self.assertIn(f"| {index} | `{english}` | `{chinese}` |", heading_map)
+        for fragment in ("项目明确启用「30 秒直出专项」", "未启用专项，或其他时长/普通任务",
+                         "不与四区块双交"):
+            self.assertIn(fragment, prompt)
+        for fragment in ("sum of per-line actual pronunciation counts",
+                         "actual pronunciation count"):
+            self.assertIn(fragment, eight_block_schema)
         for fragment in ("`seedance2.0fast_vip` / 15 秒一组", "两卡", "5–8 个分镜",
                          "参考生仅 8s", "同一 Clip 内切场景不重置时间", "一个 Shot"):
             self.assertIn(fragment, prompt)
@@ -620,6 +640,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         roles = read("drama-studio/references/role-cards.md")
         self.assertIn("连续音频起止秒、覆盖镜号与可见口型区间", roles)
         self.assertIn("逐 Clip 路由后视频提示词", roles)
+        self.assertIn("Dialogue/OS/VO", roles)
+        self.assertIn("环境、呼吸、脚步、操作声、拟音与音乐", roles)
+        style = read("drama-studio/references/dimensions/dim-style.md")
+        self.assertIn("正文服从项目语言锁", style)
+        self.assertNotIn("Vidu=全模块中文", style)
         for stale in ("七段式", "单块最小 2s", "默认 1 Shot/Clip"):
             self.assertNotIn(stale, prompt)
 
@@ -627,7 +652,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         audio = read("drama-studio/references/dimensions/dim-audio.md")
         for fragment in ("3–3.5 发音字/秒", "不是统一行业标准", "标点不计字但停顿计时",
                          "顺序发声的所有角色共用时间", "L-Cut 不增加声窗容量", "跨独立生成 Clip",
-                         "不会自动逐句定位", "不重复加", "原生音频优先"):
+                         "不会自动逐句定位", "不重复加", "原生音频优先", "逐句发音量求和必须等于",
+                         "逐句起止声窗时长求和必须大于或等于", "30 秒直出专项容量不足",
+                         "不得延长、拆分/分单或加速"):
             self.assertIn(fragment, audio)
         self.assertIn("对白/OS/VO 中的比喻", self.studio_prompt)
         self.assertIn("不造 `@图1`", self.studio_prompt)
