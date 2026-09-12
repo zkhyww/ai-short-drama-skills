@@ -237,6 +237,20 @@ def resolve_local_path(local_root: Path, relative_path: str, location: str) -> P
     return resolved_path
 
 
+def is_standalone_safe_relative_locator(value: str) -> bool:
+    if (
+        HTTP_URL_RE.search(value)
+        or WINDOWS_DRIVE_RE.match(value)
+        or EMBEDDED_WINDOWS_PATH_RE.search(value)
+        or "\\" in value
+    ):
+        return False
+    parts = value.split("/")
+    return len(parts) > 1 and all(
+        part not in {"", ".", ".."} and part == part.strip() for part in parts
+    )
+
+
 def reject_embedded_absolute_paths(value: Any, location: str = "metadata") -> None:
     if isinstance(value, dict):
         for key, child in value.items():
@@ -245,6 +259,8 @@ def reject_embedded_absolute_paths(value: Any, location: str = "metadata") -> No
         for index, child in enumerate(value):
             reject_embedded_absolute_paths(child, f"{location}[{index}]")
     elif isinstance(value, str):
+        if is_standalone_safe_relative_locator(value):
+            return
         publishable_text = HTTP_URL_RE.sub("", value)
         if (
             EMBEDDED_WINDOWS_PATH_RE.search(publishable_text)

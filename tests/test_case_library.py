@@ -519,6 +519,7 @@ class CaseLibraryCliTests(unittest.TestCase):
             "参见 https://example.com/reference:证据在C:/private/example.txt",
             r"参见 https://example.com/reference证据在\\server\share\example.txt",
             "参见 https://example.com/reference证据在/home/private/example.txt",
+            "relative/C:/private/example.txt",
         )
         for summary in unsafe_summaries:
             with self.subTest(summary=summary), tempfile.TemporaryDirectory() as temp_dir:
@@ -548,6 +549,10 @@ class CaseLibraryCliTests(unittest.TestCase):
             "参见 https://example.com/a/b?next=/home/private&win=C:/private#part-1",
             "参见 https://example.com/a/b?next=%2Fhome%2Fprivate&label=C%3A%2Fprivate#part-1",
             "参见 https://example.com/reference，另见提示词/中文原文.txt",
+            "素材/home/example.txt",
+            "素材 files/home/example.txt",
+            "docs/tmp/example.txt",
+            "archive/Users/example.txt",
         )
         for summary in safe_summaries:
             with self.subTest(summary=summary), tempfile.TemporaryDirectory() as temp_dir:
