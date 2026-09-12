@@ -519,6 +519,10 @@ class CaseLibraryCliTests(unittest.TestCase):
             "参见 https://example.com/reference:证据在C:/private/example.txt",
             r"参见 https://example.com/reference证据在\\server\share\example.txt",
             "参见 https://example.com/reference证据在/home/private/example.txt",
+            "证据：/home/private/example.txt",
+            "source=/home/private/example.txt",
+            "source=(/home/private/example.txt)",
+            "evidence:/home/private/example.txt",
             "relative/C:/private/example.txt",
         )
         for summary in unsafe_summaries:

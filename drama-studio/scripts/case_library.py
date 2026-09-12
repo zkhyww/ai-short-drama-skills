@@ -259,14 +259,16 @@ def reject_embedded_absolute_paths(value: Any, location: str = "metadata") -> No
         for index, child in enumerate(value):
             reject_embedded_absolute_paths(child, f"{location}[{index}]")
     elif isinstance(value, str):
-        if is_standalone_safe_relative_locator(value):
-            return
+        is_relative_locator = is_standalone_safe_relative_locator(value)
         publishable_text = HTTP_URL_RE.sub("", value)
         if (
             EMBEDDED_WINDOWS_PATH_RE.search(publishable_text)
             or EMBEDDED_UNC_PATH_RE.search(publishable_text)
             or EMBEDDED_POSIX_PATH_RE.search(publishable_text)
-            or EMBEDDED_POSIX_ROOT_RE.search(publishable_text)
+            or (
+                not is_relative_locator
+                and EMBEDDED_POSIX_ROOT_RE.search(publishable_text)
+            )
         ):
             raise ValidationError(f"{location}: absolute machine path is not publishable")
 
