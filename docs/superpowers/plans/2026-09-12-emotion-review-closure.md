@@ -58,6 +58,7 @@
 - Modify: `drama-studio/references/asset-library.md` §3
 - Modify: `drama-studio/references/dimensions/dim-performance.md` §1–4
 - Related: `drama-studio/references/role-cards.md`, `storyboard-craft.md`, `drama-studio/SKILL.md` only if directly duplicated removed rules conflict.
+- Direct duplicates verified during implementation: `failure-atlas.md` identity-collision row and `file-management.md` asset-lock reference. Retire only the four numeric-quota subassertions in `test_visual_anchor_contract_separates_story_facts_from_production_design`, preserving its source-fact inheritance and design-separation assertions. New consumption evidence comes from the five private E tasks, not new wording tests.
 - Test: existing suite `tests/`; private same-input Studio cases in `消费任务.md`.
 
 **Interfaces:**
