@@ -40,6 +40,7 @@
 - Related references only where a directly replaced rule is duplicated: `writing-craft.md`, `commercial-craft.md`, `canon-ledger.md`
 - Evidence: existing `docs/validation/2026-09-12-crew-payoff-cast.md` (append accurate closure status within existing items, preserving historical evidence); new validation summary only after results exist.
 - Test: existing `tests/test_drama_crew_dialogue_submission_contracts.py`; shared suite `tests/`; private behavior files above.
+- Direct publication-policy duplicate: `drama-studio/references/learnings.md` author-routing paragraph is included in Task 1. Retire only obsolete account-based publishing assertions inside existing mixed contract tests, keeping unrelated checks and methods; verify the replacement with private actual-rule consumption rather than new wording assertions.
 
 **Interfaces:**
 - Consumes: approved spec; prior evidence; before-edit control output, supplied by controller.
