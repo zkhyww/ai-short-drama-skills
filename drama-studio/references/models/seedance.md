@@ -1,6 +1,6 @@
 # 模型能力卡：豆包 Seedance（字节跳动）
 
-> 用户指定或未回答按默认选择 Seedance 时，规划即读取本卡与实际 provider/adapter 卡。默认官方 Dreamina 路线同时读取 `dreamina.md`，未回答采用 `seedance2.0fast_vip` / 15 秒；仅用户明确暂不选型才用通用保守规划。项目已锁定 30 秒直出专项与 Seedance 2.5 时，该锁优先于普通默认。execution 以当次 CLI/后端约束收紧本卡（见 prompt-assembly.md §1）。
+> 用户指定、项目继承或按 `prompt-assembly.md` §1 的相容建议选用 Seedance 时，规划即读取本卡与实际 provider/adapter 卡；Dreamina 路线同时读取 `dreamina.md`。模型与单次时长均未设、且无相反约束时，才建议 `seedance2.0fast_vip` / 15 秒。自然语言明确单次 30 秒而未选模型时，可建议兼容的 2.5，不回落到 15 秒；已有模型或时长锁始终继承。仅用户明确暂不选型才用通用保守规划。execution 以当次 CLI/后端约束收紧本卡，不把规划建议当执行能力证明。
 
 ## 基本信息
 

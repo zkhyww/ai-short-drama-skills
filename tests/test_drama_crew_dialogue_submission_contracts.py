@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 import unittest
 
 
@@ -41,9 +42,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "drama-studio/references/dimensions/dim-performance.md"
         )
 
-    def test_version_reference_and_stage_order_are_wired(self) -> None:
-        self.assertIn("version: 6.22.0", self.skill)
-        self.assertIn("version: 1.16.0", self.studio_skill)
+    def test_reference_and_stage_order_are_wired(self) -> None:
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -626,8 +625,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             zip(expected_english_headings, expected_chinese_headings), start=1
         ):
             self.assertIn(f"| {index} | `{english}` | `{chinese}` |", heading_map)
-        for fragment in ("项目明确启用「30 秒直出专项」", "未启用专项，或其他时长/普通任务",
-                         "不与四区块双交"):
+        # Startup routing is exercised by the consuming-agent scenarios;
+        # keep this check scoped to the output format's exclusivity.
+        for fragment in ("不与四区块双交",):
             self.assertIn(fragment, prompt)
         for fragment in ("sum of per-line actual pronunciation counts",
                          "actual pronunciation count"):
@@ -707,14 +707,23 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("不新增角色", self.skill)
 
     def test_public_docs_and_markdown_count_match_release(self) -> None:
-        crew_markdown_count = len(list((ROOT / "drama-crew").rglob("*.md")))
-        self.assertEqual(18, crew_markdown_count)
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
-        self.assertIn("| `drama-crew` | 6.22.0 | 19 |", readme)
-        self.assertIn("| `drama-studio` | 1.16.0 | 33 |", readme)
-        self.assertIn("`drama-crew` v6.22.0", changelog)
-        self.assertIn("`drama-studio` v1.16.0", changelog)
+        for skill in ("drama-crew", "drama-studio"):
+            # Catch a stale release table without pinning all future releases
+            # to a particular version or an arbitrary file-count ceiling.
+            version = re.search(r"^version: (.+)$", read(f"{skill}/SKILL.md"), re.M)
+            row = re.search(rf"^\| `{skill}` \| ([^|]+) \| (\d+) \|", readme, re.M)
+            self.assertIsNotNone(version)
+            self.assertIsNotNone(row)
+            packaged_files = [
+                path for path in (ROOT / skill).rglob("*")
+                if path.is_file() and path.suffix in {".md", ".py", ".json"}
+                and path.name not in {"local-config.json", "local-index.md"}
+            ]
+            self.assertEqual(version.group(1).strip(), row.group(1).strip())
+            self.assertEqual(len(packaged_files), int(row.group(2)))
+            self.assertIn(f"`{skill}` v{version.group(1).strip()}", changelog)
         self.assertIn("`drama-studio` v1.15.2", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)
@@ -1152,8 +1161,6 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         )
         self.assertNotIn("完整情绪链必须按顺序走完", active_contracts)
         self.assertNotIn("[OS]=同场画外对白", active_contracts)
-        self.assertEqual(18, len(list((ROOT / "drama-crew").rglob("*.md"))))
-        self.assertEqual(29, len(list((ROOT / "drama-studio").rglob("*.md"))))
 
 
 if __name__ == "__main__":
