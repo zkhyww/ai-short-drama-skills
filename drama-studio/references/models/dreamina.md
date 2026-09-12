@@ -28,7 +28,7 @@
 
 | 项 | 参数 |
 |---|---|
-| 视频模型 | **默认 `seedance2.0fast_vip`（v1.13.7，VIP 快速通道，用户裁定：普通 seedance2.0 排队可达数小时）**；全集合 `seedance2.0` / `seedance2.0fast` / `seedance2.0_vip` / `seedance2.0fast_vip` / `seedance2.0mini` / `seedance2.5`；部分图生入口另支持 1.0fast/1.5pro。用户点名才偏离默认，偏离时在调用记录注明 |
+| 视频模型 | **默认 `seedance2.0fast_vip`（v1.13.7，VIP 快速通道，用户裁定：普通 seedance2.0 排队可达数小时）**；全集合 `seedance2.0` / `seedance2.0fast` / `seedance2.0_vip` / `seedance2.0fast_vip` / `seedance2.0mini` / `seedance2.5`；部分图生入口另支持 1.0fast/1.5pro。用户点名或项目锁定 30 秒直出专项/Seedance 2.5 时偏离普通默认，并在调用记录注明 |
 | 时长 | Seedance 2.0 系列输出 **4–15s**；Seedance 2.5 输出 **4–30s**；旧模型按具体子命令帮助 |
 | 画幅 | 文生/全能参考：1:1、3:4、16:9、4:3、9:16、21:9；单首帧/首尾帧/多帧由输入图推断 |
 | 分辨率 | Seedance 2.5：480p/720p/1080p；`seedance2.0_vip`：720p/1080p/4k；**`seedance2.0fast_vip`（默认）：720p**；其余当前公开 2.0 组合为 720p |
@@ -41,6 +41,7 @@
 
 - `image2video`、`frames2video`、`multiframe2video` 不接受显式画幅；首帧资产必须先生成到目标画幅。
 - Seedance 2.5 为 VIP 模式；无权限、余额不足或后端未开放时，按镜头目的降级到 2.0 系列并重新核时长/分辨率，不能静默改参数。
+- 30 秒直出专项正式执行前实核目标子命令 `--help`、素材、登录与预算；接口不支持 30 秒时保留单 Clip 30 秒规划并报告执行差异，不能把两次 15 秒提交记录成一次 30 秒调用。
 - 某模型首次使用若返回 `AigcComplianceConfirmationRequired`，先在即梦 Web 端完成该模型首次生成，再回 CLI；这不是浏览器签名令牌问题。
 - 任务异步提交：保留 `submit_id`，用 `dreamina query_result --submit_id=...` 查询；状态未知先查任务，不盲目重复付费提交。
 - 提交前运行 `scripts/dreamina_route.py` 预览命令；预览不会消耗积分。实际执行前仍须完成耗积分告知，并记录 provider/adapter/version、任务 ID、结果路径和实际成本。

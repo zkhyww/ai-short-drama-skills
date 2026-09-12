@@ -43,7 +43,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
 
     def test_version_reference_and_stage_order_are_wired(self) -> None:
         self.assertIn("version: 6.22.0", self.skill)
-        self.assertIn("version: 1.15.2", self.studio_skill)
+        self.assertIn("version: 1.16.0", self.studio_skill)
         self.assertIn("references/submission-format.md", self.skill)
         dialogue_gate = self.skill.index("### 第 3.7 步：台词桌读与表演化精修关")
         compliance_gate = self.skill.index("### 第 3.8 步：合规初核关")
@@ -87,7 +87,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "不为每条材料重复确认",
             "本次任务明确不联网或不落盘",
             "观看重点 + 已锁事实资产 + 目标模型条件",
-            "现有资产 / 镜头 / 四区块",
+            "现有资产 / 镜头 / `prompt-assembly.md` §2 路由后正文",
             "固定计数",
             "不能为使用方法补人物、建筑、道具、破坏状态或改结果",
             "读取方法不等于安装、运行脚本、上传或生成",
@@ -571,7 +571,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for required in ("Seedance 原生音视频联合生成为主", "无需独立配音步骤", "台词内容放在 `{}` 内",
                          "音乐用 `（）`、音效用 `<>`、字幕用 `【】`",
                          "Dreamina 页面示例", "provider/adapter",
-                         "每个独立 Clip 在【声音】声明角色声线/母音色绑定一次", "外部 WAV/TTS 后备", "音声设计提示词要点"):
+                         "每个独立 Clip 在路由后的声音职责位声明角色声线/母音色绑定一次", "外部 WAV/TTS 后备", "音声设计提示词要点"):
             with self.subTest(required=required):
                 self.assertIn(required, ext)
         self.assertNotIn("角色名+动作表情描述+冒号+引号台词", ext)
@@ -584,12 +584,34 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("外部 TTS", audio)
         self.assertNotIn("jimeng audio create", audio)
 
-    def test_studio_four_block_delivery_and_model_default_wiring(self) -> None:
+    def test_studio_prompt_format_routes_and_model_default_wiring(self) -> None:
         # Wiring guards only; actual prompt consumption is checked with a reader agent.
         prompt = self.studio_prompt
-        schema = prompt.split("## 2. 四区块终编骨架", 1)[1].split("```", 2)[1]
-        headings = [line for line in schema.splitlines() if line.startswith("【")]
-        self.assertEqual(["【基础设定】", "【氛围与画质】", "【声音】", "【画面内容】"], headings)
+        four_block_schema = prompt.split("### 2A. 通用四区块", 1)[1].split("```", 2)[1]
+        four_block_headings = [
+            line for line in four_block_schema.splitlines() if line.startswith("【")
+        ]
+        self.assertEqual(
+            ["【基础设定】", "【氛围与画质】", "【声音】", "【画面内容】"],
+            four_block_headings,
+        )
+        eight_block_schema = prompt.split("```text", 1)[1].split("```", 1)[0]
+        eight_block_headings = [
+            line for line in eight_block_schema.splitlines() if line.startswith("=== BLOCK")
+        ]
+        self.assertEqual(
+            [
+                "=== BLOCK 1: MASTER REFERENCE BINDING ===",
+                "=== BLOCK 2: VISUAL STYLE & MEDIUM MANDATE ===",
+                "=== BLOCK 3: ANTI-GLITCH & PROP TRACKING RULES ===",
+                "=== BLOCK 4: SCENE CONTEXT & CONTINUITY LOCK ===",
+                "=== BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===",
+                "=== BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===",
+                "=== BLOCK 7: SHOT BREAKDOWN & SPATIAL LOGIC (30 SECONDS) ===",
+                "=== BLOCK 8: AUDIO & FOLEY SPECIFICATIONS ===",
+            ],
+            eight_block_headings,
+        )
         for fragment in ("`seedance2.0fast_vip` / 15 秒一组", "两卡", "5–8 个分镜",
                          "参考生仅 8s", "同一 Clip 内切场景不重置时间", "一个 Shot"):
             self.assertIn(fragment, prompt)
@@ -597,13 +619,13 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             self.assertIn(fragment, self.studio_skill)
         roles = read("drama-studio/references/role-cards.md")
         self.assertIn("连续音频起止秒、覆盖镜号与可见口型区间", roles)
-        self.assertIn("逐组四区块视频提示词", roles)
+        self.assertIn("逐 Clip 路由后视频提示词", roles)
         for stale in ("七段式", "单块最小 2s", "默认 1 Shot/Clip"):
             self.assertNotIn(stale, prompt)
 
     def test_continuous_dialogue_budget_and_reference_boundaries(self) -> None:
         audio = read("drama-studio/references/dimensions/dim-audio.md")
-        for fragment in ("3–3.5 字/秒", "不是统一行业标准", "标点不计字但停顿计时",
+        for fragment in ("3–3.5 发音字/秒", "不是统一行业标准", "标点不计字但停顿计时",
                          "顺序发声的所有角色共用时间", "L-Cut 不增加声窗容量", "跨独立生成 Clip",
                          "不会自动逐句定位", "不重复加", "原生音频优先"):
             self.assertIn(fragment, audio)
@@ -644,8 +666,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         readme = read("README.md")
         changelog = read("CHANGELOG.md")
         self.assertIn("| `drama-crew` | 6.22.0 | 19 |", readme)
-        self.assertIn("| `drama-studio` | 1.15.2 | 33 |", readme)
+        self.assertIn("| `drama-studio` | 1.16.0 | 33 |", readme)
         self.assertIn("`drama-crew` v6.22.0", changelog)
+        self.assertIn("`drama-studio` v1.16.0", changelog)
         self.assertIn("`drama-studio` v1.15.2", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
         self.assertIn("投稿阅读稿", readme)

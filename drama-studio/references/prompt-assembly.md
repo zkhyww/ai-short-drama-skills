@@ -21,7 +21,7 @@
 
 **能力限制优先级（全包唯一口径）**：execution 实时 provider/adapter/version schema > 已选目标模型与适配器能力卡（用户指定或项目默认）> 用户明确暂不选型时的通用保守规划。第 0 步在既有接稿确认中问模型，已指定或项目已锁定不重复问；未回答默认 **Dreamina / `seedance2.0fast_vip` / 15 秒一组**，不阻塞规划、不新增弹窗。`planning_only` 也加载 Seedance 与 Dreamina 两卡并注入景川；正式执行仍须能力、登录、配额与预算预检，默认选型不等于付费授权。
 
-四区块框架不随模型改变，时长、Prompt 长度、参考上限、音频与模式组合按实际接口分别确定。Seedance 2.0 按卡为 4–15s，2.5 为 4–30s；Omni 1.1 Flash 的当前 Flow2API 卡区分文生 8/10s（默认 10s）与参考生仅 8s，不能把“Omni 10 秒”套给参考模式。换时长必须重排画面及声音时间轴，不只改标题或强行加速。用户明确要求模型无关草案时才用通用保守模式，不把普通未回答当作暂不选型。
+输出格式先按 §2 的任务路由确定，时长、Prompt 长度、参考上限、音频与模式组合再按实际接口分别确定。Seedance 2.0 按卡为 4–15s，2.5 为 4–30s；Omni 1.1 Flash 的当前 Flow2API 卡区分文生 8/10s（默认 10s）与参考生仅 8s，不能把“Omni 10 秒”套给参考模式。**项目已锁定 30 秒直出专项与 Seedance 2.5 时，该锁优先于普通未回答默认值，不得回落到 `seedance2.0fast_vip` / 15 秒。**换时长必须重排画面及声音时间轴，不只改标题或强行加速。用户明确要求模型无关草案时才用通用保守模式，不把普通未回答当作暂不选型。
 
 ## 1.5 三层单位定义（v1.7.2 定版 · 全包唯一口径，其他文件只引用不复写）
 
@@ -29,11 +29,22 @@
 |---|---|---|
 | **Shot（剪辑镜头）** | 剪辑意义上的最小叙事镜头：一镜一主动作、一镜一个内容类型 | 常规 2-6s；有明确表演/揭示动机可延长，是否拆分按叙事完整性与上述能力限制优先级判断；分镜表一行 = 一个 Shot |
 | **Clip（生成片段）** | 一次视频生成调用产出的片段：单条提示词 → 单个媒体文件 | 默认 15s 一组；可按已选模型/模式改为更短或更长。一组可包含多个 Shot，须核多镜能力与总时长，不固定每组镜数，不把一次提交暗拆成多次付费调用 |
-| **Prompt Unit（提示词包）** | 一次模型调用的完整提示词包：四区块正文+实际请求参数+资产绑定 | 对应第 2 节；一 Clip 一 Prompt Unit，装配自检按 §7 过一遍 |
+| **Prompt Unit（提示词包）** | 一次模型调用的完整提示词包：按 §2 路由后的正文+实际请求参数+资产绑定 | 对应第 2 节；一 Clip 一 Prompt Unit，装配自检按 §7 过一遍 |
 
 **换算关系**：按连续叙事与接口时长把 Shot 编入 Clip，调用数等于实际 Clip 数，重试另计；单集时长由实际使用的 Clip 片段累计，不按镜数推算。分镜表一行一 Shot，提示词清单一组一 Clip，禁止「镜头/片段/提示词」混指。
 
-## 2. 四区块终编骨架（唯一视频输出格式）
+## 2. 视频终编格式路由（通用四区块 + 30 秒直出专项八段式）
+
+先判路由，**同一 Clip 只交一种正文**：
+
+| 触发条件 | 唯一正文格式 | 时长与调用语义 |
+|---|---|---|
+| 项目明确启用「30 秒直出专项」 | 本节 2B 八段式 | 单次固定 `00:00–00:30`；一 Clip 一 Prompt Unit，不与四区块双交 |
+| 未启用专项，或其他时长/普通任务 | 本节 2A 通用四区块 | 沿用项目锁与实际模型/模式时长；原 15 秒、10 秒、8 秒等分支不变 |
+
+项目语言锁同时生效：英文项目用英文标题、英文正文与英文对白，默认自然美式英语；项目指定其他英语口音时继承。中文项目用中文标题、中文正文与项目指定的中文语种/口音。**只转换语言，不改变八段职责；已锁对白没有翻译授权时逐字保留，不擅改。**平台偏好的提示词语言不能覆盖项目语言锁。
+
+### 2A. 通用四区块
 
 每组可直接复制提交，正文仅以下四区块，不再并列一份旧式骨架或第五个负面区块。模型与请求参数留调用元信息，负面约束并入【氛围与画质】；资产图片提示词仍用 §4 的图片结构，不强套视频格式。沿用三层解耦：身份/风格基线跨组继承，空间/状态/表演逐镜变化，负面只取当前组必要项。
 
@@ -48,13 +59,86 @@
 分镜N丨镜头功能丨起止秒丨景别/机位/运镜：可观察动作、反应、空间变化；引用台词ID与声音进度、可见口型区间；结尾可见状态及接续落点。
 ```
 
-**五字段 → 四区块映射**：storyboard-craft §2 的五字段只作内容核对：「画面动作概述/构图/机位/动作」归【画面内容】，空间基线归【基础设定】，音效归【声音】；角色资产补入【基础设定】，风格与光影补入【氛围与画质】。结尾选型落实为最后一镜的可见状态，可承接下一组或留悬念，不要求每组故事闭环。
+### 2B. 30 秒直出专项八段式
+
+以下顺序和标题严格固定。英文项目逐字使用英文列；中文项目逐字使用中文列，不混用两套标题：
+
+| # | English | 中文 |
+|---|---|---|
+| 1 | `=== BLOCK 1: MASTER REFERENCE BINDING ===` | `=== 区块 1：主参考绑定 ===` |
+| 2 | `=== BLOCK 2: VISUAL STYLE & MEDIUM MANDATE ===` | `=== 区块 2：视觉风格与媒介指令 ===` |
+| 3 | `=== BLOCK 3: ANTI-GLITCH & PROP TRACKING RULES ===` | `=== 区块 3：防错与道具追踪规则 ===` |
+| 4 | `=== BLOCK 4: SCENE CONTEXT & CONTINUITY LOCK ===` | `=== 区块 4：场景语境与连续性锁 ===` |
+| 5 | `=== BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===` | `=== 区块 5：带时码对白与音频预算 ===` |
+| 6 | `=== BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===` | `=== 区块 6：场内文字载体 ===` |
+| 7 | `=== BLOCK 7: SHOT BREAKDOWN & SPATIAL LOGIC (30 SECONDS) ===` | `=== 区块 7：镜头拆解与空间逻辑（30 秒） ===` |
+| 8 | `=== BLOCK 8: AUDIO & FOLEY SPECIFICATIONS ===` | `=== 区块 8：音频与拟音规格 ===` |
+
+模板只使用通用字段，不含案例专有人名、品牌、地点或桥段；终编时用本项目实际内容替换说明与变量，删除所有未替换占位符、模板教学语、候选方案和未实际绑定素材。**不得为了填槽伪造资产或内容；`NONE`/`无` 只表示已经核实的真实空状态**（例如无主道具、无故事板参考、无对白或无配乐），不是素材占位。Block 6 的标题始终保留，未启用场内文字时必须明确写 `NONE`（中文写 `无`）；其他状态字段按模板职责如实写实际内容或 `NONE`。
+
+```text
+=== BLOCK 1: MASTER REFERENCE BINDING ===
+CHARACTERS: [actual reachable character reference(s); asset/Panel ID; what each locks and does not lock]
+HERO PROP: [actual reachable hero-prop reference and control duty, or NONE]
+STORYBOARDS: [actual reachable storyboard Panel(s) used by this Clip and their shot duties, or NONE]
+SCENES: [actual reachable pure-scene reference(s) and spatial/light duties, or NONE]
+
+=== BLOCK 2: VISUAL STYLE & MEDIUM MANDATE ===
+Style: [project-locked style/medium and finish]
+Shader-Texture: [material, skin/surface, rendering or lens texture required by the chosen medium]
+Negative Locks: [only the current Clip's necessary, medium-compatible exclusions]
+
+=== BLOCK 3: ANTI-GLITCH & PROP TRACKING RULES ===
+PROP INVENTORY: [only props actually present or continuity-bearing in this Clip]
+PROP LIFECYCLE: [who occupies which hand -> visible handoff/placement -> cross-shot holder or exact location]
+ANATOMY & STATE LOCK: [identity, anatomy, costume, injury, orientation and end-state locks actually required]
+
+=== BLOCK 4: SCENE CONTEXT & CONTINUITY LOCK ===
+Time of Day & Global Light: [physical source, direction, quality and continuity]
+Setting: [actual setting, fixed landmarks and present background activity]
+Spatial Vector: [screen direction, eyelines, distances, entrances/exits and camera-side relationships]
+
+=== BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===
+Language & Accent: [project-locked language/accent]
+Audio Budget: [actual pronunciation count, chosen pace, breath/pause budget and fit result]
+[start-end] [dialogue ID] | [speaker] | [Dialogue/OS/VO] | [delivery change] | [complete verbatim line]
+[repeat for actual lines; if there is no dialogue, write NONE]
+
+=== BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===
+[start-end] | [actual physical text-bearing object] | [verbatim text] | [perspective, material, light/shadow and readability action]
+[if unused, write NONE]
+
+=== BLOCK 7: SHOT BREAKDOWN & SPATIAL LOGIC (30 SECONDS) ===
+[shot ID] [start-end] [actual cut/transition at the boundary, or continuous take]
+Visual Match: [actual reference/Panel and the visual duty it controls, or text-only state]
+Camera: [shot size, position, lens/angle, movement and maintained composition]
+Action & Blocking: [observable action order, positions, prop state, reaction and end state; dialogue ID/sound progress/visible lip interval only]
+[repeat for the actual shot count; total coverage is exactly 00:00-00:30]
+
+=== BLOCK 8: AUDIO & FOLEY SPECIFICATIONS ===
+Ambient Track: [actual room tone/environment bed and time changes]
+Foley & Prop Sound: [actual timed contacts/material sounds]
+Voice Profile: [known voice fingerprint plus candidate/frozen mother-voice state and real binding only]
+Music-Score: [actual cue, ducking and exit, or NONE]
+```
+
+中文项目使用同一字段职责并将字段名、正文与对白切换为中文；标题采用上表中文列。Block 1 可消费**单张 16:9 四区参考总表**：角色三视图、关键道具、三个关键分镜、纯场景。总表是普通参考，不冒充首帧；Panel 编号、素材顺序和绑定职责必须来自已可达文件。单图只是优先复用形式，不是强制：已有多图角色、首帧、环境或故事板参考可直接沿用，只要每项职责、优先级与冲突保留项写清。参考资产画幅与成片画幅分别继承，不能因总表为 16:9 就覆盖项目成片画幅。
+
+Block 2 的媒介由项目锁决定：真人写真人摄影与皮肤/材质约束，3D 写 3D 渲染、shader/texture 约束；二者的 Negative Locks 必须互斥匹配，不能同时要求真人皮肤与纯 3D 表面。Block 3 必须写清承重道具的占手、交接或放置、跨镜持有者/位置；画外不等于消失，背景陈设不逐件编造退场。不能为省事删除已锁道具。
+
+Block 5 是对白、OS、VO **逐字正文唯一位置**。Block 7 只引用台词 ID、声音进度和可见口型区间；Block 8 只写声线、环境、动效与音乐，不复写台词。母音色文字方向不冒充已冻结音频：只有真实资产已试听冻结且本次接口实际绑定时，才写 frozen 资产与引用；否则如实写候选/待选或仅声音指纹。
+
+Block 6 不是强制制造文字设备：不用时保留标题并写 `NONE`（中文“无”）；使用时只写剧情中实际存在的实体、原始文字、透视、材质、光影、可读动作与起止时码，不擅改文字事实，也不把字幕/水印当场内设备。
+
+Block 7 的三个镜头是首轮起排，不是硬配额。已有一镜到底时只写一个覆盖 `00:00–00:30` 的 Shot 和连续相机/动作节点，不制造切点；项目明确其他镜数时按实际镜数写，仍保留完整八段。多镜头必须写实际切点，时间线连续覆盖 30 秒。
+
+**五字段 → 路由后正文映射**：storyboard-craft §2 的五字段只作内容核对。通用四区块中，「画面动作概述/构图/机位/动作」归【画面内容】，空间基线归【基础设定】，音效归【声音】，角色资产补入【基础设定】，风格与光影补入【氛围与画质】。30 秒专项中，参考绑定归 Block 1，风格/媒介归 Block 2，道具与状态归 Block 3，场景/空间/光影归 Block 4，对白唯一正文归 Block 5，场内文字归 Block 6，镜头画面归 Block 7，环境/动效/声线/音乐归 Block 8。结尾选型落实为最后一镜的可见状态，可承接下一组或留悬念，不要求每组故事闭环。
 
 **有图与无图**：有实际可用参考图时只补身份锚点、当前状态与图片未表达的变化，并写清控制职责：参考图中的外观不自动控制动作，动作参考不改写身份；实体参考与烟尘、裂纹、发光等派生效果分别说明。无图时从已确认的文字资产补足角色/场景物理描述，不造 `@图1`、假句柄或空占位。内部文字资产 ID 不等于已上传的媒体引用。只要求可复制纯文本，不强制再产一份 TXT。
 
-**一镜到底共用外壳**：【画面内容】只写一个 Shot 的连续相机轨迹与动作时间节点，不把节点标成多个剪辑镜头。多机位才逐分镜标切点；固定机位不能同时推进或跟随，若先固定后移动须分别说明时段。
+**一镜到底共用外壳**：通用【画面内容】或专项 Block 7 只写一个 Shot 的连续相机轨迹与动作时间节点，不把节点标成多个剪辑镜头。多机位才逐分镜标切点；固定机位不能同时推进或跟随，若先固定后移动须分别说明时段。
 
-**说话文本单一真源**：同一句对白、OS 或 VO 的**逐字正文只出现一次**，放在【声音】，沿用 `OS=角色内心独白`、`VO=画外音`。【画面内容】只引用台词 ID、声音进度、口型区间及反应，不按镜头平均截句或重贴全文。L-Cut 让完整对白跨画面连续播放，反打后仍是原对白，不改成 OS 或旁白；只驱动可见说话人的嘴，听者不代动嘴。OS 不驱动口型，已有 OS/VO 不被通用「无画外音」删除。声音回注后才冻结正式提示词；候选音色标预览范围。容量、气口与跨独立 Clip 的执行边界见 `dimensions/dim-audio.md`，切画面不增加说话时间。
+**说话文本单一真源**：同一句对白、OS 或 VO 的**逐字正文只出现一次**：通用四区块放【声音】，30 秒专项放 Block 5。通用【画面内容】或专项 Block 7 只引用台词 ID、声音进度、口型区间及反应，不按镜头平均截句或重贴全文。L-Cut 让完整对白跨画面连续播放，反打后仍是原对白，不改成 OS 或旁白；只驱动可见说话人的嘴，听者不代动嘴。OS 不驱动口型，已有 OS/VO 不被通用「无画外音」删除。声音回注后才冻结正式提示词；候选音色标预览范围。容量、气口与跨独立 Clip 的执行边界见 `dimensions/dim-audio.md`，切画面不增加说话时间。
 
 **长度约束**：按已选模型与接口逐模式核对 Prompt 和时长上限；默认 15 秒不附带虚构的统一字符上限。仅用户明确暂不选型的草案采用 §6 通用保守规划。
 **画面超载风险**：不按秒数机械数事件元素。若同一时间块出现多个彼此独立的主动作、空间关系改写、视线转移或必须分别读清的因果结果，先判断能否收成一条主动作链；收不拢或模型无法稳定交付时才拆镜。背景细节与同一因果链的连续反应不因“数量多”自动判超载。
@@ -72,14 +156,16 @@
 
 **时长预算**：先给完整发声与不可省略的动作留出时间，再排视觉切点。**禁止场景 1:1 平均压缩**，也不为凑 5–8 镜硬塞动作、砍台词或加速。成片使用时长与技术生成时长分开记录，镜头数只作剪辑节奏参考，不作生成调用公式。
 
+**30 秒直出专项**：固定一 Clip 覆盖 `00:00–00:30`，默认从三个镜头起排，但镜数仍服从已有一镜到底、项目明确镜数、完整表演与实际切点。英文首轮容量按 dim-audio 的 40–55 发音词、130–150 WPM 与气口/反应共同核算，40 不是补话下限；中文仍按 3–3.5 发音字/秒首估。容量超出必须重排或回剧情层，不在专项里静默延长、拆成两个 15 秒 Prompt Unit 或加速。
+
 **镜头三任务**（每镜通常至少完成一项，三无镜头回查再定去留）：改情绪 / 推动作 / 加压力。**判断方法**：查无三任务时先别急着删——问「这一镜观众看见什么」（storyboard-craft 导演判断），若它在做隐性价值加载（关系位移/秘密距离/情绪落地，见 story-structure §2 缓冲段），把它改写成立，而不是当废镜剔除；显性隐性都立不住的才是装饰镜。
-**悬念披露权限（内嵌现有导演意图，不新增 Schema）**：对关键事实标 `show_now` / `withhold_now`——前者只允许本镜应让观众读到的最强结论，后者列出本镜必须避免提前泄露的表情、道具状态、字幕、声音或构图信息。两者共同约束【画面内容】的动作与结尾落点；隐藏信息不能靠改写正典事实实现。
+**悬念披露权限（内嵌现有导演意图，不新增 Schema）**：对关键事实标 `show_now` / `withhold_now`——前者只允许本镜应让观众读到的最强结论，后者列出本镜必须避免提前泄露的表情、道具状态、字幕、声音或构图信息。两者共同约束通用【画面内容】或专项 Block 7 的动作与结尾落点；隐藏信息不能靠改写正典事实实现。
 **取舍优先级**（Murch 剪辑六律，镜数或时长承载不下时据此裁量）：情感 > 剧情 > 节奏 > 视线 > 构图 > 空间。这里表达的是判断顺序，不把助记百分比当评分公式。
 
 ## 3. 单条多镜头语法
 
-- 四区块是交付格式，不是多镜能力证明：Seedance 按已加载两卡规划多镜；未确认多镜能力的接口只能把多机位标为待验证，或说明改为一镜到底/多次生成剪辑的取舍，不承诺一次精准执行，也不暗增调用数。
-- 中文交付统一采用 §2 的 `分镜N丨功能丨起止秒丨…`；若实际 API 需要 `Shot` 标签或 `multi_prompt` 等结构，由调用者从同一时间轴映射参数，不另交一份竞争正文，仍保留四区块供用户复制。
+- §2 路由后的正文是交付格式，不是多镜能力证明：Seedance 按已加载两卡规划多镜；未确认多镜能力的接口只能把多机位标为待验证，或说明改为一镜到底/多次生成剪辑的取舍，不承诺一次精准执行，也不暗增调用数。30 秒专项的八段仍描述一个 30 秒 Clip，接口不支持时保留规划并报告执行差异，不能把两次 15 秒冒充一次 30 秒调用。
+- 通用中文交付采用 §2 的 `分镜N丨功能丨起止秒丨…`；30 秒专项按 Block 7 的字段与项目语言写。若实际 API 需要 `Shot` 标签或 `multi_prompt` 等结构，由调用者从同一时间轴映射参数，不另交一份竞争正文。
 - 跨 Shot 连续性锁：同角色表/同地理/同银幕方向/同视线/同光向/同服装状态/同伤口道具状态
 - 剪辑类型工具箱：HARD CUT / SMASH CUT / MATCH CUT / INSERT CUT / REVERSE CUT / WHIP CUT 为默认六式；**转场按意义选择（v1.7.4 增，陆离同步）**：叠化=时间流逝/记忆渗入/两状态短暂重合、淡入淡出=明确段落或时间边界、遮挡/甩镜/动作接切=让画面运动完成过渡——判断标准是转场**是否改变了时间、空间、情绪或意义**，六式内按功能选，六式外按意义取用；不为显技巧加转场，也不因工具箱拒绝当前场景真正需要的表达（平台硬性限制除外）
 
@@ -140,13 +226,13 @@
 | Sora | **历史迁移参考，永不自动选择**；存量迁移才按 sora.md 处理 |
 | 可灵 | 精简光影音频，重分镜运镜 |
 | 即梦 | 强化风格关键词，漫剧友好 |
-| Vidu | 全模块中文 |
+| Vidu | 按项目语言锁组织正文；平台需中文控制语时只在适配层转换控制语，不擅译已锁对白 |
 | LibTV | 节点式，每镜一图片/视频节点 |
 | Seedance | 时间轴结构，参考标签字节级保留 |
 | Gemini Omni 1.1 Flash（Flow2API） | 严格按公开 capability 分开文生与参考生；8/10 秒、参考图数量和声音控制边界以本地 adapter 卡为准 |
 
 **模型能力档案**（多模型支持机制，吸收 manju 模型适配层 + jutian provider_profile）：
-- 核心规则**全部模型中立**（不绑定任何模型的专有语法）；平台差异只在交付前用本表微调。
+- 核心规则**全部模型中立**（不绑定任何模型的专有语法）；平台差异只在交付前用本表微调，不能覆盖 §2 的项目语言锁或专项格式路由。
 - 按已选模型加载能力卡（用户指定或项目默认，路径 `references/models/`）：`kling.md` / `seedance.md` / `dreamina.md` / `vidu.md` / `sora.md` / `minimax-hailuo.md` / `gemini-omni-1-1-flash-flow2api.md`。默认规划同时加载 seedance 与 dreamina 两卡；沈砚把支持模式/时长/画幅/分辨率/参考上限/首尾帧/多镜/声音控制边界/冲突/降级/提示词适配的命中原文贴进模型与 provider/adapter 注入位。
 - 卡内 **capability_state 三级**：confirmed（官方文档证实）/ partial（社区验证）/ needs_confirmation（不确定则按保守写），禁止凭记忆写参数上限。
 - **⚠️ Sora 2 已弃用**（存量 API 仅至 2026-09-24）：新项目不推荐、不作为默认生产模型；sora.md 仅作历史参考。
@@ -154,7 +240,7 @@
 
 ## 6.5 物理措辞纪律（画面指令适用，不改剧本原话）
 
-> 四区块管结构，本节把画面要求翻译成可见动作与物理关系。对白/OS/VO 中的比喻、人物口头禅和原始数字逐字保留，不因视觉措辞检查而改词；不强制所有表演都写肌肉术语或伴随大动作。
+> §2 路由后的正文管结构，本节把画面要求翻译成可见动作与物理关系。对白/OS/VO 中的比喻、人物口头禅和原始数字逐字保留，不因视觉措辞检查而改词；不强制所有表演都写肌肉术语或伴随大动作。
 
 **两禁**：
 - **禁文学化修辞**：比喻/拟人/象征/夸张一律换成物理世界的字面描述——「心如刀割」→「双手按住胸口，呼吸急促，面部肌肉扭曲」；「杀气腾腾」→「下颌前伸，眼神直视前方固定一点，嘴角下拉」；「城市在夜色中沉睡」→「夜晚，建筑物静止，街道无人」。
@@ -170,7 +256,7 @@
 | 声音 | 音量质感（耳语/低声/嘶喊）+ 音质质感（沙哑/颤抖/劈裂）+ 混响质感（干涩/空旷/回声），不用 dB 小数 |
 | 空间 | 身体参照（一臂距离/一拳之隔/指尖到手腕）+ 画面比例（人物占画面 1/2 或 1/10）+ 方位关系（左/右/前/后），不用毫米级描述 |
 
-**与现有条款的关系**：§2【画面内容】的可观察动作、storyboard-craft §3 表情拆解公式是同一纪律的分维度细化；asset-library §9 禁用词黑名单管资产层空话词，本节管画面指令措辞——互补不重叠。装配自检（§7）并入既有「命中维度的契约要素」核对。
+**与现有条款的关系**：§2 通用【画面内容】或专项 Block 7 的可观察动作、storyboard-craft §3 表情拆解公式是同一纪律的分维度细化；asset-library §9 禁用词黑名单管资产层空话词，本节管画面指令措辞——互补不重叠。装配自检（§7）并入既有「命中维度的契约要素」核对。
 
 ## 7. 装配自检（终编后、交付严恪前）
 
@@ -182,7 +268,13 @@
 - [ ] 冲突处已按九层仲裁取舍
 - [ ] 画面要求可观察，无固定机位同时推进等矛盾；台词/OS/VO 的原文修辞与数字未被改写
 - [ ] 无伪造参考图/句柄、未用资产的空占位或不可验证精度；实际参数与时间码保留
-- [ ] 每 Clip 恰有四区块，镜头/动作节点不混；视觉时间连续覆盖 0 至组尾，组内换场不重置
+- [ ] 格式路由正确且同一 Clip 不双交：通用任务恰有四区块；30 秒直出专项恰有八个固定顺序标题、一个 Prompt Unit，并连续覆盖 `00:00–00:30`
+- [ ] 专项 Block 1 只绑定实际可达素材与真实 Panel；单张四区总表不冒充首帧，已有多图参考不为套模板强拼总表；参考画幅未覆盖成片画幅
+- [ ] 专项媒介锁与 Negative Locks 匹配，真人/3D 不互相打架；承重道具的占手→交接/放置→跨镜持有者/位置完整，画外未被写成消失
+- [ ] 专项 Block 6 未启用时明确 `NONE`/`无`，启用时只写实际实体、原文、物理性和时码，未伪造文字设备
+- [ ] 项目语言锁生效：英文项目英文 Prompt/对白与匹配口音，中文项目同结构切中文；无授权未翻译已锁对白
 - [ ] 已选模型与模式匹配时长/多镜/声音能力；未回答走默认 Seedance，两卡实际注入
-- [ ] 完整台词只在【声音】出现一次，声窗容纳发声与停顿；顺序对白不重复分配同一时间，L-Cut 不凭切镜创造容量
+- [ ] 完整台词只在路由后的唯一正文位出现一次（通用【声音】/专项 Block 5）；专项 Block 7 只引用台词 ID/口型/声音进度，Block 8 不复写台词；声窗容纳发声与停顿，顺序对白不重复分配同一时间，L-Cut 不凭切镜创造容量
+- [ ] 专项 Block 8 的 Voice Profile 没有把文字方向冒充已冻结母音色；冻结/绑定、候选或待选状态均与实际证据一致
+- [ ] 专项已有一镜到底时没有强拆三镜；多镜项目写了实际切点，项目明确其他镜数时未被三镜起排覆盖
 - [ ] 跨独立 Clip 的连续声音有实际音轨执行方案或自然意群切分；生成后须实听，未生成不声称口型/音色合格
