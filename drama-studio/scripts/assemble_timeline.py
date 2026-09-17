@@ -97,19 +97,37 @@ def _read_timeline(path: Path) -> list[tuple[Path, float, float | None]]:
     return selections
 
 
-def _video_duration(probe: dict, source: Path) -> float:
+def _video_duration(probe: dict, source: Path, ffprobe: str) -> float:
     video = next((stream for stream in probe.get("streams", []) if stream.get("codec_type") == "video"), None)
     if video is None:
         raise ValueError(f"clip has no video stream: {source}")
-    metadata = probe.get("format", {})
-    for raw in (video.get("duration"), metadata.get("duration")):
+    try:
+        duration = float(video.get("duration"))
+    except (TypeError, ValueError):
+        duration = math.nan
+    if math.isfinite(duration) and duration > 0:
+        return duration
+
+    # Container duration can include timestamp offsets and longer audio tracks.
+    # When stream duration is absent, measure only this video's packet extent.
+    result = _run([
+        ffprobe, "-v", "error", "-select_streams", "v:0", "-show_packets",
+        "-show_entries", "packet=pts_time,duration_time", "-of", "json", str(source),
+    ])
+    packets = json.loads(result.stdout).get("packets", [])
+    extents = []
+    for packet in packets:
         try:
-            duration = float(raw)
-        except (TypeError, ValueError):
-            continue
-        if math.isfinite(duration) and duration > 0:
-            return duration
-    raise ValueError(f"clip has no finite positive duration: {source}")
+            start = float(packet["pts_time"])
+            length = float(packet["duration_time"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError(f"clip has no reliable video duration: {source}") from exc
+        if not math.isfinite(start) or not math.isfinite(length) or length <= 0:
+            raise ValueError(f"clip has no reliable video duration: {source}")
+        extents.append((start, start + length))
+    if not extents:
+        raise ValueError(f"clip has no reliable video duration: {source}")
+    return max(end for _, end in extents) - min(start for start, _ in extents)
 
 
 def _normalize_clip(
@@ -241,7 +259,7 @@ def assemble_timeline(
     validated = []
     for source, start, end in selections:
         probe = probe_media(source, ffprobe)
-        duration = _video_duration(probe, source)
+        duration = _video_duration(probe, source, ffprobe)
         end = duration if end is None else end
         if not 0 <= start < end <= duration:
             raise ValueError(f"clip cuts require 0 <= in < out <= source duration ({duration}): {source}")

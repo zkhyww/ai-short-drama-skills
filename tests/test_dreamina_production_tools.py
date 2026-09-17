@@ -396,6 +396,40 @@ class TimelineAssemblerIntegrationTests(unittest.TestCase):
             self.assertEqual(0, self.tone_at(output, 0.8))
             self.assertEqual(0, self.tone_at(output, 1.05))
 
+    def test_missing_stream_duration_uses_relative_video_extent_before_rendering(self) -> None:
+        assembler = load_script("assemble_timeline")
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            source = root / "offset.mkv"
+            subprocess.run(
+                ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                 "color=c=red:s=160x120:r=25:d=1", "-f", "lavfi", "-i",
+                 "sine=frequency=440:sample_rate=48000:duration=1",
+                 "-c:v", "libx264", "-c:a", "aac", "-output_ts_offset", "5", str(source)],
+                check=True, capture_output=True,
+            )
+            probe = assembler.probe_media(source)
+            video = next(stream for stream in probe["streams"] if stream["codec_type"] == "video")
+            self.assertNotIn("duration", video)
+            self.assertGreaterEqual(float(video["start_time"]), 5)
+            self.assertGreater(float(probe["format"]["duration"]), 6)
+            original = source.read_bytes()
+            timeline, output = root / "edit.json", root / "out.mp4"
+            timeline.write_text(json.dumps({"clips": [
+                {"path": "offset.mkv", "in": 2.0, "out": 2.2},
+            ]}), encoding="utf-8")
+            with patch.object(assembler, "_normalize_clip", side_effect=AssertionError("render reached")) as render:
+                with self.assertRaisesRegex(ValueError, "source duration"):
+                    assembler.assemble_timeline(timeline=timeline, output=output, width=160, height=120)
+                render.assert_not_called()
+            self.assertFalse(output.exists())
+            timeline.write_text(json.dumps({"clips": [{"path": "offset.mkv", "in": 0.2}]}), encoding="utf-8")
+            result = assembler.assemble_timeline(timeline=timeline, output=output, width=160, height=120)
+            self.assertAlmostEqual(0.8, float(result["format"]["duration"]), delta=0.1)
+            self.assertAlmostEqual(440, self.tone_at(output, 0.2), delta=15)
+            self.assertGreater(self.pixel_at(output, 0.2)[0], 240)
+            self.assertEqual(original, source.read_bytes())
+
     def test_legacy_repeatable_clip_cli_keeps_order_and_explicit_dimensions(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
