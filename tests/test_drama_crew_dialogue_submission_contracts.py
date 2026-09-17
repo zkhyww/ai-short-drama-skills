@@ -712,7 +712,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for skill in ("drama-crew", "drama-studio"):
             # Catch a stale release table without pinning all future releases
             # to a particular version or an arbitrary file-count ceiling.
-            version = re.search(r"^version: (.+)$", read(f"{skill}/SKILL.md"), re.M)
+            frontmatter = read(f"{skill}/SKILL.md").split("---", 2)[1]
+            version = re.search(r"^\s*version:\s*[\"']?([0-9]+(?:\.[0-9]+)+)[\"']?\s*$", frontmatter, re.M)
             row = re.search(rf"^\| `{skill}` \| ([^|]+) \| (\d+) \|", readme, re.M)
             self.assertIsNotNone(version)
             self.assertIsNotNone(row)

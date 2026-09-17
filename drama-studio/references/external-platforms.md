@@ -63,14 +63,16 @@ execution 预检（SKILL.md 第 0 步）
 | flova Skill 的编排段 | 它的做法 | 我们的自建等效（已有角色/文件） | 缺口 |
 |---|---|---|---|
 | 剧本分析拆解 | 解析剧本→分集分场→拆元素清单 | crew 望舒+纪遥（按项目锁定集数的粗纲/人物小传/元素档案） | 无 |
-| 角色/场景设定图 | GPT Image 2 出角色卡+场景卡，多宫格锁定 | 丹青三件套+场景资产板（asset-library §2/§2.5/§4） | 无（§2.5 极繁纪律补齐质感密度） |
+| 角色/场景设定图 | GPT Image 2 出角色卡+场景卡，多宫格锁定 | 丹青按缺口复用/建立独立角色参考与场景板（asset-library §2/§2.5/§4） | 无（§2.5 极繁纪律补齐质感密度） |
 | 分镜设计 | 多宫格分镜参考图→一镜到底工作流 | 景川六问判读+维度装配+逐 Clip 路由后视频提示词（通用四区块 / 30 秒专项八段式） | 无 |
 | 视频生成 | Seedance 2.5 逐镜生成 | 景川 `execution` 按输入类型路由官方 `dreamina text2video` / `dreamina image2video` / `dreamina frames2video` / `dreamina multimodal2video` | 无 |
 | 时间线合成 | 平台内自动拼接成片 | `scripts/assemble_timeline.py` 调 ffmpeg：先统一编码、帧率、分辨率与时基，再拼接；ffprobe 验证视频流、音轨、尺寸与时长 | 无 |
 | 音频链路 | 原生音频或 TTS 配音 | **Seedance 原生音视频联合生成为主**（对白/环境音/动效一次出）——未冻结时用文字音色锚定找候选；已冻结母音色且接口支持时，把该样本作为后续正式对白镜的音频参考；只有音频参考不支持或实听仍失败才走外部 TTS 后备 | 无 |
 | 关键阶段确认 | 里程碑暂停等用户点头 | 沈砚停点制（资产确认/首批分镜确认/交付严恪） | 无 |
 
-**「一键成片·自建版」串联顺序**：剧本→crew 创作定稿→丹青资产三件套（§2.5）→景川分镜草案→闻笙本批声音设计/母音色状态回注→景川按 `prompt-assembly.md` §2 路由终编提示词（台词唯一正文位为通用【声音】或 30 秒专项 Block 5）→`scripts/dreamina_route.py image` 预检后执行 `dreamina text2image`；已有定妆照/参考图时改走 `dreamina image2image`→`scripts/dreamina_route.py video` 按素材路由：纯文本=`text2video`，单首帧=`image2video`，首尾帧=`frames2video`，图/视频/音频混合参考=`multimodal2video`→`scripts/assemble_timeline.py` 先标准化各镜，再拼接并用 ffprobe 验证，成片写入 `05_成片/`。Seedance 默认原生生成对白、环境音与动效，**无需独立配音步骤**。角色尚未冻结母音色时用文字锚定生成必要候选，不先做完整批临时对白；来源候选音色与画面合格可直接验收，冻结后只回填不匹配项；**已冻结母音色**且接口支持音频参考后，每个后续正式对白镜把该样本作为 `multimodal2video --audio` 音色参考，并在 Prompt 中按上传顺序**明确绑定音频编号、角色与音色用途**；Seedance 2.0 全能参考同时带角色图或视频，2.5 才允许纯音频输入。此时**仍由 Seedance 原生生成对白与口型**。接口不支持、音色仍漂或口型串音时才走独立 TTS＋lip-sync，并由合成脚本以 `--external-audio` 使用已按成片时间线对齐的外部混音；`replace` 会替换整条音轨，须保住环境声/动效；`mix` 不可把新旧对白叠在一起；**外部 TTS 才是后备**。官方 `dreamina` CLI 不提供独立 TTS 子命令，不得虚构 `dreamina audio`。
+**纯拼接入口**：已有获用户认可片段且明确只裁切/拼接时，直接按陆离角色卡和 `scripts/assemble_timeline.py --timeline` 合成，不重走下列生成链。
+
+**「一键成片·自建版」串联顺序**：剧本→crew 创作定稿→丹青复用/补齐当前所需身份与场景参考（asset-library §2/§4）→景川分镜草案→闻笙本批声音设计/母音色状态回注→景川按 `prompt-assembly.md` §2 路由终编提示词（台词唯一正文位为通用【声音】或 30 秒专项 Block 5）→`scripts/dreamina_route.py image` 预检后执行 `dreamina text2image`；已有定妆照/参考图时改走 `dreamina image2image`→`scripts/dreamina_route.py video` 按素材路由：纯文本=`text2video`，单首帧=`image2video`，首尾帧=`frames2video`，图/视频/音频混合参考=`multimodal2video`→`scripts/assemble_timeline.py` 先标准化各镜，再拼接并用 ffprobe 验证，成片写入 `05_成片/`。Seedance 默认原生生成对白、环境音与动效，**无需独立配音步骤**。角色尚未冻结母音色时用文字锚定生成必要候选，不先做完整批临时对白；来源候选音色与画面合格可直接验收，冻结后只回填不匹配项；**已冻结母音色**且接口支持音频参考后，每个后续正式对白镜把该样本作为 `multimodal2video --audio` 音色参考，并在 Prompt 中按上传顺序**明确绑定音频编号、角色与音色用途**；Seedance 2.0 全能参考同时带角色图或视频，2.5 才允许纯音频输入。此时**仍由 Seedance 原生生成对白与口型**。接口不支持、音色仍漂或口型串音时才走独立 TTS＋lip-sync，并由合成脚本以 `--external-audio` 使用已按成片时间线对齐的外部混音；`replace` 会替换整条音轨，须保住环境声/动效；`mix` 不可把新旧对白叠在一起；**外部 TTS 才是后备**。官方 `dreamina` CLI 不提供独立 TTS 子命令，不得虚构 `dreamina audio`。
 
 **音声设计提示词要点（v1.13.6 校正）**：①模型 Prompt 与投稿剧本排版分层，并服从项目语言锁。按火山方舟 Seedance 2.0 指南，先写角色、动作、表情与发声方式，**台词内容放在 `{}` 内**，音乐用 `（）`、音效用 `<>`、字幕用 `【】`，如 `林晚放下手机，眼眶微红，轻声说{原来是这样}`；多角色逐角色分行。Dreamina 页面示例也接受 `Girl says happily: "..."` 一类引号句式，但它不是覆盖全部接入方的唯一格式；`execution` 以本次 provider/adapter 的当前指南与实测为准。②台词容量与 L-Cut 统一按 dim-audio 的连续声窗核对，画面切换不增加音频时长；③每个独立 Clip 在路由后的声音职责位声明角色声线/母音色绑定一次（通用【声音】/专项 Block 8），组内只写表演变化，不能把重复文字当成已锁母音色；专项 Block 8 不复写 Block 5 台词；④音效写具体可听事件，不写“合适的背景音”；⑤对白、环境音、动效与可选 BGM 的层级按 dim-audio 执行。原生音频翻车时先单镜重生，再按上段外部 WAV/TTS 后备处理。
 
@@ -92,8 +94,8 @@ flova Skill 接受自然语言指令 + 上传素材。交接包按目标 Skill �
 |---|---|
 | 身份认证 | 官方 OAuth Device Flow；`dreamina login` 登录，`dreamina user_credit` 同时验证登录态并读取当前积分，不把余额写死进规范 |
 | 图像 | `dreamina text2image`；有 1–10 张本地参考图时用 `dreamina image2image`。当前公开图像模型为 3.0–5.0Pro，参数以子命令帮助为准 |
-| 视频 | `dreamina text2video` / `image2video` / `frames2video` / `multiframe2video` / `multimodal2video`；Seedance 2.0 系列常规 4–15 秒，Seedance 2.5 为 4–30 秒。**普通未回答默认模型 `seedance2.0fast_vip`（v1.13.7，VIP 快速通道；普通 seedance2.0 排队可达数小时，用户为 VIP）**，仅 720p；用户点名或项目锁定 30 秒直出专项/Seedance 2.5 时按项目锁切换 |
-| 画幅与分辨率 | 文生/多模态支持 9:16 等公开画幅；图生视频画幅跟随输入图。Seedance 2.5 当前支持 480p/720p/1080p；其他组合按目标子命令实时帮助核对 |
+| 视频 | `dreamina text2video` / `image2video` / `frames2video` / `multiframe2video` / `multimodal2video`；Seedance 2.0 系列 4–15 秒，Seedance 2.5 为 4–30 秒。未指定模型按 `prompt-assembly.md` §1 的单次 Clip 时长路由，不用单集总长代选 |
+| 画幅与分辨率 | 分辨率未指定时默认 720p，已明确且兼容的设置优先。文生/多模态支持 9:16 等公开画幅；图生视频画幅跟随输入图。Seedance 2.5 当前支持 480p/720p/1080p；其他组合按目标子命令实时帮助核对 |
 | 混合参考 | 2.0 系列：最多 9 图、3 视频、3 音频、合计 12；2.5：最多 30 图、10 视频、10 音频、合计 50，且允许纯音频参考 |
 | 音频 | Seedance 原生音视频联合生成；官方 CLI 无独立 TTS 命令。外部母音色/WAV 可作多模态参考，独立 TTS＋lip-sync 仅为后备 |
 | 命令预检 | `python drama-studio/scripts/dreamina_route.py image ...` 或 `video ...` 输出 JSON 命令预览，不提交任务；参数通过后才执行其中的官方命令 |

@@ -28,10 +28,10 @@
 
 | 项 | 参数 |
 |---|---|
-| 视频模型 | **默认 `seedance2.0fast_vip`（v1.13.7，VIP 快速通道，用户裁定：普通 seedance2.0 排队可达数小时）**；全集合 `seedance2.0` / `seedance2.0fast` / `seedance2.0_vip` / `seedance2.0fast_vip` / `seedance2.0mini` / `seedance2.5`；部分图生入口另支持 1.0fast/1.5pro。用户点名或项目锁定 30 秒直出专项/Seedance 2.5 时偏离普通默认，并在调用记录注明 |
+| 视频模型 | 未指定模型按 `../prompt-assembly.md` §1 以单次 Clip 时长路由；显式选择优先。全集合 `seedance2.0` / `seedance2.0fast` / `seedance2.0_vip` / `seedance2.0fast_vip` / `seedance2.0mini` / `seedance2.5`；部分图生入口另支持 1.0fast/1.5pro |
 | 时长 | Seedance 2.0 系列输出 **4–15s**；Seedance 2.5 输出 **4–30s**；旧模型按具体子命令帮助 |
 | 画幅 | 文生/全能参考：1:1、3:4、16:9、4:3、9:16、21:9；单首帧/首尾帧/多帧由输入图推断 |
-| 分辨率 | Seedance 2.5：480p/720p/1080p；`seedance2.0_vip`：720p/1080p/4k；**`seedance2.0fast_vip`（默认）：720p**；其余当前公开 2.0 组合为 720p |
+| 分辨率 | 未指定时默认 **720p**；显式且兼容的设置优先。Seedance 2.5：480p/720p/1080p；`seedance2.0_vip`：720p/1080p/4k；`seedance2.0fast_vip`：720p；其余当前公开 2.0 组合为 720p |
 | 2.0 全能参考 | 图≤9、视频≤3、音频≤3、总输入≤12；至少一张图或一段视频；参考视频/音频单段和合计 2–15s |
 | 2.5 全能参考 | 图≤30、视频≤10、音频≤10、总输入≤50；允许纯音频；参考视频/音频单段和合计 2–30s；VIP only |
 | 原生音频 | Seedance 音视频联合生成按目标模型实时能力执行。角色已有**已冻结母音色**时，优先作为 `multimodal2video --audio` 音色参考，并在 Prompt 中按上传顺序明确绑定音频编号、角色与音色用途；2.0 全能参考还须至少带一张图或一段视频，2.5 允许纯音频参考 |
@@ -44,4 +44,4 @@
 - 30 秒直出专项正式执行前实核目标子命令 `--help`、素材、登录与预算；接口不支持 30 秒时保留单 Clip 30 秒规划并报告执行差异，不能把两次 15 秒提交记录成一次 30 秒调用。
 - 某模型首次使用若返回 `AigcComplianceConfirmationRequired`，先在即梦 Web 端完成该模型首次生成，再回 CLI；这不是浏览器签名令牌问题。
 - 任务异步提交：保留 `submit_id`，用 `dreamina query_result --submit_id=...` 查询；状态未知先查任务，不盲目重复付费提交。
-- 提交前运行 `scripts/dreamina_route.py` 预览命令；预览不会消耗积分。实际执行前仍须完成耗积分告知，并记录 provider/adapter/version、任务 ID、结果路径和实际成本。
+- 提交前运行 `scripts/dreamina_route.py` 预览命令，不消耗积分。对照冻结请求核实际命令中的模型、单次时长、分辨率及按序引用；实际执行参数和 provider 回执才是生产事实，预览不等于执行。沿既有调用记录保存 provider/adapter/version、任务 ID、结果路径与差异，不事后凭提示词猜补。预估成本、服务端本任务 `credit_count`（未知记 unknown）及账户余额分别记录；并发消费时余额差不能归因本任务，也不能以一次观察推定通用折扣。发现未解释的重大价格偏差，先暂停依赖批次、核对参数与回执，再按已有授权/预算决定继续；实际执行仍须满足耗积分告知与授权范围。
