@@ -12,7 +12,7 @@ from typing import Iterable, Sequence
 
 VIDEO_RATIOS = {"1:1", "3:4", "16:9", "4:3", "9:16", "21:9"}
 IMAGE_RATIOS = {"21:9", "16:9", "3:2", "4:3", "1:1", "3:4", "2:3", "9:16"}
-# v1.13.7：默认视频模型为 seedance2.0fast_vip（VIP 快速通道，普通 seedance2.0 排队可达数小时）
+# The short-clip default is resolved below; individual clips over 15s use 2.5.
 DEFAULT_VIDEO_MODEL = "seedance2.0fast_vip"
 SEEDANCE_20_MODELS = {
     "seedance2.0",
@@ -84,9 +84,9 @@ def _validate_video_resolution(model_version: str, resolution: str) -> None:
 def build_video_command(
     *,
     prompt: str,
-    model_version: str,
+    model_version: str | None = None,
     duration: int,
-    video_resolution: str,
+    video_resolution: str = "720p",
     ratio: str = "16:9",
     first_frame: str | Path | None = None,
     last_frame: str | Path | None = None,
@@ -123,6 +123,8 @@ def build_video_command(
         route = "text2video"
         allowed_models = VIDEO_MODELS
 
+    if model_version is None:
+        model_version = DEFAULT_VIDEO_MODEL if duration <= 15 else "seedance2.5"
     if model_version not in allowed_models:
         raise ValueError(f"model {model_version!r} is not supported by dreamina {route}")
     minimum, maximum = _video_duration_range(model_version, route)
@@ -215,7 +217,7 @@ def _parser() -> argparse.ArgumentParser:
 
     video = subparsers.add_parser("video", help="preview a Dreamina video command")
     video.add_argument("--prompt", required=True)
-    video.add_argument("--model", default=DEFAULT_VIDEO_MODEL)
+    video.add_argument("--model", help="default: 2.0fast_vip for 4-15s, 2.5 for >15-30s")
     video.add_argument("--duration", required=True, type=int)
     video.add_argument("--resolution", default="720p")
     video.add_argument("--ratio", default="16:9")

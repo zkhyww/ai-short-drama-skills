@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 import shutil
 import subprocess
@@ -63,6 +64,54 @@ def _concat_manifest_path(path: Path) -> str:
     return f"file '{escaped}'"
 
 
+def _cut_time(value: object, label: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"{label} must be a finite non-negative number of seconds")
+    try:
+        seconds = float(value)
+    except OverflowError as exc:
+        raise ValueError(f"{label} must be finite") from exc
+    if not math.isfinite(seconds) or seconds < 0:
+        raise ValueError(f"{label} must be a finite non-negative number of seconds")
+    return seconds
+
+
+def _read_timeline(path: Path) -> list[tuple[Path, float, float | None]]:
+    if not path.is_file():
+        raise ValueError(f"timeline does not exist: {path}")
+    data = json.loads(path.read_text(encoding="utf-8-sig"))
+    entries = data.get("clips") if isinstance(data, dict) else None
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("timeline must contain a non-empty clips array")
+    selections = []
+    for index, entry in enumerate(entries, start=1):
+        label = f"timeline clip {index}"
+        if not isinstance(entry, dict) or not isinstance(entry.get("path"), str) or not entry["path"].strip():
+            raise ValueError(f"{label} requires a non-empty path string")
+        source = Path(entry["path"]).expanduser()
+        if not source.is_absolute():
+            source = path.parent / source
+        start = _cut_time(entry.get("in", 0), f"{label} in")
+        end = _cut_time(entry["out"], f"{label} out") if "out" in entry else None
+        selections.append((source.resolve(), start, end))
+    return selections
+
+
+def _video_duration(probe: dict, source: Path) -> float:
+    video = next((stream for stream in probe.get("streams", []) if stream.get("codec_type") == "video"), None)
+    if video is None:
+        raise ValueError(f"clip has no video stream: {source}")
+    metadata = probe.get("format", {})
+    for raw in (video.get("duration"), metadata.get("duration")):
+        try:
+            duration = float(raw)
+        except (TypeError, ValueError):
+            continue
+        if math.isfinite(duration) and duration > 0:
+            return duration
+    raise ValueError(f"clip has no finite positive duration: {source}")
+
+
 def _normalize_clip(
     source: Path,
     destination: Path,
@@ -71,22 +120,30 @@ def _normalize_clip(
     height: int,
     fps: int,
     ffmpeg: str,
-    ffprobe_bin: str,
+    probe: dict,
+    start: float,
+    end: float,
 ) -> None:
-    probe = probe_media(source, ffprobe_bin)
-    if not _has_stream(probe, "video"):
-        raise ValueError(f"clip has no video stream: {source}")
+    # Cuts are elapsed time from the source start, even with non-zero source PTS.
+    video = next(stream for stream in probe["streams"] if stream.get("codec_type") == "video")
+    video_start = float(video.get("start_time", 0))
     video_filter = (
+        f"setpts=PTS-STARTPTS,trim=start={start}:end={end},setpts=PTS-STARTPTS,"
         f"scale={width}:{height}:force_original_aspect_ratio=decrease,"
         f"pad={width}:{height}:(ow-iw)/2:(oh-ih)/2:color=black,"
         f"setsar=1,fps={fps},format=yuv420p"
     )
-    command = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-i", str(source)]
+    command = [ffmpeg, "-hide_banner", "-loglevel", "error", "-y", "-copyts", "-i", str(source)]
     if _has_stream(probe, "audio"):
         command.extend(
             [
                 "-filter_complex",
-                f"[0:v:0]{video_filter}[v];[0:a:0]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,apad[a]",
+                f"[0:v:0]{video_filter}[v];"
+                # Preserve delayed audio relative to video; pad before trimming so
+                # a selection beyond the audio end still produces finite silence.
+                f"[0:a:0]asetpts=PTS-{video_start}/TB,aresample=48000:async=1:first_pts=0,"
+                "aformat=sample_fmts=fltp:channel_layouts=stereo,apad,"
+                f"atrim=start={start}:end={end},asetpts=PTS-STARTPTS[a]",
                 "-map",
                 "[v]",
                 "-map",
@@ -135,10 +192,11 @@ def _normalize_clip(
 
 def assemble_timeline(
     *,
-    clips: Sequence[str | Path],
+    clips: Sequence[str | Path] | None = None,
+    timeline: str | Path | None = None,
     output: str | Path,
-    width: int = 1080,
-    height: int = 1920,
+    width: int = 720,
+    height: int = 1280,
     fps: int = 30,
     external_audio: str | Path | None = None,
     audio_mode: str = "replace",
@@ -146,8 +204,10 @@ def assemble_timeline(
     ffmpeg_bin: str = "ffmpeg",
     ffprobe_bin: str = "ffprobe",
 ) -> dict:
-    """Normalize and concatenate clips, optionally replacing or mixing audio."""
-    if not clips:
+    """Assemble full clips or JSON-selected ranges, optionally replacing/mixing audio."""
+    if (clips is None) == (timeline is None):
+        raise ValueError("provide either clips or timeline (mutually exclusive)")
+    if clips is not None and not clips:
         raise ValueError("at least one clip is required")
     if width <= 0 or height <= 0 or width % 2 or height % 2:
         raise ValueError("width and height must be positive even integers")
@@ -158,19 +218,34 @@ def assemble_timeline(
 
     ffmpeg = _require_binary(ffmpeg_bin)
     ffprobe = _require_binary(ffprobe_bin)
-    sources = [Path(path).expanduser().resolve() for path in clips]
+    timeline_path = Path(timeline).expanduser().resolve() if timeline is not None else None
+    selections = _read_timeline(timeline_path) if timeline_path is not None else [
+        (Path(path).expanduser().resolve(), 0.0, None) for path in clips
+    ]
+    sources = [source for source, _, _ in selections]
     for source in sources:
         if not source.is_file():
             raise ValueError(f"clip does not exist: {source}")
 
     target = Path(output).expanduser().resolve()
     fallback = Path(external_audio).expanduser().resolve() if external_audio is not None else None
-    for source in [*sources, *([fallback] if fallback is not None else [])]:
+    protected = [*sources, *([fallback] if fallback is not None else []),
+                 *([timeline_path] if timeline_path is not None else [])]
+    for source in protected:
         if target == source or (target.exists() and source.exists() and target.samefile(source)):
             raise ValueError(f"output must not overwrite input media: {source}")
     if target.exists() and not overwrite:
         raise FileExistsError(f"output already exists: {target}")
-    target.parent.mkdir(parents=True, exist_ok=True)
+
+    # Validate every selected range before any normalization/render begins.
+    validated = []
+    for source, start, end in selections:
+        probe = probe_media(source, ffprobe)
+        duration = _video_duration(probe, source)
+        end = duration if end is None else end
+        if not 0 <= start < end <= duration:
+            raise ValueError(f"clip cuts require 0 <= in < out <= source duration ({duration}): {source}")
+        validated.append((source, start, end, probe))
 
     if fallback is not None:
         if not fallback.is_file():
@@ -178,10 +253,11 @@ def assemble_timeline(
         if not _has_stream(probe_media(fallback, ffprobe), "audio"):
             raise ValueError(f"external audio has no audio stream: {fallback}")
 
+    target.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="drama-studio-assemble-") as temp_dir:
         temp_root = Path(temp_dir)
         normalized: list[Path] = []
-        for index, source in enumerate(sources, start=1):
+        for index, (source, start, end, probe) in enumerate(validated, start=1):
             destination = temp_root / f"normalized_{index:04d}.mp4"
             _normalize_clip(
                 source,
@@ -190,7 +266,9 @@ def assemble_timeline(
                 height=height,
                 fps=fps,
                 ffmpeg=ffmpeg,
-                ffprobe_bin=ffprobe,
+                probe=probe,
+                start=start,
+                end=end,
             )
             normalized.append(destination)
 
@@ -296,10 +374,12 @@ def assemble_timeline(
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--clip", action="append", required=True, help="ordered input clip; repeat as needed")
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument("--clip", action="append", help="ordered input clip; repeat as needed")
+    inputs.add_argument("--timeline", help="JSON clips with path and optional in/out seconds")
     parser.add_argument("--output", required=True)
-    parser.add_argument("--width", type=int, default=1080)
-    parser.add_argument("--height", type=int, default=1920)
+    parser.add_argument("--width", type=int, default=720)
+    parser.add_argument("--height", type=int, default=1280)
     parser.add_argument("--fps", type=int, default=30)
     parser.add_argument("--external-audio")
     parser.add_argument("--audio-mode", choices=("replace", "mix"), default="replace")
@@ -311,6 +391,7 @@ def main() -> int:
     args = _parser().parse_args()
     result = assemble_timeline(
         clips=args.clip,
+        timeline=args.timeline,
         output=args.output,
         width=args.width,
         height=args.height,
