@@ -8,10 +8,23 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - name: Ensure media tools
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install --yes ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
+      - name: Require media integration dependencies
+        run: |
+          python -c "import shutil; assert shutil.which('ffmpeg') and shutil.which('ffprobe'), 'media integration tools missing'"
       - name: Run drama-crew contract tests
         run: python -m unittest discover -s tests -v

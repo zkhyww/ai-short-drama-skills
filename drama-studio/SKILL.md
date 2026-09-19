@@ -2,7 +2,7 @@
 name: drama-studio
 description: Drama Studio 短剧制作团（默认贯通执行、专业职责按需，AI 制作层）。用于人物/场景/道具资产、分镜、视频提示词、声音与母音色、视频生成、剪辑混音、成片 QC；接现成剧本或 drama-crew 标准剧本正文。未指定体系的新制作请求可自动选择；明确点名 Drama Studio、drama-studio 或已采用 Drama 的项目优先使用。用户点名巨天/JUTIAN、jutian-visual-studio、jutian-video-production，或正在续接该体系项目时不触发，不同时执行两套制作流程。剧本创作归 drama-crew；默认规划交付，实际成片仅在生成工具、登录态与配额预检通过后执行，默认本机引擎为官方 dreamina CLI。
 metadata:
-  version: "1.22.0"
+  version: "1.22.1"
   source_repository: "https://github.com/zkhyww/ai-short-drama-skills"
 ---
 
