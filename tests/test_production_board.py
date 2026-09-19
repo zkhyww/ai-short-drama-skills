@@ -255,6 +255,23 @@ class PageParser(HTMLParser):
 
 
 class RenderTests(unittest.TestCase):
+    def test_assets_only_board_has_no_prompt_navigation_or_section(self):
+        source = self.assets([dict(id='CHAR_A', file='missing.png',
+                                  readiness='planned', file_action='new')])
+        page = self.board.build_board(self.root, asset_files=[source])['html']
+        self.assertNotIn('href="#prompts"', page)
+        self.assertNotIn('id="prompts"', page)
+        self.assertIn('id="assets"', page)
+        self.assertIn('id="sources"', page)
+
+    def test_nonempty_prompt_keeps_navigation_section_and_exact_payload(self):
+        prompt = self.write('表演提示词.txt', 'Keep the approved song.\r\n')
+        page = self.board.build_board(
+            self.root, prompts=[{'path': prompt, 'kind': 'video'}])['html']
+        self.assertIn('href="#prompts"', page)
+        self.assertIn('id="prompts"', page)
+        self.assertEqual(['Keep the approved song.\r\n'], PageParser(page).payloads)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
