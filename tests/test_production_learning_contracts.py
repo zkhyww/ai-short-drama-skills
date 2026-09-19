@@ -50,6 +50,23 @@ class ProductionLearningContracts(unittest.TestCase):
         self.contains("drama-studio/references/role-cards.md",
                       "纯拼接范围", "标准完整制作", "原生音轨", "未做语义复审")
 
+    def test_short_episode_payoff_consumers_keep_brand_scope(self):
+        for path in (
+            "drama-crew/SKILL.md",
+            "drama-crew/references/writing-craft.md",
+            "drama-crew/references/role-cards.md",
+            "drama-crew/references/review-scorecard.md",
+        ):
+            body = read(path)
+            self.contains(path, "commercial-craft", "品牌叙事", "§8")
+            rules = [line for line in body.splitlines()
+                     if "60–90" in line and any(term in line for term in
+                                               ("爽点", "实质反转", "半分钟"))]
+            for rule in rules:
+                with self.subTest(path=path, rule=rule[:50]):
+                    self.assertIn("已选择持续爽感承诺", rule,
+                                  "Short-episode payoff guidance lost its applicability boundary")
+
     def test_reference_diagnosis_and_reuse_owner_is_reachable(self):
         self.contains("drama-studio/SKILL.md", "asset-library.md")
         self.contains("drama-studio/references/asset-library.md",
