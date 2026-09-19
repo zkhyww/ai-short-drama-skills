@@ -17,7 +17,8 @@ import unicodedata
 Severity = Literal["error", "warning"]
 
 EPISODE_HEADING_RE = re.compile(
-    r"^#{1,3}[ \t]*(?:第[ \t]*(\d+)[ \t]*集|E(\d{1,3})(?:\b|（|\())[^\r\n]*",
+    r"^#{1,3}[ \t]*(?:第[ \t]*(\d+)[ \t]*集|E(\d{1,3})(?:\b|（|\())[^\r\n]*"
+    r"|^第(\d+)集：[^\r\n]*",
     re.MULTILINE | re.IGNORECASE,
 )
 OUTLINE_ENTRY_RE = re.compile(
@@ -25,8 +26,10 @@ OUTLINE_ENTRY_RE = re.compile(
     r"[ \t]*(?:[:：][ \t]*)?(.*)$",
     re.MULTILINE,
 )
-DIALOGUE_RE = re.compile(r"^(?P<speaker>[^#∆【（(*|>\-\s][^：\n]{0,40})：(?P<content>.*)$")
+DIALOGUE_RE = re.compile(r"^(?!人物：|第\d+集：)(?P<speaker>[^#∆△【（(*|>\-\s][^：\n]{0,40})：(?P<content>.*)$")
 PERSON_LINE_RE = re.compile(r"^\*\*人物：(.+?)\*\*\s*$")
+MODERN_PERSON_LINE_RE = re.compile(r"^人物：(.+?)\s*$")
+MODERN_SCENE_LINE_RE = re.compile(r"^\*\*(\d+)-(\d+)\s+(?:日|夜)\s+(?:内|外)\s+[^*\s][^*]*\*\*\s*$")
 SCENE_LINE_RE = re.compile(r"^\*\*场(\d+)-(\d+)\s+(?:日|夜)\s+(?:内|外)\s+\S.*?\*\*\s*$")
 FLASHBACK_ACTION_RE = re.compile(r"^（画面闪回：∆(.*?)）\s*$")
 SPEAKER_ANNOTATION_RE = re.compile(r"^([^#∆【*|>\-\s][^：\n]{0,30})（([^）]+)）：")
@@ -116,7 +119,7 @@ def _after_section(text: str, title: str) -> tuple[str, int]:
 def _episode_numbers(text: str) -> list[int]:
     numbers: list[int] = []
     for match in EPISODE_HEADING_RE.finditer(text):
-        raw = match.group(1) or match.group(2)
+        raw = match.group(1) or match.group(2) or match.group(3)
         numbers.append(int(raw))
     return numbers
 
@@ -125,7 +128,7 @@ def _episode_blocks(body: str, line_offset: int = 1) -> list[tuple[int, str, int
     headings = list(EPISODE_HEADING_RE.finditer(body))
     return [
         (
-            int(heading.group(1) or heading.group(2)),
+            int(heading.group(1) or heading.group(2) or heading.group(3)),
             body[heading.end():headings[index + 1].start() if index + 1 < len(headings) else len(body)],
             line_offset + _line_number(body, heading.end()) - 1,
         )
@@ -160,29 +163,39 @@ def _check_episode_count(
         )
     if episodes != sorted(episodes):
         findings.append(Finding("error", "EPISODE_ORDER_MISMATCH", line_offset, "正文集号不按顺序排列。"))
+    if any(episode <= 0 for episode in episodes):
+        findings.append(Finding("error", "INVALID_EPISODE_NUMBER", line_offset, "集号必须为正整数。"))
     return findings, unique
+
+
+def _is_modern(body: str) -> bool:
+    # One modern structural marker locks the whole body to the current format.
+    return bool(re.search(r"^(?:第[^\n]*集|\*\*\d+-|人物：)", body, re.MULTILINE))
 
 
 def _check_scenes(body: str, body_line: int) -> list[Finding]:
     findings: list[Finding] = []
+    modern = _is_modern(body)
+    scene_pattern = MODERN_SCENE_LINE_RE if modern else SCENE_LINE_RE
+    person_pattern = MODERN_PERSON_LINE_RE if modern else PERSON_LINE_RE
     for episode, block, start_line in _episode_blocks(body, body_line):
         lines = block.splitlines()
-        starts = [index for index, line in enumerate(lines) if line.strip().startswith("**场")]
+        starts = [index for index, line in enumerate(lines) if re.match(r"^(?:\*\*场|(?:\*\*)?(?:场)?\d+-)", line.strip())]
         if not starts:
             findings.append(Finding("error", "MISSING_SCENE", start_line, f"第 {episode} 集缺少场次行。"))
         for ordinal, start in enumerate(starts, 1):
             line_number = start_line + start
-            match = SCENE_LINE_RE.match(lines[start].strip())
+            match = scene_pattern.fullmatch(lines[start].strip())
             if not match:
                 findings.append(Finding("error", "INVALID_SCENE_HEADING", line_number, "场次行应含场号、日/夜、内/外和地点。"))
             elif (int(match[1]), int(match[2])) != (episode, ordinal):
                 findings.append(Finding("error", "SCENE_NUMBER_MISMATCH", line_number, f"此处应为场{episode}-{ordinal}。"))
             end = starts[ordinal] if ordinal < len(starts) else len(lines)
             scene_lines = [line.strip() for line in lines[start + 1:end] if line.strip()]
-            if not scene_lines or not PERSON_LINE_RE.match(scene_lines[0]):
+            if not scene_lines or not person_pattern.fullmatch(scene_lines[0]):
                 findings.append(Finding("error", "MISSING_PERSON_LINE", line_number, "场次行后缺少人物行；无人空镜可标“无（空镜）”。"))
             if not any(
-                (line.startswith("∆") and line[1:].strip())
+                (line.startswith(("∆", "△")) and line[1:].strip())
                 or ((dialogue := DIALOGUE_RE.match(line)) and _strip_hint(dialogue["content"])[1].strip())
                 or ((flashback := FLASHBACK_ACTION_RE.match(line)) and flashback[1].strip())
                 for line in scene_lines
@@ -256,6 +269,10 @@ def _dialogue_parts(line: str) -> tuple[str, str, str] | None:
     speaker_hint = speaker_hint_match.group(2) if speaker_hint_match else ""
     if speaker_hint_match:
         speaker = speaker_hint_match.group(1).strip()
+    voice = re.search(r"(OS|VO)$", speaker)
+    if voice:
+        speaker = speaker[:voice.start()].strip()
+        speaker_hint = "，".join(filter(None, (speaker_hint, voice[1].upper())))
     content_hint, spoken = _strip_hint(content)
     hints = "，".join(filter(None, (speaker_hint, content_hint)))
     if any(marker in hints for marker in NON_SPOKEN_SPEAKER_HINTS):
@@ -281,7 +298,7 @@ def _dialogue_metrics(body: str) -> dict[str, object]:
 
     for raw_line in body.splitlines():
         line = raw_line.strip()
-        if line.startswith("∆"):
+        if line.startswith(("∆", "△")):
             action_lines += 1
             continue
         match = DIALOGUE_RE.match(line)
@@ -336,6 +353,7 @@ def _spoken_sequence(body: str) -> list[tuple[int, str, str, str]]:
 
 def _format_findings(text: str, body: str, body_line: int) -> list[Finding]:
     findings: list[Finding] = []
+    modern = _is_modern(body)
 
     for match in INTERNAL_FIELD_RE.finditer(text):
         findings.append(
@@ -359,9 +377,16 @@ def _format_findings(text: str, body: str, body_line: int) -> list[Finding]:
 
     for index, raw_line in enumerate(body.splitlines(), start=body_line):
         line = raw_line.strip()
-        person_match = PERSON_LINE_RE.match(line)
+        if modern:
+            if ("__" in line or re.match(r"^#{1,6}(?:\s|$)", line)
+                    or ("**" in line and not MODERN_SCENE_LINE_RE.fullmatch(line))):
+                findings.append(Finding("error", "NON_SCENE_BOLD", index, "当前格式仅完整场景头可以加粗。"))
+            if re.match(r"^(?:#{1,6}\s*)?(?:\*\*)?第[^：\n]*集", line) or re.match(r"^#{1,6}\s*E\d", line, re.IGNORECASE):
+                if not re.fullmatch(r"第[1-9]\d*集：[^\r\n]*", line):
+                    findings.append(Finding("error", "INVALID_EPISODE_HEADING", index, "当前集标题应为普通文字“第1集：”。"))
+        person_match = (MODERN_PERSON_LINE_RE if modern else PERSON_LINE_RE).match(line)
         if person_match:
-            names = [name for name in re.split(r"[、,，\s]+", person_match.group(1)) if name]
+            names = [name for name in re.split(r"[、,，\s]+", re.sub(r"（[^）]*）", "", person_match.group(1))) if name]
             duplicates = sorted(name for name, count in Counter(names).items() if count > 1)
             if duplicates:
                 findings.append(
@@ -373,7 +398,7 @@ def _format_findings(text: str, body: str, body_line: int) -> list[Finding]:
                     )
                 )
 
-        if SPEAKER_ANNOTATION_RE.match(line):
+        if not modern and SPEAKER_ANNOTATION_RE.match(line):
             findings.append(
                 Finding(
                     "error",
@@ -386,6 +411,8 @@ def _format_findings(text: str, body: str, body_line: int) -> list[Finding]:
         dialogue_match = DIALOGUE_RE.match(line)
         if dialogue_match:
             hints, _ = _strip_hint(dialogue_match.group("content"))
+            if modern:
+                hints = _dialogue_parts(line)[1]
             if VISIBLE_ACTION_HINT_RE.search(hints):
                 findings.append(
                     Finding(
@@ -410,13 +437,13 @@ def _diagnostic_findings(body: str, body_line: int) -> list[Finding]:
         line = raw_line.strip()
         heading = EPISODE_HEADING_RE.match(line)
         if heading:
-            current_episode = int(heading.group(1) or heading.group(2))
+            current_episode = int(heading.group(1) or heading.group(2) or heading.group(3))
             dialogue_run = 0
             warned_run = False
             continue
         if not line:
             continue
-        if line.startswith("∆"):
+        if line.startswith(("∆", "△")):
             normalized = re.sub(r"\s+", "", line)
             action_occurrences[normalized].append((current_episode, index))
             dialogue_run = 0
@@ -437,7 +464,7 @@ def _diagnostic_findings(body: str, body_line: int) -> list[Finding]:
                 )
                 warned_run = True
             continue
-        if not line.startswith(("**人物：",)):
+        if not line.startswith(("**人物：", "人物：")):
             dialogue_run = 0
             warned_run = False
 
