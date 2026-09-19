@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python 标准库、HTML/CSS/JavaScript、unittest、宿主浏览器测试工具、Git；不新增服务、数据库或产品依赖。
 
-**Spec:** [已确认设计](../specs/2026-09-19-local-baseline-production-enhancement-design.md) §7–§9。用户最新要求“请修改并上传推送合并”确认书面设计并授权验证后的发布。此计划原位替换旧看板计划，不依赖 [检查器与方法计划](2026-09-19-production-checks-and-methods.md)；后者仍为独立待审事项。本计划待用户审阅并选择执行方式，当前没有产品实现或验收结论。
+**Spec:** [已确认设计](../specs/2026-09-19-local-baseline-production-enhancement-design.md) §7–§9。用户最新要求“请修改并上传推送合并”确认书面设计并授权验证后的发布。此计划原位替换旧看板计划，不依赖 [检查器与方法计划](2026-09-19-production-checks-and-methods.md)；后者仍为独立待审事项。用户已选择 Native 顺序执行并确认隔离工作区。任务 1–5 已完成：唯一独立审查的阻塞问题已关闭；用户批准本机完整参考库保留、公开仅自主方法与归纳。安装版为 Studio 1.22.0 / Crew 6.26.13；GitHub main 为 b48947809d1dff3abb96a6f0553caf3c9f239cf6。发布从远端基线新建单提交，不含长引文及内部设计历史。远端 CI 173 项通过、11 项因缺 ffmpeg/ffprobe 跳过；本机合并后 183 项通过、1 项因 Windows 符号链接权限跳过；未付费生成媒体。
 
 ## Global Constraints
 
@@ -60,7 +60,7 @@
 - select_prompt(source: dict, *, kind: str, start_line: int | None = None, end_line: int | None = None) -> dict：kind 仅 image/video；返回 kind、source_path、text、sha256、selection。行号从 1 起，含端点；一端缺失或越界拒绝。未给行号表示调用者明确指定整个文件为一条纯 Prompt。
 - 通用 record 输入只展示，不提供 Prompt 复制；调用者未能确认纯正文时必须传 record，不能用八段标题猜测切片。行范围采用 splitlines(keepends=True)，不 strip、不重排。
 
-- [ ] **Step 1: 使用 using-git-worktrees 保全现场并核基线。**
+- [x] **Step 1: 使用 using-git-worktrees 保全现场并核基线。**
 
 先读取适用 AGENTS.md，确认目标是 ai-short-drama-skills，不在上级控制仓库建立产品分支。原工作区两份案例文件保持原位，记录哈希，不自动 stash、暂存或清理。按实际工具能力与用户选择设置隔离工作区；原生工具不能指向此子仓库时才使用 Git fallback。没有用户的隔离偏好时与本计划执行方式一并确认。
 
@@ -87,7 +87,7 @@ Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $installedStudio 'SKILL.m
 
 保全可发布基线形成单独提交；明确这些是原有本机成果，不是本轮新增。新工具 RED 测试在这个基线上运行。
 
-- [ ] **Step 2: 写并运行输入边界失败测试。**
+- [x] **Step 2: 写并运行输入边界失败测试。**
 
 ~~~python
 from pathlib import Path
@@ -130,7 +130,7 @@ python -B -m unittest tests.test_production_board -v
 
 预期是缺少脚本／目标函数造成 RED，不是临时目录权限或导入环境错误。继续增加明确测试：根路径不存在、输入为目录、越界 ../、UNC、设备路径、javascript/data/http URL、凭据名、无效 UTF-8、半个行范围、倒序／越界行范围、源 bytes 不变；路径测试不读取任何真实密钥。符号链接测试只创建临时范围内的无敏感夹具，无法建立时明确记录 skip，Windows 发布前补实际核验。
 
-- [ ] **Step 3: 最小实现并运行 GREEN。**
+- [x] **Step 3: 最小实现并运行 GREEN。**
 
 路径使用 Path.resolve 后的 relative_to，禁止字符串前缀判断。先拒绝网络／设备／脚本式值和明确凭据路径，再验证文件类型。显式文本输入只接受 .md/.txt/.json/.csv；不因扩展名识别出 Prompt 身份。读取一次 bytes，哈希与解码来自同一批 bytes；读取前后 stat 变化则重试一次，仍变化报来源不稳定，不生成伪一致快照。
 
@@ -174,7 +174,7 @@ def select_prompt(source, *, kind, start_line=None, end_line=None):
 - file_action 仅消费输入已存在的 reuse/generate/rework 值；缺失保持 unknown，不从 decision 或文件是否存在猜出。它是适配可用记录的可选字段，不要求给旧索引补新字段；清单在复用说明中时可直接作为 record 展示。
 - 同一 ID 的多文件／状态行均保留；引用人数去重看显式角色身份，文件统计按解析后路径去重，不把 Panel 数算成新图片数。依赖逐项展示原始对象或文本；只有记录明确给出 pending/unresolved/blocked 状态时列为未决，未写状态显示“未记录”，不猜数量为零或自行排序执行。旧未知字段保留在 raw；未知整体结构在 unparsed 原样展示并警告。
 
-- [ ] **Step 1: 写并观察统计和状态 RED。**
+- [x] **Step 1: 写并观察统计和状态 RED。**
 
 ~~~python
 class AssetProjectionTests(unittest.TestCase):
@@ -231,7 +231,7 @@ class AssetProjectionTests(unittest.TestCase):
 python -B -m unittest tests.test_production_board.AssetProjectionTests -v
 ~~~
 
-- [ ] **Step 2: 实现保守投影。**
+- [x] **Step 2: 实现保守投影。**
 
 ~~~python
 ID_KEYS = ("id", "asset_id", "char_id", "scene_id", "prop_id")
@@ -252,7 +252,7 @@ def unique_known(values):
 
 逐条投影，坏条目进入 warnings/unparsed，不吞掉整份输入。统计函数只计算已知明确项目；先由 build_board 将可解析文件路径标准化。路径未知、外部目录未准入及互相矛盾的计划动作分别报告；不能把未知当成零、把“有路径”当成已生成或验收通过。依赖仅按记录展示，不在工具里新造调度引擎。
 
-- [ ] **Step 3: GREEN 和回归后提交。**
+- [x] **Step 3: GREEN 和回归后提交。**
 
 ~~~powershell
 python -B -m unittest tests.test_production_board -v
@@ -273,7 +273,7 @@ git commit -m "feat: project asset worklists without duplicating source records"
 - --image-root 只准入其中已被索引引用的图片，不遍历该目录。不能把“允许目录”变成扫描、导入或上传授权。
 - 返回码：成功导出 0，具体警告写 stderr；非法显式输入、全部文本不可读、输出冲突为 2。单张图片缺失只给占位，不阻断其余来源。
 
-- [ ] **Step 1: 增加原文、安全与 CLI RED。**
+- [x] **Step 1: 增加原文、安全与 CLI RED。**
 
 ~~~python
 import base64
@@ -311,7 +311,7 @@ class RenderTests(unittest.TestCase):
 
 CLI 以 subprocess 真实运行，覆盖：中文路径、其他 cwd、唯一新产物、默认拒绝覆盖、--overwrite 仍拒绝覆盖输入、输出越界、输出目录不存在、零输入、非法 kind、单文件缺失和部分图片缺失。写完测试运行并记录正确 RED。
 
-- [ ] **Step 2: 最小实现安全渲染与复制。**
+- [x] **Step 2: 最小实现安全渲染与复制。**
 
 ~~~python
 import base64
@@ -364,7 +364,7 @@ HTML 采用严格转义、固定脚本和样式。CSP 禁 connect/object/frame/f
 
 CLI 读取完成后只写显式 output；输出存在时先检查 --overwrite，输出与任意文本／图片输入重合一律拒绝。以临时同目录文件原子替换时须在异常路径清理该次临时文件；不得出现留在项目中的隐式缓存。实现时优先直接独占创建新文件，覆盖分支才用经过测试的替换。
 
-- [ ] **Step 3: GREEN、实际 CLI 和回归后提交。**
+- [x] **Step 3: GREEN、实际 CLI 和回归后提交。**
 
 ~~~powershell
 python -B -m unittest tests.test_production_board -v
@@ -380,7 +380,7 @@ git commit -m "feat: render local asset previews and isolated prompt copies"
 
 **Interfaces:** 使用任务 1–3 的真实参数和状态；制作职责维护既有索引／复用说明，脚本只消费。不给人物库、分镜总表增加第二套必填 Schema。
 
-- [ ] **Step 1: 先跑规则基线与失败合同。**
+- [x] **Step 1: 先跑规则基线与失败合同。**
 
 按 writing-skills 对以下普通请求做无新增规则的独立应用测试，证据留本机，不塞进 Skill：
 
@@ -419,7 +419,7 @@ class AssetDeliveryContracts(unittest.TestCase):
                          (ROOT / "drama-studio" / name).read_bytes())
 ~~~
 
-- [ ] **Step 2: 按设计 §4 和 §7 原位修订。**
+- [x] **Step 2: 按设计 §4 和 §7 原位修订。**
 
 asset-library 原 §1 明确“身份／状态”和“文件／作业”不同轴，原 §4–§5 补具体视觉缺口到对应图种的选择与复用。丹青交付模板顺序为“本批工作与下一动作→实际资产图册→纯提示词引用”，先列用途、来源、覆盖和依赖，再显示未决项；不把流程说明放入图片 Prompt。
 
@@ -431,7 +431,7 @@ python -B drama-studio/scripts/build_production_board.py --root "C:/项目" --as
 
 上例各 --prompt 文件须已确认只含一条纯正文；混合文档使用 --record 或明确 --prompt-range，不复制说明区。外部资产目录使用 --image-root 显式准入，不要求复制回项目。不新增强制背景音乐、额外场景母版、固定板数或固定影片风格。
 
-- [ ] **Step 3: GREEN、独立应用复测和文档一致性检查。**
+- [x] **Step 3: GREEN、独立应用复测和文档一致性检查。**
 
 ~~~powershell
 python -B -m unittest tests.test_asset_delivery_contracts tests.test_startup_guide_distribution tests.test_production_board -v
@@ -447,7 +447,7 @@ git diff --check
 
 **Interfaces:** 使用当前宿主实际可用浏览器与 GitHub 工具。推荐 Native 顺序实施后做一次独立整支审查；若用户选择 Subagent-driven，则按每任务双重审查及最终整支审查执行。
 
-- [ ] **Step 1: 真实浏览器验证。**
+- [x] **Step 1: 真实浏览器验证。**
 
 用任务内原创文本与合成栅格夹具构建示例看板，样本留本机证据区，不作为创作案例进入 Skill。按 frontend-auto-orchestrator 选择既定简洁展示的实现／验收路径，使用 webapp-testing；需要 DOM、console、network 时再按 browser-testing-with-devtools 获取证据。
 
@@ -458,7 +458,7 @@ git diff --check
 5. 改动源文件后旧板明确仍是快照，重建后哈希／内容变化，不自动沿用审核；渲染前后源文件 bytes 不变。
 6. 浏览器无法测试某项时如实记未核，不能把 HTML 字符串测试当真实浏览器验收。临时 localhost 服务若必需，仅绑定 127.0.0.1 且限定证据目录，结束只停止本任务服务。
 
-- [ ] **Step 2: 独立审查和失败闭环。**
+- [x] **Step 2: 独立审查和失败闭环。**
 
 按选定执行方式的 Superpowers 审查流程，提供已批准设计、本计划、完整 diff、测试结果和未核项。重点：本机成果是否保全、同源清单与统计、纯正文复制、本地媒体路径安全、默认生图规则未回退。审查者不接手修改共享文件；Critical／Important 修复后重跑对应测试并复核。使用 verification-before-completion，只报告当次真实结果。
 
@@ -468,7 +468,7 @@ git diff --check
 git status --short --branch
 ~~~
 
-- [ ] **Step 3: 合入最新 main 后重跑。**
+- [x] **Step 3: 合入最新 main 后重跑。**
 
 ~~~powershell
 git fetch origin main
@@ -481,7 +481,7 @@ git diff --check
 
 在隔离工作分支进行，不重置原工作区。冲突按共同来源、本机冻结内容和远端有效改动逐文件处理；不能整包选 ours/theirs。涉及渲染／路径／复制时重新做受影响浏览器验收。merge 前通过的证据不能代替 merge 后证据。
 
-- [ ] **Step 4: 版本、发布范围及安装核验。**
+- [x] **Step 4: 版本、发布范围及安装核验。**
 
 Studio 新增兼容可见能力，按仓库规则升 minor；以施工时本机／工作分支／远端三方已占用版本选择新号，不预写已发布。Crew 若仅同步导航按实际合同变化选择 patch 或保持版本，并说明两包差异。README 文件数用实际可发布文件统计，CHANGELOG 区分“原本机基线保全”与“本轮新增”。
 
@@ -496,11 +496,11 @@ git diff --check origin/main...HEAD
 
 安装同步前重核正式文件哈希；并发变更按差异合并，不覆盖。非 Git 安装文件先逐项备份，再用 apply_patch 更新已验证对应文件，保留全部私有绑定。源／安装版本和应同步文件哈希一致；从安装路径实际运行展示脚本 --help 与原创只读夹具。两包启动卡仍字节一致，默认生图稳定性测试在安装版复跑。
 
-- [ ] **Step 5: 打包、清理、合并与推送。**
+- [x] **Step 5: 打包、清理、合并与推送。**
 
 按仓库文档实际打包到明确临时目录并核包内文件清单；测试包完成后仅按精确路径逐个删除。先 neat-freak 聚焦核对本轮文档、版本和 CLI，再 workspace-hygiene Audit；保护备份、证据和其他任务产物，无候选不造清理报告。
 
-原工作区有两份受保护案例改动，不能通过暂存它们或清理现场来达成“干净”。发布使用干净的隔离工作分支；原 main 只在无冲突且安全快进时更新。若分支保护要求 PR，则推送功能分支、创建 PR、按宿主要求附到当前任务，待必要 CI 通过后合并，不绕过保护；若允许直接更新 main，则按用户现有合并授权安全快进并推送。不强推，远端前进则重新合并验证。
+原工作区有两份受保护案例改动，不能通过暂存它们或清理现场来达成“干净”。发布使用干净的隔离工作分支；GitHub main 已从 29ee0e7 安全快进到单独公开提交 b489478，无强推。原 main 的四个本地设计提交只涉及内部 docs，与公开修改互不重叠；为保留其历史，仅在本机无冲突合入 origin/main（da36de4）并重跑测试，不推送该本机合并及内部设计历史。两份案例文件哈希未变。若分支保护要求 PR，则推送功能分支、创建 PR、按宿主要求附到当前任务，待必要 CI 通过后合并，不绕过保护；若允许直接更新 main，则按用户现有合并授权安全快进并推送。不强推，远端前进则重新合并验证。
 
 执行 finishing-a-development-branch，沿已授权的“合并并推送”目标收尾，不再重复询问是否发布。读取远端 main SHA 核已合入提交；CI 按真实执行、通过、失败、跳过分别报告，排队不等于通过。保护原案例文件哈希，最终只保留其原未提交状态；如与合并路径相撞，停止具体冲突项并报告。
 
@@ -511,7 +511,7 @@ git diff --check origin/main...HEAD
 - [x] 设计 §7.3–§7.4 的预览、旧格式、纯正文、快照与安全对应任务 1–3、5。
 - [x] 设计 §8–§9 的基线、回归、安装、敏感范围及发布对应任务 1、5。
 - [x] 五项 Review Focus 各有测试／实际验收步骤；接口与 CLI 名称一致，无检查器硬依赖。
-- [ ] 用户审阅本计划并选择执行方式、确认隔离工作区后开始。
-- [ ] 所有任务完成、独立审查通过、安装与远端状态实际核验。
+- [x] 用户已审阅并选择 Native 执行，已在隔离工作区实施。
+- [x] 所有任务完成、独立审查阻塞问题关闭、安装与远端状态实际核验；已披露的空提示词栏目 Minor 保留，真实媒体质量不在本轮验收内。
 
 推荐 **Native：当前窗口顺序实现＋最后一次独立整支审查**。这些任务共享一个小工具及同一套规则，连续实现可减少交接成本；代码和行为仍按测试先行。另一选项是 **Subagent-driven：每任务独立实现及审查**，审查更密集但上下文与协调成本更高。无论选择哪种，都不付费生图，不省略发布前验证。
