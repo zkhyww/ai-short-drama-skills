@@ -2,13 +2,13 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 提供不污染 Prompt 的按需本地快照看板，在通过验证后保留双侧成果、同步安装版并合并最新 main。
+**Goal:** 本轮先提供同源资产作业清单、可视图册与不污染 Prompt 的按需本地看板，完成本地验证和安装核验；main 整合保留为后续目标，不在本轮执行。
 
-**Architecture:** 看板复用已完成的提示词解析接口，只读取本次明确指定的文件并生成一个静态 HTML，不成为生产必经关卡。源码、基线副本、私有项目数据严格分开；原有审核和发布流程继续负责放行，不新建数据库或活动真源。
+**Architecture:** 更新设计要求看板独立读取明确指定的现有资产与提示词，生成含本地图片预览的静态 HTML，不成为生产必经关卡；检查器并未实现，不能作为硬依赖。源码、基线副本、私有项目数据严格分开，不新建数据库或活动真源。下方旧任务细节须在设计审阅后原位重编，当前不执行。
 
 **Tech Stack:** Python 标准库、静态 HTML/CSS/JavaScript、unittest、宿主浏览器验证工具、Git；产品无需 npm、服务端或数据库。
 
-**Spec:** [已批准设计](../specs/2026-09-19-local-baseline-production-enhancement-design.md)。依赖 [提示词检查与方法计划](2026-09-19-production-checks-and-methods.md) 任务 1–5。状态：计划待审，未实现、未测试、未安装、未发布。
+**Spec:** [设计及本次待审更新](../specs/2026-09-19-local-baseline-production-enhancement-design.md) §7。状态：旧计划待按书面设计重编，**不可作为本轮执行契约**；未实现、未测试、未安装、未发布。下文对检查器任务 1–5 的硬依赖、禁止图片预览与默认继续 main 整合的条款不再代表本轮目标。设计更新通过后，在原任务位替换为独立输入、本批作业清单、可视图册和本地验证；其余历史细节暂存供重编，不直接执行。
 
 ## Global Constraints
 
