@@ -167,14 +167,20 @@ def build_video_command(
 def build_image_command(
     *,
     prompt: str,
-    model_version: str = "5.0",
-    resolution_type: str = "2k",
-    ratio: str = "9:16",
+    model_version: str | None = None,
+    resolution_type: str | None = None,
+    ratio: str | None = None,
     generate_num: int = 1,
     reference_images: Sequence[str | Path] = (),
+    require_reference: bool = False,
 ) -> list[str]:
-    """Return a text2image or image2image command for Dreamina."""
+    """Preview an image request using settings resolved from the asset task."""
     prompt = _require_prompt(prompt)
+    references = _image_paths(reference_images, "reference image")
+    if not model_version or not resolution_type or not ratio:
+        raise ValueError("explicit image settings required: model_version, resolution_type, ratio")
+    if require_reference and not references:
+        raise ValueError("this image task requires an approved reference; text2image fallback is not allowed")
     if model_version not in IMAGE_MODELS:
         raise ValueError(f"unsupported Dreamina image model: {model_version}")
     if ratio not in IMAGE_RATIOS:
@@ -191,7 +197,6 @@ def build_image_command(
         choices = ", ".join(sorted(allowed_resolutions))
         raise ValueError(f"model {model_version} supports resolution_type: {choices}")
 
-    references = _image_paths(reference_images, "reference image")
     if len(references) > 10:
         raise ValueError("dreamina image2image accepts at most 10 images")
     if references and model_version in {"3.0", "3.1"}:
@@ -209,6 +214,56 @@ def build_image_command(
     ]
     command.extend(_flag("images", path) for path in references)
     return command
+
+
+def inspect_image_output(
+    path: str | Path,
+    *,
+    expected_format: str,
+    expected_ratio: str | None = None,
+    require_opaque: bool = False,
+) -> dict[str, object]:
+    """Read actual image bytes; technical success never certifies visual content."""
+    from PIL import Image
+
+    expected_format = expected_format.upper()
+    if expected_format not in {"JPEG", "PNG", "WEBP"}:
+        raise ValueError("expected_format must be JPEG, PNG or WEBP")
+    if expected_ratio is not None and expected_ratio not in IMAGE_RATIOS:
+        raise ValueError(f"unsupported expected image ratio: {expected_ratio}")
+    path = Path(path).expanduser().resolve()
+    result: dict[str, object] = {
+        "path": str(path), "technical_pass": False, "semantic_review": "not_performed",
+        "expected_format": expected_format, "expected_ratio": expected_ratio,
+        "require_opaque": require_opaque, "issues": [],
+    }
+    try:
+        with Image.open(path) as picture:
+            picture.load()
+            width, height = picture.size
+            actual_format = picture.format
+            alpha = picture.convert("RGBA").getchannel("A").getextrema()
+            result.update(actual_format=actual_format, width=width, height=height,
+                          mode=picture.mode, alpha_extrema=alpha)
+    except (OSError, SyntaxError, ValueError) as error:
+        result.update(issues=["unreadable_image"], error=str(error))
+        return result
+
+    issues: list[str] = []
+    if actual_format != expected_format:
+        issues.append("format_mismatch")
+    extension_formats = {".jpg": "JPEG", ".jpeg": "JPEG", ".png": "PNG", ".webp": "WEBP"}
+    if path.suffix.lower() in extension_formats and extension_formats[path.suffix.lower()] != actual_format:
+        issues.append("extension_mismatch")
+    if require_opaque and alpha[0] < 255:
+        issues.append("unexpected_transparency")
+    if expected_ratio is not None:
+        ratio_width, ratio_height = map(int, expected_ratio.split(":"))
+        # Allow integer-pixel rounding, not a different layout or orientation.
+        if abs(width * ratio_height - height * ratio_width) > max(ratio_width, ratio_height):
+            issues.append("ratio_mismatch")
+    result.update(issues=issues, technical_pass=not issues)
+    return result
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -229,11 +284,18 @@ def _parser() -> argparse.ArgumentParser:
 
     image = subparsers.add_parser("image", help="preview a Dreamina image command")
     image.add_argument("--prompt", required=True)
-    image.add_argument("--model", default="5.0")
-    image.add_argument("--resolution", default="2k")
-    image.add_argument("--ratio", default="9:16")
+    image.add_argument("--model", required=True, help="resolved image model; never inherit video defaults")
+    image.add_argument("--resolution", required=True, help="resolved image resolution")
+    image.add_argument("--ratio", required=True, help="asset canvas ratio, not automatically the video ratio")
     image.add_argument("--count", type=int, default=1)
     image.add_argument("--reference", action="append", default=[])
+    image.add_argument("--require-reference", action="store_true", help="reject missing continuity/edit references")
+
+    check = subparsers.add_parser("check-image", help="read-only technical image check; requires Pillow")
+    check.add_argument("--path", required=True)
+    check.add_argument("--format", required=True, choices=["JPEG", "PNG", "WEBP"])
+    check.add_argument("--ratio", choices=sorted(IMAGE_RATIOS))
+    check.add_argument("--opaque", action="store_true")
     return parser
 
 
@@ -241,6 +303,11 @@ def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     args = _parser().parse_args()
+    if args.kind == "check-image":
+        result = inspect_image_output(args.path, expected_format=args.format,
+                                      expected_ratio=args.ratio, require_opaque=args.opaque)
+        print(json.dumps(result, ensure_ascii=False))
+        return 0 if result["technical_pass"] else 1
     if args.kind == "video":
         command = build_video_command(
             prompt=args.prompt,
@@ -262,6 +329,7 @@ def main() -> int:
             ratio=args.ratio,
             generate_num=args.count,
             reference_images=args.reference,
+            require_reference=args.require_reference,
         )
     print(json.dumps({"mode": "preview_only", "command": command}, ensure_ascii=False))
     return 0

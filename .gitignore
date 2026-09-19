@@ -35,3 +35,4 @@ desktop.ini
 # Private case-library bindings and derived local views
 drama-studio/references/case-library/local-config.json
 drama-studio/references/case-library/local-index.md
+drama-crew/references/screenwriting-library.local.json

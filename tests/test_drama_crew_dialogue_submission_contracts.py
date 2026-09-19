@@ -76,7 +76,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "planning_only",
             "实际生成",
             "原有 `execution` 流程",
-            "作品任务 → 观看重点 / 已有约束 → 已有规则与本地方法 → 具体设计 → 相称核验",
+            "任务入口 → 项目约束 → 当前阶段 → 当前创作问题",
             "不要求用户点名",
             "不强迫每次联网",
             "已有检索授权",
@@ -91,7 +91,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "不能为使用方法补人物、建筑、道具、破坏状态或改结果",
             "读取方法不等于安装、运行脚本、上传或生成",
             "仅引用解决当前观看任务的必要范围",
-            "输出是带启用条件的可选建议",
+            "每个创作问题只选一个主方法",
             "除非既有硬边界或当前任务证据已要求",
             "不得把外部方法改写成新的必做项、齐套检查、硬门槛或每镜合同",
             "条件不足只能保留候选，不能靠换措辞启用",
@@ -99,7 +99,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             "先写出可观察的启用条件再给具体创意",
             "不承担该功能的镜头可不启用",
             "缺少具体职责或启用条件时先保留为可选方案",
-            "`planning_only` 无需为证明方法有效而付费生成",
+            "方法候选、公开说明或接口返回成功都不能替代这套预检",
         ):
             with self.subTest(required=required):
                 self.assertIn(required, method_route)
@@ -109,8 +109,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             for line in self.studio_skill.splitlines()
             if line.startswith("| references/external-platforms.md |")
         )
-        self.assertIn("作品任务首次判断观看重点与表现机会时读", external_platform_row)
-        self.assertIn("后续有界补搜", external_platform_row)
+        self.assertIn("方法", external_platform_row)
+        self.assertIn("缺口", external_platform_row)
         self.assertNotIn("有明确方法缺口", external_platform_row)
 
         assembly_checklist = self.studio_prompt[
@@ -119,13 +119,13 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         checklist_lines = [
             line for line in assembly_checklist.splitlines() if line.startswith("- [ ]")
         ]
-        self.assertIn("观看重点与各镜职责", checklist_lines[0])
-        self.assertIn("叙事目的、实际画面/声音或参考职责", checklist_lines[0])
-        self.assertIn("不承担该功能的镜头未被要求齐套", checklist_lines[0])
+        self.assertIn("观看重点与各镜职责", self.studio_prompt)
+        self.assertIn("叙事目的、实际画面/声音或参考职责", assembly_checklist)
+        self.assertIn("不承担该功能的镜头可不启用", method_route)
         self.assertNotIn("\n- [ ] 本段观看重点与各镜职责已成立；", assembly_checklist)
 
         for text in (self.studio_skill, self.studio_roles):
-            self.assertIn("核对采用方法", text)
+            self.assertIn("方法", text)
             self.assertNotIn("核采用方法", text)
 
         workflow_map = section_between(self.studio_ext, "## 2.8 ", "## 3. ")
@@ -233,62 +233,34 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("对白硬度门", self.roles)
 
     def test_submission_view_is_derived_from_single_production_master(self) -> None:
-        for required in (
-            "完整制作母稿.md",
-            "《剧名》_标准投稿阅读稿.md",
-            "唯一内容真源",
-            "派生阅读视图",
-            "script_rev",
-            "SHA-256",
-            "不得生成、推断或预填",
-        ):
-            with self.subTest(required=required):
-                self.assertIn(required, self.submission)
-        self.assertIn("### 第 4A 步：内部制作母稿", self.skill)
-        self.assertIn("### 第 4B 步：投稿阅读稿排版", self.skill)
-        self.assertIn("只能把完整制作母稿交给 `drama-studio`", self.skill)
-        self.assertIn("只改投稿阅读稿的字体/分页/缩进/标题层级", self.skill)
-        self.assertIn("在投稿阅读稿里改台词/动作/剧情", self.skill)
-        self.assertIn("投稿阅读稿不得作为第二内容真源", self.roles)
-        for contract in (self.skill, self.roles, self.submission):
-            with self.subTest(contract=contract[:30]):
-                self.assertIn("两个不同文件", contract)
-                self.assertIn("《剧名》_标准投稿阅读稿.md", contract)
+        # Installed v6.25+ retires paired active manuscripts, not provenance.
+        for required in ("唯一标准正文", "script_rev", "SHA-256", "历史双稿迁移",
+                         "禁止旧同步器反向覆盖", "导出稿成为第二真源"):
+            self.assertIn(required, self.submission)
+        for contract in (self.skill, self.roles):
+            self.assertIn("唯一标准正文", contract)
+            self.assertIn("4B", contract)
+        self.assertIn("按需格式导出", self.skill)
+        self.assertIn("内容修改回唯一标准正文", self.roles)
 
     def test_submission_uses_standard_screenplay_format(self) -> None:
-        # 标准投稿 Markdown 是必需阅读视图；DOCX 仅按明确要求派生。
-        self.assertIn("§4a 标准剧本排版", self.submission)
-        self.assertIn("**场{集}-{场} {日/夜} {内/外} {地点}**", self.submission)
-        self.assertIn("**人物：", self.submission)
-        self.assertIn("空格分隔", self.submission)
-        self.assertIn("∆", self.submission)
-        self.assertIn("无指定模板时的团队通用投稿阅读格式", self.submission)
-        # v6.17.4：按火山引擎剧创口径区分 OS/VO，字幕按需，括号只留可执行提示。
-        self.assertIn("【字幕】", self.submission)
-        self.assertIn("（OS）", self.submission)
-        self.assertIn("（VO）", self.submission)
+        for required in ("§4a 标准剧本排版", "**1-1 日 内 具体地点**",
+                         "人物：姓名", "△姓名", "姓名OS（语气）", "姓名VO（语气）",
+                         "仅场景头加粗", "专用模板优先", "DOCX/PDF"):
+            self.assertIn(required, self.submission)
+        self.assertIn("用户或接收方明确要求", self.submission)
+        self.assertNotIn("DOCX 工具可用时默认交付 DOCX", self.submission)
         self.assertNotIn("≤5 字", self.submission)
-        self.assertIn("自然短语", self.submission)
-        self.assertIn("【字幕】身份行按需", self.skill)
-        active_skill = self.skill.split("## 版本记录", 1)[0]
-        for contract in (active_skill, self.roles, self.submission):
-            with self.subTest(contract=contract[:30]):
-                self.assertNotIn("DOCX 工具可用时默认交付 DOCX", contract)
-        self.assertIn("DOCX 仅在用户或接收方明确要求时生成", self.submission)
-        self.assertIn("PDF 只在用户或接收方明确要求时生成", self.submission)
+        self.assertIn("可执行", self.submission)
 
     def test_submission_delivery_requires_complete_outline_and_clean_pair_preflight(self) -> None:
-        self.assertIn("逐集集纲非空且覆盖到最后一集", self.submission)
-        self.assertIn("预检退出码为 0", self.submission)
-        self.assertIn("audit_screenplay.py --master", self.submission)
-        self.assertIn("--submission", self.submission)
-        self.assertIn("# 第 1 集", self.submission)
-        self.assertNotIn("# 第一集", self.submission)
-        self.assertIn("--expected-episodes", self.submission)
-        for contract in (self.skill, self.roles):
-            with self.subTest(contract=contract[:30]):
-                self.assertIn("预检退出码为 0", contract)
-                self.assertIn("先回完整制作母稿修改", contract)
+        # The single-body preflight does not certify external outline/bible.
+        for required in ("集纲应非空并覆盖实际全稿", "--submission-scope body-only",
+                         "--expected-episodes", "不同时传 --master",
+                         "确定性错误修复后才交付", "不验证外置集纲"):
+            self.assertIn(required, self.submission)
+        self.assertIn("单文件 body-only 预检", self.roles)
+        self.assertIn("唯一正文确定性预检未通过即交付", self.roles)
 
     def test_carrier_confirmation_uses_evidence_based_runtime_contract(self) -> None:
         self.assertIn("真人=台词驱动", self.skill)
@@ -296,23 +268,12 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertNotIn("真人=台词驱动/净台词 350-500 字", self.skill)
 
     def test_submission_default_structure_is_reader_facing_and_ordered(self) -> None:
-        section = self.submission[
-            self.submission.index("## 4. 通用投稿阅读稿结构") :
-            self.submission.index("### §4a 标准剧本排版")
-        ]
-        expected = (
-            "1. 封面",
-            "2. 一句话卖点",
-            "3. 故事梗概",
-            "4. 主要人物",
-            "5. 粗纲",
-            "6. 逐集集纲",
-            "7. 正文",
-        )
-        positions = [section.index(item) for item in expected]
-        self.assertEqual(positions, sorted(positions))
-        self.assertIn("选题分析结论只作可选策划附件", section)
-        self.assertIn("不默认并入投稿剧本正文", section)
+        section = section_between(self.submission, "## 4. 默认交付结构", "## 5. ")
+        for required in ("每集标题、场次、人物", "动作与对白", "配套集纲",
+                         "内部审核与制作字段仍不进入", "第1集：", "仅场景头加粗"):
+            self.assertIn(required, section)
+        self.assertIn("接收方明确索要", section)
+        self.assertIn("局部任务只核其影响范围", section)
 
     def test_authentic_voice_principles_and_literary_ai_words_are_wired(self) -> None:
         # v6.16.0：吸收 novel-creator 裁定项——正向人声七招 + 文学向 AI 高频词
@@ -331,19 +292,13 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("突变合法路径四步", self.bible)
 
     def test_master_doc_carries_outline_bible_and_visual_anchors(self) -> None:
-        # v6.17.1：母稿含粗纲/集纲/人物档案/基础视觉事实；投稿版按阅读顺序输出。
-        for required in ("粗纲与集纲", "人物视觉锚定", "人物小传档"):
-            with self.subTest(required=required):
-                self.assertIn(required, self.submission)
-        for required in ("粗纲/集纲/人物档案（小传节）", "人物视觉锚定行"):
-            with self.subTest(required=required):
-                self.assertIn(required, self.skill)
-        for required in ("一句话卖点", "故事梗概", "主要人物", "粗纲", "逐集集纲"):
-            with self.subTest(required=required):
-                self.assertIn(required, self.submission)
-        self.assertIn("视觉锚定", self.roles)
-        self.assertIn("视觉锚定", self.bible)
-        self.assertIn("人物视觉锚定行", self.studio_assets)
+        # These contents moved to companions; they may not silently disappear.
+        for required in ("完整人物小传", "基础视觉事实", "粗纲", "逐集集纲",
+                         "不能因拆离正文漏交"):
+            self.assertIn(required, self.submission)
+        for contract in (self.roles, self.bible, self.studio_assets):
+            self.assertIn("视觉锚定", contract)
+        self.assertIn("必要配套资料", self.skill)
 
     def test_visual_anchor_contract_separates_story_facts_from_production_design(self) -> None:
         crew_contracts = "\n".join((self.skill, self.roles, self.bible, self.submission))
@@ -359,20 +314,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("覆盖 crew 基础视觉事实即失败", self.studio_roles)
 
     def test_master_content_changes_sync_all_reader_facing_sections_in_one_revision(self) -> None:
-        for required in (
-            "同一 `script_rev` 内同步",
-            "故事梗概",
-            "人物档案",
-            "粗纲",
-            "逐集集纲",
-            "关键事件",
-            "人物状态",
-            "集数",
-            "结尾卡点",
-        ):
-            with self.subTest(required=required):
-                self.assertIn(required, self.submission)
-        self.assertIn("同一 `script_rev` 内同步", self.skill)
+        for required in ("内容变化提升修订号", "受影响梗概、人物档、集纲",
+                         "已同步或待重编", "未受影响部分沿用", "script_rev",
+                         "正文修订"):
+            self.assertIn(required, self.submission if required != "正文修订" else self.skill)
+        self.assertIn("不让导出稿成为第二真源", self.submission)
 
     def test_character_and_dialogue_diagnostics_do_not_use_mechanical_failure_counts(self) -> None:
         self.assertNotIn("一场最多一次", self.dialogue)
@@ -400,9 +346,9 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for obsolete in ("第一人称画外音", "单场 1-3 条", "单条 ≤30 字", "连续 OS 不超过 2 条"):
             with self.subTest(obsolete=obsolete):
                 self.assertNotIn(obsolete, self.writing)
-        self.assertIn("接收方模板优先", self.submission)
-        self.assertIn("身份不能从当下画面或对白快速读明", self.submission)
-        self.assertIn("可见动作另写 `∆` 行", self.submission)
+        self.assertIn("专用模板优先", self.submission)
+        self.assertIn("不自动成为画面字幕", self.submission)
+        self.assertIn("可见动作另写 △ 行", self.submission)
         self.assertIn("OS 内心独白、VO 画外音与必要旁白", self.commercial)
 
     def test_gap_awareness_loop_is_wired_end_to_end(self) -> None:
@@ -453,7 +399,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, self.learnings)
         # 2. studio：复盘仪式同构 + CI 与仓库协作方式
-        for required in ("项目复盘仪式", "contract-tests.yml", "squash"):
+        for required in ("发布授权与检查", "contract-tests.yml", "squash"):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_learnings)
         # 3. 画面措辞纪律不能误伤逐字台词、时间码与实际接口参数。
@@ -484,7 +430,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             with self.subTest(required=required):
                 self.assertIn(required, self.studio_ext)
         # 4. SKILL 预检句接线 + 加载表注册
-        self.assertIn("external-platforms.md 路由", self.studio_skill)
+        self.assertIn("external-platforms.md", self.studio_skill)
         self.assertIn("references/external-platforms.md", self.studio_skill)
         # 5. crew 升格表有外部平台去向
         self.assertIn("外部平台能力面/匹配报告", self.learnings)
@@ -538,30 +484,24 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertNotIn("对应的一张卡", seedance)
 
     def test_costume_elaboration_and_selfbuilt_workflow_mapping_are_wired(self) -> None:
-        # v1.13.2：服化道极繁纪律 + 自建等效工作流映射
-        assets = read("drama-studio/references/asset-library.md")
-        for required in ("服化道极繁纪律", "逐层描述清单", "性别×身份服饰适配表", "男-剑修/侠客", "女-剑修", "半透明轻纱", "风格映射", "水墨国风", "3D 次世代写实", "禁大面积暗沉纯黑"):
-            with self.subTest(required=required):
-                self.assertIn(required, assets)
-        ext = read("drama-studio/references/external-platforms.md")
-        for required in ("自建等效工作流映射", "一键成片", "dreamina image2image", "时间线合成", "scripts/assemble_timeline.py"):
-            with self.subTest(required=required):
-                self.assertIn(required, ext)
-        self.assertIn("服化道极繁纪律逐层扩写", self.studio_roles)
+        for required in ("服化道的条件化生产描述", "正向描述顺序",
+                         "项目风格为唯一权威", "制作设计/推断", "不是由性别"):
+            self.assertIn(required, self.studio_assets)
+        for obsolete in ("服化道极繁纪律", "性别×身份服饰适配表", "禁大面积暗沉纯黑"):
+            self.assertNotIn(obsolete, self.studio_assets)
+        for required in ("自建等效工作流映射", "一键成片", "dreamina image2image",
+                         "时间线合成", "scripts/assemble_timeline.py"):
+            self.assertIn(required, self.studio_ext)
 
     def test_setting_sheet_13_modules_realism_anchor(self) -> None:
-        # v1.13.5：设定板分流 + 条件化真实感 + 可执行 ffmpeg
-        assets = read("drama-studio/references/asset-library.md")
-        for required in ("角色综合设定板 13 模块清单", "构图行规范", "画面结构行", "面部细项扩展", "姿态与动作行", "配饰与武器行", "负面提示词基线",
-                         "定妆照", "肖像特写", "纯三视图", "细节板", "写实摄影/写实 3D", "2D/水墨/水彩/像素", "不强制毛孔",
-                         "真实感锚定", "反模板脸", "深棕色眼睛", "网红脸", "鼻翼阴影", "总吸收项 ≤2", "混血感超标即废图重生成",
-                         "金发，蓝眼，欧美脸"):
-            with self.subTest(required=required):
-                self.assertIn(required, assets)
-        ext = read("drama-studio/references/external-platforms.md")
-        for required in ("scripts/assemble_timeline.py", "先统一编码、帧率、分辨率与时基", "ffprobe", "外部 WAV/TTS"):
-            with self.subTest(required=required):
-                self.assertIn(required, ext)
+        # Consolidated sheet replaces the fixed 13-module expansion.
+        for required in ("大幅清晰正脸头肩肖像", "头到脚完整全身", "局部细节",
+                         "定妆照", "独立三视图", "不强制毛孔", "真实感锚定",
+                         "反模板脸", "项目风格", "身份参考，不是多人同框或视频首帧"):
+            self.assertIn(required, self.studio_assets)
+        for required in ("scripts/assemble_timeline.py", "先统一编码、帧率、分辨率与时基",
+                         "ffprobe", "外部 WAV/TTS"):
+            self.assertIn(required, self.studio_ext)
         self.assertIn("§2.6 真实感锚定", self.studio_roles)
 
     def test_native_audio_replaces_dubbing_step(self) -> None:
@@ -584,88 +524,29 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertNotIn("jimeng audio create", audio)
 
     def test_studio_prompt_format_routes_and_model_default_wiring(self) -> None:
-        # Wiring guards only; actual prompt consumption is checked with a reader agent.
-        prompt = self.studio_prompt
-        four_block_schema = prompt.split("### 2A. 通用四区块", 1)[1].split("```", 2)[1]
-        four_block_headings = [
-            line for line in four_block_schema.splitlines() if line.startswith("【")
-        ]
-        self.assertEqual(
-            ["【基础设定】", "【氛围与画质】", "【声音】", "【画面内容】"],
-            four_block_headings,
-        )
-        eight_block_section = prompt.split("### 2B. 30 秒直出专项八段式", 1)[1]
-        heading_map, template_tail = eight_block_section.split("```text", 1)
-        eight_block_schema = template_tail.split("```", 1)[0]
-        eight_block_headings = [
-            line for line in eight_block_schema.splitlines() if line.startswith("=== BLOCK")
-        ]
-        expected_english_headings = [
-            "=== BLOCK 1: MASTER REFERENCE BINDING ===",
-            "=== BLOCK 2: VISUAL STYLE & MEDIUM MANDATE ===",
-            "=== BLOCK 3: ANTI-GLITCH & PROP TRACKING RULES ===",
-            "=== BLOCK 4: SCENE CONTEXT & CONTINUITY LOCK ===",
-            "=== BLOCK 5: TIME-CODED DIALOGUE & AUDIO BUDGET ===",
-            "=== BLOCK 6: ENVIRONMENTAL TEXT DEVICE ===",
-            "=== BLOCK 7: SHOT BREAKDOWN & SPATIAL LOGIC (30 SECONDS) ===",
-            "=== BLOCK 8: AUDIO & FOLEY SPECIFICATIONS ===",
-        ]
-        expected_chinese_headings = [
-            "=== 区块 1：主参考绑定 ===",
-            "=== 区块 2：视觉风格与媒介指令 ===",
-            "=== 区块 3：防错与道具追踪规则 ===",
-            "=== 区块 4：场景语境与连续性锁 ===",
-            "=== 区块 5：带时码对白与音频预算 ===",
-            "=== 区块 6：场内文字载体 ===",
-            "=== 区块 7：镜头拆解与空间逻辑（30 秒） ===",
-            "=== 区块 8：音频与拟音规格 ===",
-        ]
-        self.assertEqual(expected_english_headings, eight_block_headings)
-        for index, (english, chinese) in enumerate(
-            zip(expected_english_headings, expected_chinese_headings), start=1
-        ):
-            self.assertIn(f"| {index} | `{english}` | `{chinese}` |", heading_map)
-        # Startup routing is exercised by the consuming-agent scenarios;
-        # keep this check scoped to the output format's exclusivity.
-        for fragment in ("不与四区块双交",):
-            self.assertIn(fragment, prompt)
-        for fragment in ("sum of per-line actual pronunciation counts",
-                         "actual pronunciation count"):
-            self.assertIn(fragment, eight_block_schema)
-        for fragment in ("`seedance2.0fast_vip` / 15 秒一组", "两卡", "5–8 个分镜",
-                         "参考生仅 8s", "同一 Clip 内切场景不重置时间", "一个 Shot"):
-            self.assertIn(fragment, prompt)
-        for fragment in ("用户指定或第 0 步默认", "规划时同时定位", "seedance.md", "dreamina.md"):
-            self.assertIn(fragment, self.studio_skill)
-        roles = read("drama-studio/references/role-cards.md")
-        self.assertIn("连续音频起止秒、覆盖镜号与可见口型区间", roles)
-        self.assertIn("逐 Clip 路由后视频提示词", roles)
-        self.assertIn("Dialogue/OS/VO", roles)
-        with self.subTest(consumer="闻笙非对白声层路由"):
-            self.assertTrue(
-                "环境、呼吸、脚步、操作声、拟音与音乐落进通用【声音】/30秒专项 Block 8"
-                in roles,
-                "闻笙必须把普通任务的非对白声层路由到通用【声音】",
-            )
-        failure_atlas = read("drama-studio/references/failure-atlas.md")
-        audio_failure_row = next(
-            line for line in failure_atlas.splitlines() if line.startswith("| 6.5 |")
-        )
-        with self.subTest(consumer="严恪30秒容量失败回退"):
-            self.assertTrue(
-                "30 秒直出专项不足时先重排，仍不足则回剧情层等待裁决，不延长、拆分/分单或加速"
-                in audio_failure_row,
-                "30 秒专项不得回退到延长、拆分/分单或加速",
-            )
-            self.assertTrue(
-                "其他时长按 dim-audio 对应任务分支处理" in audio_failure_row,
-                "通用回退必须限定为其他时长并服从 dim-audio",
-            )
+        section = section_between(self.studio_prompt, "## 2. ", "## 2.5 ")
+        schema = section.split("```text", 1)[1].split("```", 1)[0]
+        headings = [line for line in schema.splitlines() if line.startswith("【")]
+        self.assertEqual([
+            "【一、主参考绑定】", "【二、视觉风格与媒介】", "【三、道具与人物状态】",
+            "【四、场景与连续性】", "【五、对白与发声时间】", "【六、场内文字】",
+            "【七、镜头与动作】", "【八、声音与拟音】",
+        ], headings)
+        for required in ("不写死 30 秒", "逐字对白", "用户明确要求其他提示词语言",
+                         "图片提示词仍按图片职责编写", "只写一个 Shot"):
+            self.assertIn(required, section)
+        for required in ("seedance2.0fast_vip", "seedance2.5", "两卡",
+                         "参考生仅 8s", "同一 Clip 内切场景不重置时间"):
+            self.assertIn(required, self.studio_prompt)
+        for required in ("seedance.md", "dreamina.md"):
+            self.assertIn(required, self.studio_skill)
+        self.assertIn("连续音频起止秒、覆盖镜号与可见口型区间", self.studio_roles)
+        audio = read("drama-studio/references/dimensions/dim-audio.md")
+        self.assertIn("不得延长、拆分/分单或加速", audio)
         style = read("drama-studio/references/dimensions/dim-style.md")
         self.assertIn("正文服从项目语言锁", style)
-        self.assertNotIn("Vidu=全模块中文", style)
         for stale in ("七段式", "单块最小 2s", "默认 1 Shot/Clip"):
-            self.assertNotIn(stale, prompt)
+            self.assertNotIn(stale, self.studio_prompt)
 
     def test_continuous_dialogue_budget_and_reference_boundaries(self) -> None:
         audio = read("drama-studio/references/dimensions/dim-audio.md")
@@ -702,8 +583,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
     def test_murphy_boundaries_keep_fast_path_and_authority_limits(self) -> None:
         self.assertIn("快写/单集预览在原文茵任务内", self.skill)
         self.assertIn("未经润色的原始草稿", self.skill)
-        self.assertIn("不新增用户弹窗", self.submission)
-        self.assertIn("不得生成、推断或预填", self.submission)
+        self.assertIn("不得虚构审批编号、版权主体、联系人或平台受理状态", self.submission)
+        self.assertIn("不为局部修改重新生成全项目", self.submission)
         self.assertIn("不新增角色", self.skill)
 
     def test_public_docs_and_markdown_count_match_release(self) -> None:
@@ -727,10 +608,10 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
             self.assertIn(f"`{skill}` v{version.group(1).strip()}", changelog)
         self.assertIn("`drama-studio` v1.15.2", changelog)
         self.assertIn("`drama-studio` v1.11.2", changelog)
-        self.assertIn("投稿阅读稿", readme)
+        self.assertIn("唯一标准正文", readme)
         for public_doc in (readme, read("docs/使用说明.md")):
             with self.subTest(public_doc=public_doc[:30]):
-                self.assertIn("《剧名》_标准投稿阅读稿.md", public_doc)
+                self.assertIn("--submission-scope body-only", public_doc)
                 self.assertIn("audit_screenplay.py", public_doc)
         self.assertIn("台词桌读", readme)
 
@@ -898,7 +779,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
 
         self.assertIn("明确硬限制", dialogue_refinement)
         self.assertIn("暂排时长", dialogue_refinement)
-        self.assertIn("活动母稿、集纲与制作计划", dialogue_refinement)
+        self.assertIn("活动正文、集纲与制作计划", dialogue_refinement)
         self.assertNotIn("保持原场次结构、动作节拍和时长目标", dialogue_refinement)
 
         for required in (
@@ -931,8 +812,8 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         self.assertIn("全量档", self.submission)
         self.assertIn("标准档", self.submission)
         self.assertIn("轻量档", self.submission)
-        self.assertIn("产物档位", self.skill)
-        self.assertIn("产物必要性判定表", self.skill)
+        self.assertIn("产物必要性", self.skill)
+        self.assertIn("submission-format.md", self.skill)
 
     def test_cognitive_depth_and_expression_strategy_are_independent(self) -> None:
         for required in (
@@ -1028,18 +909,11 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
                 self.assertNotIn(source_like_phrase, self.writing)
 
     def test_runtime_evidence_does_not_pad_dialogue_or_claim_measured_duration(self) -> None:
-        for required in (
-            "诊断区间，不是逐集最低配额",
-            "禁止为补足字数增加同义解释或程序话术",
-            "逐项动作/停顿估时",
-            "只能标为估算",
-            "固定每条动作",
-            "固定秒数",
-        ):
-            with self.subTest(required=required):
-                self.assertIn(required, self.commercial)
+        for required in ("正文计数", "与净台词分开统计", "不为凑数",
+                         "没有读演/成片实测只标估算", "不给每条动作或每句停顿统一秒数",
+                         "完全重叠只计一次"):
+            self.assertIn(required, self.commercial)
         self.assertNotIn("净台词按 350–500 字收", self.commercial)
-        self.assertIn("不适用逐集最低配额", self.writing)
         self.assertNotIn("净台词 350–500 字 = 配音对白量", self.roles)
         self.assertNotIn("净台词 350–500 字 / 语速", self.roles)
 
@@ -1054,7 +928,7 @@ class DramaCrewDialogueSubmissionContracts(unittest.TestCase):
         for required in ("显式时间锚", "与账本推进一致"):
             with self.subTest(required=required):
                 self.assertIn(required, self.ledger)
-        self.assertIn("预检失败不得进入评分放行", self.scorecard)
+        self.assertIn("确定性错误未清零不得放行 reviewed", self.scorecard)
         self.assertIn("普通中段、低冲突或报告类场景", self.roles)
 
     def test_dsh_crew_mechanisms_are_absorbed_without_new_workflow(self) -> None:

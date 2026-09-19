@@ -66,6 +66,19 @@ romance_axis=off
 
 
 class ScreenplayAuditTests(unittest.TestCase):
+    def test_current_documented_single_body_format_is_accepted(self) -> None:
+        document = (ROOT / "drama-crew/references/submission-format.md").read_text(encoding="utf-8")
+        example = document.split("```text\n", 1)[1].split("```", 1)[0]
+        result = AUDIT.audit_submission(example, 1, submission_scope="body-only")
+        self.assertFalse(result.blocking, result.findings)
+
+    def test_current_single_body_still_rejects_empty_and_wrong_scene(self) -> None:
+        for text in ("第1集：\n**1-1 日 内 值班室**\n人物：甲\n",
+                     "第1集：\n**2-1 日 内 值班室**\n人物：甲\n△甲放下文件。\n甲：我不同意。\n"):
+            with self.subTest(text=text):
+                result = AUDIT.audit_submission(text, 1, submission_scope="body-only")
+                self.assertTrue(result.blocking, result.findings)
+
     def test_expected_count_does_not_hide_duplicate_or_reordered_episodes(self) -> None:
         for numbers, code in (([1, 1], "DUPLICATE_EPISODE_HEADING"), ([2, 1], "EPISODE_ORDER_MISMATCH")):
             body = "\n".join(
