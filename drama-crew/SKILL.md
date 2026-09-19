@@ -2,7 +2,7 @@
 name: drama-crew
 description: Drama Crew 短剧创作团（8 角色协作，剧本层）。用于短剧选题、梗概、粗纲、集纲、剧本正文、改写续写、台词精修、连续性核查与终审；交付唯一标准剧本正文，阅读与制作共用；设定、集纲和审核记录另存，DOCX/PDF 仅按明确要求导出。未指定体系的新编剧请求可自动选择；明确点名 Drama Crew、drama-crew 或已采用 Drama 的项目优先使用。用户点名巨天/JUTIAN、jutian-juben，或正在续接该体系项目时不触发，不同时执行两套编剧流程。制作交接归 drama-studio；已有剧本按任务直达相应环节，不强跑从零策划。
 metadata:
-  version: "6.26.13"
+  version: "6.26.14"
   source_repository: "https://github.com/zkhyww/ai-short-drama-skills"
 ---
 
