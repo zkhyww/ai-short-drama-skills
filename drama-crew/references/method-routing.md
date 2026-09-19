@@ -54,7 +54,7 @@
 | 本季/当前完整单元缺成长回报，或维护冒充新获得 | [world-bible.md](world-bible.md) §2；[story-structure.md](story-structure.md) §5/§6 | 以实际承诺核当前所得、可用性与后续影响；后季计划不能代偿，代价不机械清零。无成长承诺不强加升级；新增事实先核权限与取得条件 |
 | 取证推断越过依据，或行动变化只存在于说明文字 | [writing-craft.md](writing-craft.md) §7「凭什么」「信息差三角」 | 获取路径由线索/人物处境支持，必要前态与变化可感知；保留合理延迟披露，回正文或对应前置场 |
 | 长动作拖延、能力升级抹掉旧成果 | [genre-and-fight-rules.md](genre-and-fight-rules.md)「动作戏判断」；[story-structure.md](story-structure.md) §5/§6 | 目标/位置/策略/关系实际换挡，相关旧能力与人物仍有因果作用；回文茵结构层 |
-| 特殊场面只有氛围或结果，过程/协作/权限/物件进度/叙事层状态不清 | [genre-and-fight-rules.md](genre-and-fight-rules.md)「跨题材场面入口」，仅取实际命中的机制行 | 正文有可见可听的过程、回应与前后状态；交 Studio 后按 prompt-assembly §1 装配并查实际产物。承重缺项回文茵相应剧情层；普通场面不为齐类目加戏 |
+| 特殊场面只有氛围或结果，过程/协作/权限/物件进度/叙事层状态不清 | [genre-and-fight-rules.md](genre-and-fight-rules.md)「跨题材场面入口」，仅取实际命中的机制行 | 正文有可见可听的过程、回应与前后状态；歌舞/综艺的实力、失误或换位先有表演依据，再有评审结论，清唱条件和指定词曲状态传到 Studio。交接按 prompt-assembly §1 装配并查实际产物；缺失证据回文茵，声音/舞步实现回制作，不靠反应蒙太奇补故事。普通场面不为齐类目加戏 |
 | 动作与长对白抢同一身体/时间 | [dialogue-craft.md](dialogue-craft.md) §9.2–9.4 | 占手、气息、负荷和对手行动共同成立；改结果前退剧情层 |
 | 尾钩变强却撤销了已兑现结果 | [writing-craft.md](writing-craft.md) §2；[canon-ledger.md](canon-ledger.md) §3 | 新期待由已有后果生长，既有安全/成果未被无因抹掉；回文茵及青梧 |
 | 局部改稿、同声跨视点、版本恢复 | [canon-ledger.md](canon-ledger.md) §1–4；[submission-format.md](submission-format.md) §2 | 边界、事件时间、角色/观众知情、衍生资料可追溯；按错源归责 |

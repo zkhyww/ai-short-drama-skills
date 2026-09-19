@@ -421,9 +421,10 @@ def build_board(project_root, *, asset_files=(), record_files=(), prompts=(), im
     stats = [('参考身份', 'reference_count'), ('记录文件（含计划）', 'referenced_file_count'),
              ('来源标为复用、路径存在（解码未核）', 'reused_file_count'), ('记录计划新制／返修', 'planned_new_file_count'),
              ('文件作业未明确', 'unknown_file_action_count')]
+    prompt_nav = '<a href="#prompts">提示词原文</a>' if selected else ''
     body = ['<main><header><p class="eyebrow">STUDIO / LOCAL DELIVERY</p><h1>制作资产与提示词</h1>',
             f'<p>只读快照 · {_display(stamp)}</p><p class="muted">来源改变后需重新导出。本页不生成媒体、不改源记录，也不认证画面质量。</p>',
-            '<nav aria-label="页面导航"><a href="#assets">资产图册</a><a href="#prompts">提示词原文</a><a href="#sources">来源与未决项</a></nav></header>',
+            f'<nav aria-label="页面导航"><a href="#assets">资产图册</a>{prompt_nav}<a href="#sources">来源与未决项</a></nav></header>',
             '<h2>本批工作概览</h2><div class="stats">']
     body.extend(f'<div class="stat"><strong>{summary[key]}</strong>{label}</div>' for label, key in stats)
     body.append('</div><p class="notice">' + ('统计不完整：未知项没有当作零或已完成。' if summary['incomplete'] else '统计仅依据明确记录与本次路径核验，不是内容验收。') + '</p>')
@@ -439,8 +440,10 @@ def build_board(project_root, *, asset_files=(), record_files=(), prompts=(), im
         body.append(f'<small>{_display(group["file"])}</small>')
         body.extend(_row_region(row) for row in group['rows'])
         body.append('</article>')
-    body.append('</div><h2 id="prompts">提示词原文</h2><p class="muted">复制仅包含所选正文；清单、来源、状态说明不进入提示词。未指定图片与词的对应关系时不猜关联。</p>')
-    body.extend(_prompt_region(prompt) for prompt in selected)
+    body.append('</div>')
+    if selected:
+        body.append('<h2 id="prompts">提示词原文</h2><p class="muted">复制仅包含所选正文；清单、来源、状态说明不进入提示词。未指定图片与词的对应关系时不猜关联。</p>')
+        body.extend(_prompt_region(prompt) for prompt in selected)
     body.append('<h2 id="sources">来源与未决项</h2>')
     if warnings:
         body.append('<div class="notice"><ul>' + ''.join(f'<li>{_display(w)}</li>' for w in warnings) + '</ul></div>')

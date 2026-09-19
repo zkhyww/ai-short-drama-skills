@@ -118,6 +118,69 @@
       "handle": null,
       "profile_url": null,
       "public_numeric_id": null
+    },
+    {
+      "id": "zephyraleigh",
+      "display_name": "Zephyra Leigh",
+      "handle": "@ZephyraLeigh",
+      "profile_url": "https://x.com/ZephyraLeigh",
+      "public_numeric_id": "1739182064111632384"
+    },
+    {
+      "id": "zarairahh",
+      "display_name": "Zara",
+      "handle": "@ZaraIrahh",
+      "profile_url": "https://x.com/ZaraIrahh",
+      "public_numeric_id": "1436903727462506497"
+    },
+    {
+      "id": "brentlynch",
+      "display_name": "Brent Lynch",
+      "handle": "@BrentLynch",
+      "profile_url": "https://x.com/BrentLynch",
+      "public_numeric_id": "55955687"
+    },
+    {
+      "id": "runware-docs",
+      "display_name": "Runware Docs",
+      "handle": null,
+      "profile_url": "https://runware.ai/docs",
+      "public_numeric_id": null
+    },
+    {
+      "id": "ailockup",
+      "display_name": "Ai Lockup",
+      "handle": null,
+      "profile_url": "https://www.youtube.com/channel/UC2Jl-LpV_J8l-az2GNG3VUQ",
+      "public_numeric_id": null
+    },
+    {
+      "id": "abdullah-yahya",
+      "display_name": "Abdullah Yahya",
+      "handle": null,
+      "profile_url": "https://abdullahyahya.com/",
+      "public_numeric_id": null
+    },
+    {
+      "id": "suno-ai-prompt-guide",
+      "display_name": "Suno AI Prompt Guide（非官方）",
+      "handle": null,
+      "profile_url": "https://sunoaipromptguide.org/",
+      "public_numeric_id": null
+    },
+    {
+      "id": "tanluai",
+      "display_name": "探路AI",
+      "handle": "@TanLuAI",
+      "profile_url": "https://x.com/TanLuAI",
+      "public_numeric_id": "1959572755114061824"
+    },
+    {
+      "id": "just_sharon7",
+      "display_name": "Sharon Riley",
+      "handle": "@Just_sharon7",
+      "profile_url": "https://x.com/Just_sharon7",
+      "public_numeric_id": "1516124892718002178"
     }
   ],
   "cases": [
@@ -3778,6 +3841,1407 @@
         "publication": "metadata_only"
       },
       "media_verification": "no_media_provided_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "CAM-013",
+      "title": "宫殿时尚十姿态连续运镜",
+      "category": "镜头与空间运动",
+      "summary": "以肩部、头发、手掌遮挡和动作匹配连接十个时尚姿态，研究人物动作驱动的摄影转场、服装身份连续及末拍收束。",
+      "model_claim": {
+        "name": "Seedance 2.5 / ImagineArt · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "人物展示",
+        "时尚摄影",
+        "动作驱动运镜",
+        "遮挡转场",
+        "空间连续",
+        "节拍收束"
+      ],
+      "author_id": "zephyraleigh",
+      "source": {
+        "post_url": "https://x.com/ZephyraLeigh/status/2098003837990945254",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核公开发布来源；未取得第三方原文再发布许可。",
+        "status_note": "2026-09-14通过agent-reach的twitter-cli读取。提示词发表于2026-09-10，由指定回复与作者续帖2098003841518354652顺接；媒体主帖2098003833654067677。仅去掉平台标题与Continue续文标记，未改正文。作者续文已接齐，不代表主帖31条评论全量取得。未下载或验收成片。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/镜头与空间运动/CAM-013_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "image_1独立角色参考图未取得"
+        ],
+        "local_relative_path": "提示词/镜头与空间运动/CAM-013_宫殿时尚十姿态连续运镜.txt",
+        "content_fingerprint": "7e2a4465d9f62325e31b195c3ef0fd07f42f513077d156d0bcaff7ddf6da56e6",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-009",
+      "title": "海滨双人对唱与合唱收尾",
+      "category": "声音对白与音乐",
+      "summary": "研究女声开场、男声应答、双人合唱与纯器乐尾段的衔接，以及108 BPM编配变化、口型可见性和双人关系表演。",
+      "model_claim": {
+        "name": "Seedance 2.5 / WaveSpeed AI · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "唱歌",
+        "英文演唱",
+        "双人对唱",
+        "合唱",
+        "音乐剧",
+        "原生人声",
+        "108 BPM",
+        "分段编配",
+        "口型",
+        "关系表演"
+      ],
+      "author_id": "zarairahh",
+      "source": {
+        "post_url": "https://x.com/ZaraIrahh/status/2086289199280582977",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核公开发布来源；未取得第三方原文再发布许可。",
+        "status_note": "2026-09-14由聚合页定位后，以agent-reach的twitter-cli核对2026-08-09作者主帖全文；后端返回15条会话记录，非全量评论。从Prompt后的Use开始完整保留至alive.，去掉推广前言。歌词是生成方向而非已提供歌曲；原稿长度约1.9万字符，实际投喂需核入口限制。未下载或验收成片。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-009_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "image_1女主及image_2男主参考图未本地绑定"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-009_海滨双人对唱与合唱收尾.txt",
+        "content_fingerprint": "03a3a9d3d244796cdb45a88e90f6d97d29491fd8b0b20602f78b8077a5f86e68",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-010",
+      "title": "现场演唱与观众接唱",
+      "category": "声音对白与音乐",
+      "summary": "研究歌手与观众接唱、麦克风互动、舞台乐队位置和现场声场；区分原生舞台演唱与录音室式配乐。",
+      "model_claim": {
+        "name": "Seedance 2 Mini 与 Seedance 2.0 Full 对照 · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "唱歌",
+        "英文演唱",
+        "现场演唱",
+        "观众接唱",
+        "麦克风互动",
+        "手持摄影",
+        "乐队站位",
+        "现场混音"
+      ],
+      "author_id": "brentlynch",
+      "source": {
+        "post_url": "https://x.com/BrentLynch/status/2066576320193327424",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核公开发布来源；未取得第三方原文再发布许可。",
+        "status_note": "2026-09-14由聚合页定位后，以agent-reach的twitter-cli核对2026-06-15主帖全文；后端返回15条会话记录，非全量评论。原作者明确左片为2 Mini、右片为2.0 Full，不按聚合站名称改标2.5。只提取Prompt Image To Video后的正文。未给完整歌词；原文9–10秒未单列，未代补。未下载或验收成片。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-010_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "身份、服装和灯光参考图未本地绑定；作者回复2066711680554536970附图"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-010_现场演唱与观众接唱.txt",
+        "content_fingerprint": "e2aba85b7d85d2066f44175a58ea818a5a4458624c0179b4758dd943a587f383",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-011",
+      "title": "民谣行进演唱与音标歌词",
+      "category": "声音对白与音乐",
+      "summary": "研究有旋律而非朗读的民谣发声、换气分句、音标歌词及行走跟拍；保留作者对乐谱识别方案失败的说明。",
+      "model_claim": {
+        "name": "Seedance 2.0 · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "唱歌",
+        "英文演唱",
+        "民谣",
+        "音标歌词",
+        "旋律分句",
+        "呼吸留白",
+        "行走跟拍",
+        "能力限制记录"
+      ],
+      "author_id": "dheepanratnam",
+      "source": {
+        "post_url": "https://x.com/Dheepanratnam/status/2054832402292244586",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核公开发布来源；未取得第三方原文再发布许可。",
+        "status_note": "2026-09-14以agent-reach的twitter-cli核对2026-05-14主帖2054832397129064837及提示词回复；返回14条会话记录，非全量评论。正文从Use开始完整保留。此例较早，因音标与民谣分句用途不同而保留，不改标2.5。主帖明确称模型不能读乐谱图、建议改传15秒音频；原提示词仍要求按乐谱，不代表该要求已成功。未下载或复现。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-011_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "image1人物图与image2乐谱图未本地绑定（提示词回复附两图）",
+          "作者建议的替代15秒音频未取得"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-011_民谣行进演唱与音标歌词.txt",
+        "content_fingerprint": "ba3babda584330749200bcc52afd8e8432f75fc5113de5dc0aba30ae6a70d849",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-012",
+      "title": "三人独立乐队与主唱声场",
+      "category": "声音对白与音乐",
+      "summary": "平台文档中的三人乐队示例：按三张人物图绑定主唱、吉他手和鼓手，结合缓慢推进及主唱高于伴奏的声场。",
+      "model_claim": {
+        "name": "Seedance 2.5 / Runware · 视频",
+        "basis": "provider_documentation_claim_not_reproduced"
+      },
+      "task_tags": [
+        "唱歌",
+        "独立摇滚",
+        "三人乐队",
+        "多角色参考",
+        "主唱与伴奏",
+        "副歌推进",
+        "室内现场"
+      ],
+      "author_id": "runware-docs",
+      "source": {
+        "post_url": "https://runware.ai/docs/models/bytedance-seedance-2-5/guides/multi-reference-production",
+        "attribution_status": "provider_documentation_source",
+        "attribution_note": "已核公开发布来源；未取得第三方原文再发布许可。",
+        "status_note": "2026-09-14通过agent-reach的Exa读取Runware文档。仅提取Three portraits cast into one performance下完整展示提示词，不混入API代码、角色生图模板或页面说明；页面发布时间未核。属于服务商文档示例，不是X博主实测或本轮复现；未指定歌词、曲目和BPM。未下载或验收媒体。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-012_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "Image1主唱、Image2吉他手、Image3鼓手的参考图未本地绑定"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-012_三人独立乐队与主唱声场.txt",
+        "content_fingerprint": "165afd0dc9d5bf7d85cf88191897fdb46f18ae4ac1665c9421d24c08bf248cf5",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-013",
+      "title": "整首歌音轨驱动MV规划",
+      "category": "声音对白与音乐",
+      "summary": "以最终歌曲音轨为时间依据，生成歌曲分析、分段、歌手分配和逐段MV提示词；用于已完成翻唱音轨的下游规划，不承担翻唱音频制作。",
+      "model_claim": {
+        "name": "Seedance 2.5 / OpenArt · 上游MV规划",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "二创歌曲",
+        "已有音轨",
+        "翻唱MV下游",
+        "整首歌规划",
+        "音频时间基准",
+        "逐句歌手分配",
+        "分段口型",
+        "Seedance 2.5",
+        "完整教程"
+      ],
+      "author_id": "ailockup",
+      "source": {
+        "post_url": "https://www.youtube.com/watch?v=-iDVaCl-ZBk",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已取得公开发布内容，未取得原文再发布许可；原文仅存本地，公共索引只含中性概述与来源。",
+        "status_note": "2026-09-14由yt-dlp取得作者原生说明栏及频道ID，并从说明栏链接的Google文档导出完整Master Prompt。视频发布于2026-08-17；原示范是原创歌MV，不冒称热门歌翻唱实测，可用于已完成翻唱音轨的下游。30秒、模型能力与同步效果为作者方案及声称；全文保留，其形式约束不升格为正式Skill规则。本轮未完整观看媒体、未调用生成。",
+        "local_locators": [
+          {
+            "label": "来源、范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-013_来源.json"
+          },
+          {
+            "label": "完整操作教程（我方整理）",
+            "kind": "source",
+            "relative_path": "教程/声音对白与音乐/二创歌曲翻唱与角色演唱_从音轨到MV.md"
+          },
+          {
+            "label": "原教程与官方交叉核验",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/翻唱教程_来源核验.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "最终完整歌曲音轨与实际演唱歌词未提供",
+          "目标项目角色图、风格及可读取音频的规划模型待绑定",
+          "视频入口音频参考支持与片段时长上限待实际核对"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-013_整首歌音轨驱动MV规划.txt",
+        "content_fingerprint": "7b0d869ba7362bc4c71a983437358407b2ed775bc61d5f3ef9866cbd3cecd4f9",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-014",
+      "title": "指定歌声音轨驱动角色演唱",
+      "category": "声音对白与音乐",
+      "summary": "以人物图和包含指定歌曲音轨的参考视频驱动角色演唱；原教程的最简完整口型提示词，适用于已定稿翻唱音轨的视频层。",
+      "model_claim": {
+        "name": "Seedance 2.0 Fast / Kie.ai · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "二创歌曲",
+        "翻唱MV下游",
+        "已有音轨",
+        "指定歌曲",
+        "英文演唱",
+        "人物参考",
+        "带音轨视频参考",
+        "口型"
+      ],
+      "author_id": "abdullah-yahya",
+      "source": {
+        "post_url": "https://abdullahyahya.com/2026/05/make-realistic-lip-sync-music-videos-with-seedance-2-0/",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已取得公开发布内容，未取得原文再发布许可；原文仅存本地，公共索引只含中性概述与来源。",
+        "status_note": "2026-09-14取得作者正文，页面标2026-05-07发布、2026-06-13更新；只提取首个Prompt段完整原文，页面因嵌入媒体而重复出现的同一提示词不重复入库。原教程用人物参考图与带歌曲音轨的视频参考，不是纯文字生成新歌；模型记2.0 Fast，不改标2.5。本轮未观看媒体或复现。",
+        "local_locators": [
+          {
+            "label": "来源、范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-014_来源.json"
+          },
+          {
+            "label": "完整操作教程（我方整理）",
+            "kind": "source",
+            "relative_path": "教程/声音对白与音乐/二创歌曲翻唱与角色演唱_从音轨到MV.md"
+          },
+          {
+            "label": "原教程与官方交叉核验",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/翻唱教程_来源核验.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "人物参考图与含指定歌曲音轨的参考视频未提供",
+          "目标语言、确切片段时长与歌词待与音轨核对",
+          "原教程输入方式需与当前视频入口逐项匹配"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-014_指定歌声音轨驱动角色演唱.txt",
+        "content_fingerprint": "d481d75ed99aa17bdaeed95be29625afe4dcc57d95512c0a50d3d0f012c2f4c4",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-015",
+      "title": "指定歌曲绿幕演唱与后期换景",
+      "category": "声音对白与音乐",
+      "summary": "以指定歌曲音轨驱动固定机位绿幕演唱，保留自然面部与身体动作，便于后期抠像换背景；不替代音频翻唱制作。",
+      "model_claim": {
+        "name": "Seedance 2.0 Fast / Kie.ai · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "二创歌曲",
+        "翻唱MV下游",
+        "已有音轨",
+        "绿幕演唱",
+        "固定机位",
+        "后期换景",
+        "口型"
+      ],
+      "author_id": "abdullah-yahya",
+      "source": {
+        "post_url": "https://abdullahyahya.com/2026/05/make-realistic-lip-sync-music-videos-with-seedance-2-0/",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已取得公开发布内容，未取得原文再发布许可；原文仅存本地，公共索引只含中性概述与来源。",
+        "status_note": "2026-09-14取得作者正文，提取绿幕演唱Prompt及其连续的背景限制段，两段是同一个提示词；不混入页面说明。原教程处于特定错误处理上下文，但本库不采用关闭防护或规避平台拒绝的建议。按正常参考输入作固定绿幕演唱候选；模型记2.0 Fast，未复现。",
+        "local_locators": [
+          {
+            "label": "来源、范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-015_来源.json"
+          },
+          {
+            "label": "完整操作教程（我方整理）",
+            "kind": "source",
+            "relative_path": "教程/声音对白与音乐/二创歌曲翻唱与角色演唱_从音轨到MV.md"
+          },
+          {
+            "label": "原教程与官方交叉核验",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/翻唱教程_来源核验.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "人物参考图与含指定歌曲音轨的参考视频未提供",
+          "目标语言、确切片段时长与歌词待与音轨核对",
+          "原教程输入方式需与当前视频入口逐项匹配"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-015_指定歌曲绿幕演唱与后期换景.txt",
+        "content_fingerprint": "e2809c2461b66017231c63d7fd7aeedf0169c897e08deff69fadf04831e8653b",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-016",
+      "title": "原曲改编为木吉他流行女声",
+      "category": "声音对白与音乐",
+      "summary": "Cover风格候选：将已有曲目重新编为木吉他流行女声，指向原旋律保留与轻编配；没有来源音频对照或本轮复现。",
+      "model_claim": {
+        "name": "Suno Cover · 音频（版本未注明）",
+        "basis": "third_party_prompt_candidate_not_reproduced"
+      },
+      "task_tags": [
+        "二创歌曲",
+        "音频Cover",
+        "歌曲改编",
+        "换曲风",
+        "木吉他流行",
+        "女声",
+        "保留旋律",
+        "未复现候选"
+      ],
+      "author_id": "suno-ai-prompt-guide",
+      "source": {
+        "post_url": "https://sunoaipromptguide.org/suno-prompts-for-covers/",
+        "attribution_status": "nonofficial_website_original_authorship_unverified",
+        "attribution_note": "已取得公开发布内容，未取得原文再发布许可；原文仅存本地，公共索引只含中性概述与来源。",
+        "status_note": "2026-09-14通过agent-reach的Exa读取非官方公开指南，只提取对应标题下完整风格提示词；未取得源曲、输出音频、模型版本或复现实证。页面正文讲Cover但FAQ又混用纯文本新作曲及Extend，不能以该FAQ作为工作流或能力依据；配套教程用Suno官方与创作者操作资料区分。发布日期与原创作者身份未核，不采用营销效果保证。",
+        "local_locators": [
+          {
+            "label": "来源、范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-016_来源.json"
+          },
+          {
+            "label": "完整操作教程（我方整理）",
+            "kind": "source",
+            "relative_path": "教程/声音对白与音乐/二创歌曲翻唱与角色演唱_从音轨到MV.md"
+          },
+          {
+            "label": "原教程与官方交叉核验",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/翻唱教程_来源核验.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "有权使用的原曲音频、歌词与Cover输入未提供",
+          "目标声音、平台当前设置与输出音频未核验"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-016_原曲改编为木吉他流行女声.txt",
+        "content_fingerprint": "3dab64c62bc510b77634694cae76c2eae7aba35d315007d55b7fbf5802eb2bfc",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-017",
+      "title": "原曲改编为爵士男声",
+      "category": "声音对白与音乐",
+      "summary": "Cover风格候选：为已有曲目指定爵士配器与温暖男声，并要求保留原节奏；不是原曲旋律或特定歌手音色的成功证明。",
+      "model_claim": {
+        "name": "Suno Cover · 音频（版本未注明）",
+        "basis": "third_party_prompt_candidate_not_reproduced"
+      },
+      "task_tags": [
+        "二创歌曲",
+        "音频Cover",
+        "歌曲改编",
+        "换曲风",
+        "爵士男声",
+        "保留节奏",
+        "未复现候选"
+      ],
+      "author_id": "suno-ai-prompt-guide",
+      "source": {
+        "post_url": "https://sunoaipromptguide.org/suno-prompts-for-covers/",
+        "attribution_status": "nonofficial_website_original_authorship_unverified",
+        "attribution_note": "已取得公开发布内容，未取得原文再发布许可；原文仅存本地，公共索引只含中性概述与来源。",
+        "status_note": "2026-09-14通过agent-reach的Exa读取非官方公开指南，只提取对应标题下完整风格提示词；未取得源曲、输出音频、模型版本或复现实证。页面正文讲Cover但FAQ又混用纯文本新作曲及Extend，不能以该FAQ作为工作流或能力依据；配套教程用Suno官方与创作者操作资料区分。发布日期与原创作者身份未核，不采用营销效果保证。",
+        "local_locators": [
+          {
+            "label": "来源、范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-017_来源.json"
+          },
+          {
+            "label": "完整操作教程（我方整理）",
+            "kind": "source",
+            "relative_path": "教程/声音对白与音乐/二创歌曲翻唱与角色演唱_从音轨到MV.md"
+          },
+          {
+            "label": "原教程与官方交叉核验",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/翻唱教程_来源核验.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "有权使用的原曲音频、歌词与Cover输入未提供",
+          "目标声音、平台当前设置与输出音频未核验"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-017_原曲改编为爵士男声.txt",
+        "content_fingerprint": "1bb07c0986c71b1d447fe5a8143e5bfebbbe8d8b25be50531dfdb7c1a71b3fa5",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-018",
+      "title": "原曲改编为复古合成器女声",
+      "category": "声音对白与音乐",
+      "summary": "Cover风格候选：为已有曲目指定复古合成器、电子鼓和轻盈女声，并要求保留音乐钩子；没有来源音频对照或本轮复现。",
+      "model_claim": {
+        "name": "Suno Cover · 音频（版本未注明）",
+        "basis": "third_party_prompt_candidate_not_reproduced"
+      },
+      "task_tags": [
+        "二创歌曲",
+        "音频Cover",
+        "歌曲改编",
+        "换曲风",
+        "复古合成器",
+        "女声",
+        "保留音乐钩子",
+        "未复现候选"
+      ],
+      "author_id": "suno-ai-prompt-guide",
+      "source": {
+        "post_url": "https://sunoaipromptguide.org/suno-prompts-for-covers/",
+        "attribution_status": "nonofficial_website_original_authorship_unverified",
+        "attribution_note": "已取得公开发布内容，未取得原文再发布许可；原文仅存本地，公共索引只含中性概述与来源。",
+        "status_note": "2026-09-14通过agent-reach的Exa读取非官方公开指南，只提取对应标题下完整风格提示词；未取得源曲、输出音频、模型版本或复现实证。页面正文讲Cover但FAQ又混用纯文本新作曲及Extend，不能以该FAQ作为工作流或能力依据；配套教程用Suno官方与创作者操作资料区分。发布日期与原创作者身份未核，不采用营销效果保证。",
+        "local_locators": [
+          {
+            "label": "来源、范围与缺输入",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-018_来源.json"
+          },
+          {
+            "label": "完整操作教程（我方整理）",
+            "kind": "source",
+            "relative_path": "教程/声音对白与音乐/二创歌曲翻唱与角色演唱_从音轨到MV.md"
+          },
+          {
+            "label": "原教程与官方交叉核验",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/翻唱教程_来源核验.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "有权使用的原曲音频、歌词与Cover输入未提供",
+          "目标声音、平台当前设置与输出音频未核验"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-018_原曲改编为复古合成器女声.txt",
+        "content_fingerprint": "83eeb0d34b6075ac28b691738b35f407bee83775b29003a3135f7446330207cf",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-010",
+      "title": "巴黎连通空间枪战与近身交锋",
+      "category": "动作与打斗",
+      "summary": "15秒风格化枪战片段：以巷道、庭院和室内的相连地理组织枪械动作与近身交锋，结合声效、行动中切景和末拍收束；补充黑帮动作片的空间连续参考。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "枪战",
+        "黑帮片参考",
+        "犯罪动作片参考",
+        "连通空间",
+        "巷道到室内",
+        "枪械与近身交锋",
+        "行动驱动切镜",
+        "枪声与碰撞",
+        "风格化动画"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2099139902373765297",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核同一发布账号及公开ID，未取得原文再发布许可；外部IP二创仅作本地参考，不等于已获角色、肖像或影片素材使用权。",
+        "status_note": "2026-09-14通过已认证twitter-cli取得目标全文与其两条上文：主帖、角色海报提示词。目标提示词帖当时显示0回复；主帖18条回复未全量遍历。原文有结束引号，未见截断；只移除发布者标签和外层引号，不改正文。连续连接指空间地理，原文同时有快速剪辑，不能误读为一镜到底。15秒内动作很密，尚未验证承载能力；静默末段与全程配乐要求需在实际装配时澄清。原角色名、电影标题及反派国籍属于特定二创设定，不迁移为通用选角或敌我规则。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与适用边界",
+            "kind": "source",
+            "relative_path": "来源/动作与打斗/ACT-010_来源.json"
+          },
+          {
+            "label": "主帖与作者串帖原始记录",
+            "kind": "source",
+            "relative_path": "来源/动作与打斗/X_2099139902373765297_串帖记录.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "目标项目角色、服装与场景尚未绑定；作者二创设定不等于用户正典",
+          "作者配套角色海报本轮未下载，原文未明确声明视频参考图槽位与全部执行设置"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-010_巴黎连通空间枪战与近身交锋.txt",
+        "content_fingerprint": "52e76e4181a9f5837c6f9f9550fcaad600c5a19fff380ed139a53d119f445cac",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ACT-011",
+      "title": "末日街区人犬协同枪战",
+      "category": "动作与打斗",
+      "summary": "15秒末日街区枪战片段：持枪主角与犬伙伴保持共同目标和可辨身份，结合空中、低位与近景，以及战后远景形成关系与规模对照；不是写实黑帮题材实测。",
+      "model_claim": {
+        "name": "Seedance 2.5 / TapNow · 视频",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "枪战",
+        "黑帮片参考",
+        "末日动作",
+        "人犬协同",
+        "伙伴关系",
+        "群体威胁",
+        "角色辨识",
+        "战后收束",
+        "远景规模",
+        "风格化动画"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2099095658804154778",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核同一发布账号及公开ID，未取得原文再发布许可；外部IP二创仅作本地参考，不等于已获角色、肖像或影片素材使用权。",
+        "status_note": "2026-09-14通过已认证twitter-cli取得目标全文及三条上文：主帖、TapNow说明、角色海报提示词。目标提示词帖当时显示0回复；主帖23条回复未全量遍历。原文完整结束，只移除发布者标签和外层引号。明确为末日生物战而非黑帮故事，供协同、摄影和收束参考；完整静默与全程配乐及犬吼存在口径冲突，保留原文并标记，不当成可直接执行保证。15秒高动作密度、持续射击和瞬时恢复是作者效果要求，未验证为现实或模型规律。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与适用边界",
+            "kind": "source",
+            "relative_path": "来源/动作与打斗/ACT-011_来源.json"
+          },
+          {
+            "label": "主帖与作者串帖原始记录",
+            "kind": "source",
+            "relative_path": "来源/动作与打斗/X_2099095658804154778_串帖记录.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "目标项目角色、服装与场景尚未绑定；作者二创设定不等于用户正典",
+          "作者配套角色海报本轮未下载，原文未明确声明视频参考图槽位与全部执行设置"
+        ],
+        "local_relative_path": "提示词/动作与打斗/ACT-011_末日街区人犬协同枪战.txt",
+        "content_fingerprint": "d256e56d1919f3af3efd98bcf22d1942d7256876a0617b18ce0055819a44b7ef",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-012",
+      "title": "巴黎行动者戏剧化角色海报",
+      "category": "角色与参考资产",
+      "summary": "单人物戏剧化角色海报提示词：中心英雄形象、服装轮廓和红色图形背景配合，作为枪战片段的视觉配套；不是三视图或完整人物圣经。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 角色海报",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "枪战配套",
+        "角色参考",
+        "人物海报",
+        "服装轮廓",
+        "视觉风格",
+        "中心构图",
+        "既有IP二创"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2099139896438919623",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核同一发布账号及公开ID，未取得原文再发布许可；外部IP二创仅作本地参考，不等于已获角色、肖像或影片素材使用权。",
+        "status_note": "2026-09-14从同作者上文取得完整角色海报提示词；其所属主帖声称GPT Image 2.5。文中依赖先前上传的角色表，该上游未取得。作者展示的海报图片URL已记来源，但本轮未下载；不把海报当成完整三视图、上游齐备或已验证的人脸锁定。BRYAN MILLS、TAKEN及台词等是外部IP二创内容，后续原创项目不能自动沿用。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与适用边界",
+            "kind": "source",
+            "relative_path": "来源/角色与参考资产/REF-012_来源.json"
+          },
+          {
+            "label": "主帖与作者串帖原始记录",
+            "kind": "source",
+            "relative_path": "来源/动作与打斗/X_2099139902373765297_串帖记录.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "提示词要求先上传的原始角色表未取得",
+          "作者展示角色海报本轮未下载，仅有来源地址"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-012_巴黎行动者戏剧化角色海报.txt",
+        "content_fingerprint": "8a505c2a3969a1e7caaaaa7ee3994f6d9870ce7243b6c256c1a9da83576ce8d3",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-013",
+      "title": "末日人犬搭档双区角色海报",
+      "category": "角色与参考资产",
+      "summary": "人犬搭档双区角色海报提示词：用人物与动物的体型、配色、服装和位置区分搭档，作为协同动作场面的视觉配套；不是全部上游参考图。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 角色海报",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "枪战配套",
+        "人犬搭档",
+        "角色参考",
+        "双区构图",
+        "视觉区分",
+        "伙伴关系",
+        "既有IP二创"
+      ],
+      "author_id": "techiebysa",
+      "source": {
+        "post_url": "https://x.com/TechieBySA/status/2099095652638581123",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核同一发布账号及公开ID，未取得原文再发布许可；外部IP二创仅作本地参考，不等于已获角色、肖像或影片素材使用权。",
+        "status_note": "2026-09-14从同作者上文取得完整人犬搭档角色海报提示词；所属主帖声称GPT Image 2.5。文中依赖两角色的既有上传角色表，上游未取得；展示海报图片URL仅作来源，未下载。双区海报不等同于人物和犬的完整多视角参考；ROBERT、SAM和I AM LEGEND等属于特定二创，不自动写进后续项目正典。",
+        "local_locators": [
+          {
+            "label": "来源、取得范围与适用边界",
+            "kind": "source",
+            "relative_path": "来源/角色与参考资产/REF-013_来源.json"
+          },
+          {
+            "label": "主帖与作者串帖原始记录",
+            "kind": "source",
+            "relative_path": "来源/动作与打斗/X_2099095658804154778_串帖记录.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "提示词要求先上传的原始角色表未取得",
+          "作者展示角色海报本轮未下载，仅有来源地址"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-013_末日人犬搭档双区角色海报.txt",
+        "content_fingerprint": "278afb7603e3f4225ef0ef3f46bd93e6b9e222e84fd52ca388d6751a08bffec1",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "BLD-001",
+      "title": "群体转角与末镜揭示",
+      "category": "Blender与预演参考",
+      "summary": "群体转角与末镜揭示：用于研究多人队形、转角接续、遮挡揭示、角色映射。",
+      "model_claim": {
+        "name": "Seedance 2.5 · Blender白模参考",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "Blender",
+        "多人队形",
+        "转角接续",
+        "遮挡揭示",
+        "角色映射"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2099456665859043789",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "发布账号及公开ID已核；作者另帖提及学习Foyege，未认定这些方法由发布者独创。原文仅作本地参考。",
+        "status_note": "2026-09-14取得本帖完整返回文本。作者备注有一个人物及鞋子细节出错；不能将主帖的一次生成理解为全部验收通过。展示视频宽高为1080×1440，而文字要求16:9；输出画幅未核。",
+        "local_locators": [
+          {
+            "label": "来源、媒体地址与核验边界",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-001_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "文中引用的原始输入参考素材未取得，展示附件地址不等于可复现输入",
+          "未取得可编辑Blender工程及建模脚本"
+        ],
+        "local_relative_path": "提示词/Blender与预演参考/BLD-001_群体转角与末镜揭示.txt",
+        "content_fingerprint": "fcb23e0594ec02d316ddb27fb1ec67bd232482893e2f98cc21af35f3de4117f4",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "BLD-002",
+      "title": "多高度移动与主观客观视角接续",
+      "category": "Blender与预演参考",
+      "summary": "多高度移动与主观客观视角接续：用于研究高度变化、主观视角、仰拍、局部修订。",
+      "model_claim": {
+        "name": "Seedance 2.5 · Blender白模参考",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "Blender",
+        "高度变化",
+        "主观视角",
+        "仰拍",
+        "局部修订"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2098576148955586637",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "发布账号及公开ID已核；作者另帖提及学习Foyege，未认定这些方法由发布者独创。原文仅作本地参考。",
+        "status_note": "2026-09-14取得本帖完整返回文本。只借高度、视点与同次动作接续；原文的形态及道具突然出现须由具体项目世界规则支持。",
+        "local_locators": [
+          {
+            "label": "来源、媒体地址与核验边界",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-002_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "文中引用的原始输入参考素材未取得，展示附件地址不等于可复现输入",
+          "未取得可编辑Blender工程及建模脚本"
+        ],
+        "local_relative_path": "提示词/Blender与预演参考/BLD-002_多高度移动与主观客观视角接续.txt",
+        "content_fingerprint": "71fb61bbe74adaf5d03a58369ae0d3024d1df08d02ea8cf6aafc0188f0372791",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "BLD-003",
+      "title": "车辆穿越与慢动作时间映射",
+      "category": "Blender与预演参考",
+      "summary": "车辆穿越与慢动作时间映射：用于研究载具、穿越净空、慢动作、速度视差。",
+      "model_claim": {
+        "name": "Seedance 2.5 · Blender白模参考",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "Blender",
+        "载具",
+        "穿越净空",
+        "慢动作",
+        "速度视差"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2098353311808385384",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "发布账号及公开ID已核；作者另帖提及学习Foyege，未认定这些方法由发布者独创。原文仅作本地参考。",
+        "status_note": "2026-09-14取得本帖完整返回文本。作者明确说明有一个分镜存在问题并被删除，未说明是哪一镜；八秒预演加两秒慢动作不可当无条件通用公式，应重算实际替换区间。",
+        "local_locators": [
+          {
+            "label": "来源、媒体地址与核验边界",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-003_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "文中引用的原始输入参考素材未取得，展示附件地址不等于可复现输入",
+          "未取得可编辑Blender工程及建模脚本"
+        ],
+        "local_relative_path": "提示词/Blender与预演参考/BLD-003_车辆穿越与慢动作时间映射.txt",
+        "content_fingerprint": "0bd94156316bc2ee5725bd06e8eeccf5576390fc606d1050a82661fd35c940b4",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "BLD-004",
+      "title": "门口正反打与手部接触",
+      "category": "Blender与预演参考",
+      "summary": "门口正反打与手部接触：用于研究正反打、持物连续、门铰链、听者反应。",
+      "model_claim": {
+        "name": "Seedance 2.5 · Blender白模参考",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "Blender",
+        "正反打",
+        "持物连续",
+        "门铰链",
+        "听者反应"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2098041891103412584",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "发布账号及公开ID已核；作者另帖提及学习Foyege，未认定这些方法由发布者独创。原文仅作本地参考。",
+        "status_note": "2026-09-14取得本帖完整返回文本。原文对白在镜头段和声音段重复列出；转为本团提示词时仍沿单一台词真源。其十秒预算未经过本机实际发声验证。",
+        "local_locators": [
+          {
+            "label": "来源、媒体地址与核验边界",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-004_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "文中引用的原始输入参考素材未取得，展示附件地址不等于可复现输入",
+          "未取得可编辑Blender工程及建模脚本"
+        ],
+        "local_relative_path": "提示词/Blender与预演参考/BLD-004_门口正反打与手部接触.txt",
+        "content_fingerprint": "dddfbfdbfa58ec02c9f0fd7ca3cae4a69da5a6195546123eaedd274dec29f870",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "BLD-005",
+      "title": "遮挡换焦点与独立对象揭示",
+      "category": "Blender与预演参考",
+      "summary": "遮挡换焦点与独立对象揭示：用于研究遮挡、对象区分、画外路径、接触时序。",
+      "model_claim": {
+        "name": "Seedance 2.5 · Blender白模参考",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "Blender",
+        "遮挡",
+        "对象区分",
+        "画外路径",
+        "接触时序"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2097675666590421065",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "发布账号及公开ID已核；作者另帖提及学习Foyege，未认定这些方法由发布者独创。原文仅作本地参考。",
+        "status_note": "2026-09-14取得本帖完整返回文本。作者标明灵感来自团队伙伴；只迁移遮挡与对象独立性，不迁移具体动物、玩具和笑点。关机后机构是否仍能受控释放须按具体装置设定核验。",
+        "local_locators": [
+          {
+            "label": "来源、媒体地址与核验边界",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-005_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "文中引用的原始输入参考素材未取得，展示附件地址不等于可复现输入",
+          "未取得可编辑Blender工程及建模脚本"
+        ],
+        "local_relative_path": "提示词/Blender与预演参考/BLD-005_遮挡换焦点与独立对象揭示.txt",
+        "content_fingerprint": "7778e3ce9b45c52daffb2dd7bba409604de102061807f779e53de4e8f9dfe9d4",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "BLD-006",
+      "title": "只迁移动作并重新设计镜头",
+      "category": "Blender与预演参考",
+      "summary": "只迁移动作并重新设计镜头：用于研究深度视频、动作迁移、参考职责、单次动作、新运镜。",
+      "model_claim": {
+        "name": "Seedance 2.5 · 深度视频参考",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "深度视频",
+        "动作迁移",
+        "参考职责",
+        "单次动作",
+        "新运镜"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2099039624257839475",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "发布账号及公开ID已核；作者另帖提及学习Foyege，未认定这些方法由发布者独创。原文仅作本地参考。",
+        "status_note": "2026-09-14取得本帖完整返回文本。这是深度视频参考，不是Blender建模案例；原文两种方案和重复风格段均保留，不等于本团装配规范。不可据二维深度推断已取得骨骼或精确三维运动。",
+        "local_locators": [
+          {
+            "label": "来源、媒体地址与核验边界",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-006_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "文中引用的原始输入参考素材未取得，展示附件地址不等于可复现输入",
+          "未取得文中使用的原始参考视频或角色图"
+        ],
+        "local_relative_path": "提示词/Blender与预演参考/BLD-006_只迁移动作并重新设计镜头.txt",
+        "content_fingerprint": "32445b3d05ab01c53b9b351f3b84fda8935f94edaf1f226618a51bec81600a71",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "BLD-007",
+      "title": "从已定剧情补齐群体角色参考",
+      "category": "角色与参考资产",
+      "summary": "利用既有剧情和主角参考，先提出配角、团队与反派群体的候选资产需求；属于分组初稿，不等同于每个故事角色的正式独立参考。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 生图（被引原帖声称）",
+        "basis": "quoted_author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "角色资产缺口",
+        "群像候选",
+        "服装基线",
+        "背景群演",
+        "分步迭代",
+        "角色分组"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2099415835118825732",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "发布账号及公开ID已核；作者另帖提及学习Foyege，未认定这些方法由发布者独创。原文仅作本地参考。 未取得再发布许可；本帖引用同作者上一帖，模型声称仅据被引原帖记录。",
+        "status_note": "2026-09-14经Agent Reach已认证twitter-cli取得。主帖第一步提示词逐字摘存，原始未闭合括号和含混视图描述未擅自修复；第二步另存REF-015，不混成同时有效指令。已读取正文与接口可返回评论，提示词在正文，不声称评论全量。群像图只能按现有规则用于背景群演或候选筛选；承担故事事件的角色仍各自独立配板。原例人数、年龄和善恶外形关联不作为默认规则。",
+        "local_locators": [
+          {
+            "label": "原帖正文与原采集记录",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-007_来源.json"
+          },
+          {
+            "label": "完整原帖（初设到局部修订）",
+            "kind": "source",
+            "relative_path": "来源/Blender与预演参考/BLD-007_原帖正文.txt"
+          },
+          {
+            "label": "来源、评论补充与适用边界",
+            "kind": "source",
+            "relative_path": "来源/角色与参考资产/X_2099415835118825732_来源.json"
+          },
+          {
+            "label": "作者公开ID备份",
+            "kind": "source",
+            "relative_path": "来源/作者/tanluai.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "完整剧情、主角原图和校服参考未取得",
+          "初稿的实际输出与后续修改逐图关系未核明"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/BLD-007_群像角色初稿分组.txt",
+        "content_fingerprint": "9928a56cbe0ab30cad242a044b1509e0c1f76d6219a5d7a72a1b664eb1a30652",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-016",
+      "title": "平民群演差异化补图",
+      "category": "角色与参考资产",
+      "summary": "基于已有剧情与环境补充平民群演候选，并在后续一张图中调整服装、风格或物种；物种变化仅适用于允许该设定的项目。",
+      "model_claim": {
+        "name": "GPT Image 2.5 / Codex · 生图",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "平民群演",
+        "资产补缺",
+        "多样化候选",
+        "群体服装",
+        "世界观约束",
+        "多图迭代"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2098938715200692297",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核公开发布账号及数字ID；未取得提示词或图片再发布许可，原文只存本地，公共索引仅含中性概述和来源。",
+        "status_note": "2026-09-14经Agent Reach已认证twitter-cli取得。主帖群众角色指令完整摘存。作者在评论说明多人图适合群演并提醒消耗额度；这是作者经验，不是成本或一致性保证。读取到8条相关回复而页面指标为9，不能声称评论全量。原文允许外星人只可按项目世界观取舍；故事角色仍一人一份独立参考。",
+        "local_locators": [
+          {
+            "label": "来源、评论补充与适用边界",
+            "kind": "source",
+            "relative_path": "来源/角色与参考资产/X_2098938715200692297_来源.json"
+          },
+          {
+            "label": "作者公开ID备份",
+            "kind": "source",
+            "relative_path": "来源/作者/tanluai.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "原剧情或新视频提示词及环境设定未取得",
+          "作者展示图片本轮未下载或目视核验"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-016_平民群演差异化补图.txt",
+        "content_fingerprint": "a64a6572e9adbd7d947e1cae535b30f9ec533317f88a1330fe69ff9722746481",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "ART-008",
+      "title": "同建筑街道反打补图",
+      "category": "场景光影与美术",
+      "summary": "从已有场景扩展同建筑风格的街道反打视向；配套作者回复强调区分正面与反打参考，适用于确有相反视向缺口时。",
+      "model_claim": {
+        "name": "GPT Image 2.5 / Codex · 生图",
+        "basis": "author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "场景反打",
+        "同场景多视向",
+        "建筑风格继承",
+        "参考职责",
+        "空间连续",
+        "资产补缺"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2098938715200692297",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核公开发布账号及数字ID；未取得提示词或图片再发布许可，原文只存本地，公共索引仅含中性概述和来源。",
+        "status_note": "2026-09-14经Agent Reach已认证twitter-cli取得。主帖场景指令完整摘存；另直接读取作者回复2099337859396423994，核对明确标注正面图与反打图的经验说明。该回复不是另一段完整投喂提示词，未混入TXT；比全景更稳仅为作者主张。评论非全量。沿用现有资产规则：已有场景Panel足够则复用，隐藏地理未知先澄清，不强制每集额外生成反打图。",
+        "local_locators": [
+          {
+            "label": "来源、评论补充与适用边界",
+            "kind": "source",
+            "relative_path": "来源/角色与参考资产/X_2098938715200692297_来源.json"
+          },
+          {
+            "label": "作者公开ID备份",
+            "kind": "source",
+            "relative_path": "来源/作者/tanluai.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "依赖原场景图；作者说原帖最后一张为原图，本轮仅保存图片地址",
+          "原场景承重布局、实际反打方向与模型输入槽位未核明"
+        ],
+        "local_relative_path": "提示词/场景光影与美术/ART-008_同建筑街道反打补图.txt",
+        "content_fingerprint": "76f2d58e8b9cf6d8333586e8296e23ebf1b8c5bfd8721480e61bc0af8180b527",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "REF-015",
+      "title": "群像角色差异化迭代",
+      "category": "角色与参考资产",
+      "summary": "接续角色群体初稿，用发型、鞋、服装与配饰细化差异，并修改初稿年龄范围；演示局部改稿，不是独立可裸跑的完整生成提示词。",
+      "model_claim": {
+        "name": "GPT Image 2.5 · 生图（被引原帖声称）",
+        "basis": "quoted_author_claim_not_reproduced"
+      },
+      "task_tags": [
+        "角色差异化",
+        "局部修改",
+        "校服继承",
+        "发型配饰",
+        "群演候选",
+        "版本替代"
+      ],
+      "author_id": "tanluai",
+      "source": {
+        "post_url": "https://x.com/TanLuAI/status/2099415835118825732",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "已核公开发布账号及数字ID；未取得提示词或图片再发布许可，原文只存本地，公共索引仅含中性概述和来源。",
+        "status_note": "2026-09-14经Agent Reach已认证twitter-cli取得。主帖第二步完整摘存，两个连续段落属于同次修改。须结合BLD-007及已有角色图使用；年龄修订替代初稿相应要求，不能无区别叠加。已读接口可返回评论但非全量。原例的年龄、人数、性别、纹身与体型偏好只属于该故事；不得改写用户正典或据此合并独立故事角色板。",
+        "local_locators": [
+          {
+            "label": "来源、评论补充与适用边界",
+            "kind": "source",
+            "relative_path": "来源/角色与参考资产/X_2099415835118825732_来源.json"
+          },
+          {
+            "label": "作者公开ID备份",
+            "kind": "source",
+            "relative_path": "来源/作者/tanluai.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "依赖BLD-007及其实际生成的角色图，原图未取得",
+          "原主角和校服参考、完整剧情未取得"
+        ],
+        "local_relative_path": "提示词/角色与参考资产/REF-015_群像角色差异化迭代.txt",
+        "content_fingerprint": "403537687a656a7e30ffcfc55d203dfc8fa3d0a1ac9b6b71aae50bceea467e2c",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-019",
+      "title": "双人K-pop多机位MV",
+      "category": "声音对白与音乐",
+      "summary": "双人齐舞、个人展示与多景别接续的提示词候选；原文标30秒但分段只写到29秒，没有音轨或口型复现实证。",
+      "model_claim": {
+        "name": "Seedance 2.5 / Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "K-pop",
+        "双人齐舞",
+        "多景别",
+        "MV",
+        "换景接续"
+      ],
+      "author_id": "just_sharon7",
+      "source": {
+        "post_url": "https://x.com/Just_sharon7/status/2083422886686031982",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "原帖发布者为Sharon Riley；未取得原文再发布许可，公共索引只发中性摘要及出处。",
+        "status_note": "2026-09-20通过agent-reach读取原帖正文，提示词取prompt后正文、去掉话题标签；主帖105条回复，本次仅返回20项范围，不宣称取得全部评论。聚合页存在冲突署名，以原帖发布账号为准，未核原创归属。模型版本与perfect lip sync等效果仅为发布者声称。",
+        "local_locators": [
+          {
+            "label": "原帖与评论取得范围、缺项和许可",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-019_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "complete_as_recorded",
+        "missing_inputs": [
+          "具体歌曲、歌词、音轨版本与音轨区间未提供",
+          "角色/动作参考未取得；29–30秒未在原时间线描述"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-019_双人K-pop多机位MV.txt",
+        "content_fingerprint": "4a182829568b3813d92164512f63c9818c7d520b9732de12e18df5842537157d",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
+      "license": {
+        "status": "unknown",
+        "prompt_redistribution": "not_permitted"
+      }
+    },
+    {
+      "id": "SND-020",
+      "title": "四人涩谷群舞队形转换",
+      "category": "声音对白与音乐",
+      "summary": "四人全身街头群舞，以菱形、横排、涟漪和V形落位组织连续队形；提示词位于作者评论，末尾疑似截断，不能作完整复现模板。",
+      "model_claim": {
+        "name": "Seedance 2.5 / Dreamina · 视频",
+        "basis": "author_or_source_claim_unverified"
+      },
+      "task_tags": [
+        "K-pop",
+        "四人齐舞",
+        "队形转换",
+        "全身舞蹈",
+        "中央位置",
+        "连续镜头"
+      ],
+      "author_id": "just_sharon7",
+      "source": {
+        "post_url": "https://x.com/Just_sharon7/status/2086067758970851614",
+        "attribution_status": "publisher_verified_original_authorship_unverified",
+        "attribution_note": "原帖发布者为Sharon Riley；未取得原文再发布许可，公共索引只发中性摘要及出处。",
+        "status_note": "2026-09-20通过agent-reach读取主帖及作者评论。提示词评论https://x.com/Just_sharon7/status/2086068410027294881；聚合页、主帖回复和直接评论均停在同一末尾，记录partial，不补造。主帖81条回复，本次仅返回20项范围。画幅4:3与文字叠层属于此例，不迁移为项目默认；作者所述模型与效果未复现。",
+        "local_locators": [
+          {
+            "label": "原帖与评论取得范围、缺项和许可",
+            "kind": "source",
+            "relative_path": "来源/声音对白与音乐/SND-020_来源.json"
+          }
+        ]
+      },
+      "prompt": {
+        "completeness": "partial",
+        "missing_inputs": [
+          "指定首帧、歌曲音轨与动作参考未取得",
+          "作者评论末尾停在natural evening lighting, c，未取得续文",
+          "原文称六条字幕但实际七条，固定摄影与局部推近需消费时择定，不改写原文"
+        ],
+        "local_relative_path": "提示词/声音对白与音乐/SND-020_四人涩谷群舞队形转换.txt",
+        "content_fingerprint": "02b1d41e9bf05a347f7a6efa4b53c2cae0b9da12e7a2d3c8c17b06399a2cbe52",
+        "publication": "metadata_only"
+      },
+      "media_verification": "not_downloaded_not_viewed_not_reproduced",
       "license": {
         "status": "unknown",
         "prompt_redistribution": "not_permitted"
